@@ -119,7 +119,7 @@ const AllDocumentSidebar = ({ data }) => {
         try {
             dispatch(setLoader({ loader: true }));
             const response = await axios.post(
-                `https://m.konceptlaw.in/docs/docsFolders`,
+                `https://t.konceptlaw.in/docs/docsFolders`,
                 payload
             );
 
@@ -166,7 +166,7 @@ const AllDocumentSidebar = ({ data }) => {
         try {
             dispatch(setLoader({ loader: true }));
             const response = await axios.post(
-                `https://m.konceptlaw.in/docs/getDocsByFolders`,
+                `https://t.konceptlaw.in/docs/getDocsByFolders`,
                 {
                     folderNames: folderArray,
                 }

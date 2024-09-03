@@ -29,7 +29,7 @@ const UploadModal = ({ modal, toggle, setUploadProgressData }) => {
       formData.append("typeOfData", typeOfData);
 
       const response = await axios.post(
-        "https://m.konceptlaw.in/api/convert",
+        "https://t.konceptlaw.in/api/convert",
         formData
       );
 
@@ -41,14 +41,14 @@ const UploadModal = ({ modal, toggle, setUploadProgressData }) => {
 
       const intervalId = setInterval(async () => {
         try {
-          const response1 = await axios.get("https://m.konceptlaw.in/api/progress");
+          const response1 = await axios.get("https://t.konceptlaw.in/api/progress");
           setUploadProgressData(response1.data);
 
           if (response1.data.totalData === response1.data.progress) {
             clearInterval(intervalId);
 
             const response2 = await axios.get(
-              `https://m.konceptlaw.in/api/previousData`
+              `https://t.konceptlaw.in/api/previousData`
             );
 
             if (response2.status === 200) {

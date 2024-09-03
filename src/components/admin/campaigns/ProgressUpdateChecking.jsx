@@ -11,7 +11,7 @@ const ProgressUpdateChecking = () => {
     const { campaignDetails } = useSelector((state) => state.campaigns)
 
     const handleProgressCheck = async () => {
-        // const response = await axios.post("https://m.konceptlaw.in/docs/createSamplePdf", {
+        // const response = await axios.post("https://t.konceptlaw.in/docs/createSamplePdf", {
         //     campaignName: campaignDetails.name,
         // });
 
@@ -24,7 +24,7 @@ const ProgressUpdateChecking = () => {
             // let files = totalFiles;
             setTimeout(()=>{
                 setInterval(async () => {
-                    const response1 = await axios.post("https://m.konceptlaw.in/docs/getProgressSampleMerging", {
+                    const response1 = await axios.post("https://t.konceptlaw.in/docs/getProgressSampleMerging", {
                         campaignName: campaignDetails.name,
                     });
     

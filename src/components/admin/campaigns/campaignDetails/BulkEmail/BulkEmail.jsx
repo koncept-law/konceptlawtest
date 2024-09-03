@@ -85,7 +85,7 @@ const BulkEmail = () => {
   useEffect(() => {
     const handleDropdownApi = async () => {
       try {
-        const response = await axios.post("https://m.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
+        const response = await axios.post("https://t.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
         const data = response.data;
         setDropDownList(data)
       } catch (error) {

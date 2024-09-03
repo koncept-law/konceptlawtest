@@ -75,7 +75,7 @@ import { setLoader } from '../../../../redux/features/loaders';
 //   )
 // }
 
-// https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}
+// https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}
 const DocumentTemplateCard = ({
     value,
     handleSelectedCard,
@@ -118,8 +118,8 @@ const DocumentTemplateCard = ({
     const downloadDocument = () => {
         // console.log(value);
         let fileUrl = value?.path.split("/")[1];
-        // https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}
-        const downloadUrl = `https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}`;
+        // https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}
+        const downloadUrl = `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`;
 
         // Create an anchor element and trigger the download
         const anchor = document.createElement('a');

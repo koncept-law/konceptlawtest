@@ -379,7 +379,7 @@ const WhatsappCampaign = () => {
     // console.log(selectedTemplateIndex)
     const handleDropdownApi = async () => {
       try {
-        const response = await axios.post("https://m.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
+        const response = await axios.post("https://t.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
         const data = response.data;
         setDropDownList(data)
       } catch (error) {
@@ -727,7 +727,7 @@ export const DropDown = ({ title, inputMethods, setSelectedVariable, setActiveMe
     try {
       if (option !== "select") {
         let displayValue = "";
-        const response = await axios.post("https://m.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: option });
+        const response = await axios.post("https://t.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: option });
         displayValue = response.data.value;
         const variableName = `${variableIndex + 1}`;
         setUserDisplayVariables((prevValues) => {
@@ -746,7 +746,7 @@ export const DropDown = ({ title, inputMethods, setSelectedVariable, setActiveMe
       let value = option;
       // let value = "";
       // if (option !== "select") {
-      //   const response = await axios.post("https://m.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: option });
+      //   const response = await axios.post("https://t.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: option });
       //   value = response.data.value;
       //   // value = formatStringWithNewLines(value);
 
@@ -856,7 +856,7 @@ export const DropDown = ({ title, inputMethods, setSelectedVariable, setActiveMe
   //     // let displayValue = value;
 
   //     // if (method === 'dropdown' && value !== "select") {
-  //     //   const response = await axios.post("https://m.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: value });
+  //     //   const response = await axios.post("https://t.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: value });
   //     //   displayValue = response.data.value;
   //     // }
 

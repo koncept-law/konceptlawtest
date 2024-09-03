@@ -215,7 +215,7 @@ const CampaignReports = ({ data }) => {
     const rowClickHandler = async (rowData) => {
         let allRowIds = []
         allRowIds[0] = JSON.parse(rowData?.data).var3.split("/")[4]; // all short urls
-        const response = await axios.post("https://m.konceptlaw.in/clicks", {
+        const response = await axios.post("https://t.konceptlaw.in/clicks", {
             shortIds: allRowIds,
         });
 
@@ -227,7 +227,7 @@ const CampaignReports = ({ data }) => {
     const selectAllRows = async () => {
         // const allRowIds = rows.map(row => row._id); // Extract IDs from all rows
         const allRowIds = specificCampaignSms?.sms.map(row => JSON.parse(row?.data).var3.split("/")[4]); // all short urls
-        const response = await axios.post("https://m.konceptlaw.in/campaign/clicks", {
+        const response = await axios.post("https://t.konceptlaw.in/campaign/clicks", {
             shortIds: allRowIds,
         });
         setClicksData(response.data);

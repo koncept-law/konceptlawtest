@@ -73,7 +73,7 @@ const UploadModal = ({
 
         if (newFolder) {
           const response = await axios.get(
-            `https://m.konceptlaw.in/api/foldersName`,
+            `https://t.konceptlaw.in/api/foldersName`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem(
@@ -94,7 +94,7 @@ const UploadModal = ({
             console.log("we  are in not found Folder");
 
             await axios.post(
-              `https://m.konceptlaw.in/api/updateMongoFolder`,
+              `https://t.konceptlaw.in/api/updateMongoFolder`,
               {
                 newFolder,
                 role: userRole,
@@ -134,7 +134,7 @@ const UploadModal = ({
             );
 
             const response = await axios.post(
-              "https://m.konceptlaw.in/api/uploadOnServer",
+              "https://t.konceptlaw.in/api/uploadOnServer",
               formData,
               {
                 headers: {
@@ -208,7 +208,7 @@ const UploadModal = ({
                 updateProgressUI(uploadedFiles, selectedFiles.length);
 
                 await axios.post(
-                  `https://m.konceptlaw.in/api/saveData`,
+                  `https://t.konceptlaw.in/api/saveData`,
                   {
                     name: file.name,
                     link: `${pathName}/${file.name}`,

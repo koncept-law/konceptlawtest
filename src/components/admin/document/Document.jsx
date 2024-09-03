@@ -65,7 +65,7 @@ const Document = () => {
   const getFolderList = async () => {
     try {
       setPending(true);
-      const response = await axios.get(`https://m.konceptlaw.in/api/foldersName`, {
+      const response = await axios.get(`https://t.konceptlaw.in/api/foldersName`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("konceptLawToken")}`,
         },

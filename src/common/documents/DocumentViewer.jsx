@@ -3,13 +3,13 @@
 
 // const DocumentViewer = ({ fileUrl, data }) => {
 //     // const docs = [{ uri: fileUrl }];
-//     // const docs = [{ uri: "https://m.konceptlaw.in/campaign/download/dipesh/57220006163109.pdf" }];
-//     // const docs = [{ uri: "https://m.konceptlaw.in/docs/docsBuffer/doctemplet.docx" }];
+//     // const docs = [{ uri: "https://t.konceptlaw.in/campaign/download/dipesh/57220006163109.pdf" }];
+//     // const docs = [{ uri: "https://t.konceptlaw.in/docs/docsBuffer/doctemplet.docx" }];
 
 //     if (fileUrl === "") return <div className="h-full w-full bg-white" >on file path found</div>
 //     const docs = [
 //         {
-//             uri: `https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}`,
+//             uri: `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`,
 //             fileType: "docx",
 //             fileName: data?.name,
 //         }
@@ -46,20 +46,20 @@
 //     }
 
 //     const googleDocsViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-//         `https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}`
+//         `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`
 //     )}&embedded=true`;
 
 //     // const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
-//     //     `https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}`
+//     //     `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`
 //     // )}`;
 //     const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
-//         `https://m.konceptlaw.in/docs/docsBuffer/${file}`
+//         `https://t.konceptlaw.in/docs/docsBuffer/${file}`
 //     )}`;
     
 
 //     // const googleDocsViewerUrl = useMemo(() => {
 //     //     return `https://docs.google.com/gview?url=${encodeURIComponent(
-//     //         `https://m.konceptlaw.in/docs/docsBuffer/${fileUrl}`
+//     //         `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`
 //     //     )}&embedded=true`;
 //     // }, [fileUrl]);
 
@@ -93,7 +93,7 @@ const DocumentViewer = ({ fileUrl, data }) => {
 
     return [
       {
-        uri: `https://m.konceptlaw.in/docs/docsBuffer/${file}`,
+        uri: `https://t.konceptlaw.in/docs/docsBuffer/${file}`,
         fileType: "docx",
         fileName: selectFile?.name,
       },

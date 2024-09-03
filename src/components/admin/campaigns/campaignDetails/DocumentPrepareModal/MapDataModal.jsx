@@ -51,7 +51,7 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
         const getDocumentVariables = async () => {
             try {
                 dispatch(setLoader({ loader: true }))
-                const response = await axios.post("https://m.konceptlaw.in/docs/getPlaceholders", { campaignName: campaignDetails.name },
+                const response = await axios.post("https://t.konceptlaw.in/docs/getPlaceholders", { campaignName: campaignDetails.name },
                     { signal: abortController.signal }
                 );
 

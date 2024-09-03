@@ -29,7 +29,7 @@ const Campaigns = () => {
   //     return;
   //   }
   //   const getAllUser = async () => {
-  //     const response = await axios.get(`https://m.konceptlaw.in/account/get`);
+  //     const response = await axios.get(`https://t.konceptlaw.in/account/get`);
   //     setAllUsers(response.data)
   //   }
 
