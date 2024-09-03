@@ -1,0 +1,17 @@
+:root {
+    --black-1: rgba(22, 22, 22, 0.452);
+    --black-2: rgba(22, 22, 22, 0.705);
+}
+
+.document-drop .ant-select-selector {
+    border: 1px solid var(--black-1) !important;
+    border-radius: 2px !important;
+}
+
+.document-drop .ant-select-selector .ant-select-selection-placeholder {
+    color: var(--black-2);
+}
+
+.document-drop .ant-select-arrow .anticon.anticon-down.ant-select-suffix{
+    color: var(--black-2);
+}

@@ -1,0 +1,26 @@
+.input-filter-style {
+    border: none !important;    
+    box-shadow: none !important;
+    color: white !important;
+}
+
+.input-filter-style .ant-select-selector{
+    border: none !important;    
+    box-shadow: none !important;
+    background-color: #1f2937 !important;
+    border-radius: 0px !important;
+    color: white !important;
+    font-size: 10 !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    margin: 0px !important;
+}
+
+.input-filter-style .ant-select-selector .ant-select-selection-placeholder{
+    color: white !important;
+    font-size: 10 !important;
+}
+
+.input-filter-style .ant-select-arrow{
+    color: white !important;
+}

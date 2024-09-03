@@ -1,0 +1,35 @@
+/* CustomMenu.css */
+
+/* Style for the dropdown menu */
+/* .custom-menu {
+    background-color: #1e293b;
+  } */
+  
+  /* Style for menu items */
+  .custom-menu .ant-dropdown-menu-item .ant-dropdown-menu-title-content {
+    color: white; /* Set default text color */
+  }
+  
+  /* Style for menu items on hover */
+  .custom-menu .ant-dropdown-menu-item:hover {
+    background-color: #374151; /* Set the background color on hover */
+    color: #f9fafb; /* Set the text color on hover */
+  }
+  
+  /* Optional: Style for active (selected) menu item */
+  /* .custom-menu .ant-dropdown-menu-item {
+    background-color: #374151; 
+    color: #f9fafb;
+  } */
+
+  .custom-menu .ant-dropdown-menu-item-active:hover {
+    background-color: #374151 !important; 
+    color: #f9fafb;
+  }
+  
+  /* Optional: Style for disabled menu item */
+  .custom-menu .ant-menu-item-disabled {
+    color: #6b7280; /* Text color for disabled items */
+    background-color: transparent; /* Background color for disabled items */
+  }
+  

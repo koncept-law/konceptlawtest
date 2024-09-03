@@ -1,0 +1,60 @@
+.imageBackground {
+  background-image: url("../assets//homePage/background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.serviceImageBackground {
+  background-image: url("../assets//homePage/service.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  transform: rotate(-55deg);
+}
+.clientShowcaseImageBackground {
+  background-image: url("../assets//homePage/clientShowcase.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.lottie-container {
+  width: 620px;
+  height: 620px;
+  margin: auto 0;
+}
+
+@media screen and (max-width: 1280px) {
+  .lottie-container {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .lottie-container {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .lottie-container {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .background {
+    top: 110px;
+  }
+  .lottie-container {
+    width: 330px;
+    height: 330px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .lottie-container {
+    width: 300px;
+    height: 300px;
+  }
+}

@@ -1,0 +1,168 @@
+.modelHeadingBackground {
+  background: linear-gradient(90deg, #359ff3 0%, #8256ff 100%) !important;
+  // background: linear-gradient(103.45deg, #DFC066 24.76%, #2E1A1B 100%);
+  // background: #34201F !important;
+}
+
+.sidebarBackground {
+  background: linear-gradient(336.94deg,
+      #27272c 13.48%,
+      rgba(25, 25, 25, 0) 186.73%);
+}
+
+.buttonBackground {
+  background: linear-gradient(90deg, #359ff3 0%, #8256ff 100%) !important;
+  // background: linear-gradient(103.45deg, #DFC066 24.76%, #2E1A1B 100%) !important;
+}
+
+
+// ::-webkit-scrollbar {
+//   display: none;
+// }
+
+.nav-link {
+  &.active {
+    border-bottom: 2px solid black;
+  }
+}
+
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
+.logo-color {
+  // font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(#a87b2c, #4d350c);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  // background-clip: inherit;
+}
+
+.head-color {
+  background: #34201F !important;
+}
+
+.head-gradient-color {
+  background: linear-gradient(103.45deg, #DFC066 24.76%, #2E1A1B 100%);
+}
+
+.dropdownList option {
+  width: 300px;
+}
+
+
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Default height for larger screens */
+@media (min-width: 768px) {
+  .chart-container {
+    height: 400px;
+    /* Adjust height as needed */
+  }
+}
+
+/* Smaller height for small screens */
+@media (max-width: 767px) {
+  .chart-container {
+    height: 200px;
+    /* Adjust height as needed */
+  }
+}
+
+
+/* Jodit Editor Custom Styles */
+
+.jodit-editor-container .jodit {
+  // @apply p-8 border border-gray-300 rounded shadow-lg;
+  padding: 100px;
+  border: gray;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.jodit-wysiwyg {
+  padding: 0 120px !important;
+  /* Inner padding to prevent text cutoff */
+  overflow: auto !important;
+  /* Prevent overflow */
+  box-sizing: border-box !important;
+  max-height: 500px !important;
+  /* Set a max height if needed */
+}
+
+@media (max-width: 632px) {
+  .jodit-wysiwyg {
+    padding: 0 100px !important;
+    /* Adjust padding for smaller screens */
+  }
+}
+
+.jodit-toolbar-button {
+  @apply bg-gray-100 text-white hover:bg-gray-300;
+  /* Example Tailwind styles for buttons */
+}
+
+
+/* Customizing the scrollbar */
+.table-container::-webkit-scrollbar {
+  width: 8px;
+  /* Width of the scrollbar */
+  // height: 10px;
+  background-color: #f1f1f1;
+  /* Background color of the scrollbar track */
+  // background-color: #888; /* Background color of the scrollbar track */
+}
+
+// .table-container::-webkit-scrollbar {
+//     // width: 8px; /* Width of the scrollbar */
+
+//     background-color: #f1f1f1; /* Background color of the scrollbar track */
+// }
+
+.table-container::-webkit-scrollbar-thumb {
+  // background-color: #888; /* Color of the scrollbar thumb */
+  background: linear-gradient(180deg, #359ff3 0%, #8256ff 100%) !important;
+  // background: linear-gradient(103.45deg, #DFC066 24.76%, #2E1A1B 100%) !important;
+  border-radius: 4px;
+  /* Rounded corners of the scrollbar thumb */
+}
+
+
+// .box-animation {
+//   animation: box-animation 2s ease-in-out infinite;
+// }
+
+// @keyframes box-animation {
+//   0%{
+//     transform: rotate(0deg);
+//   }
+//   100%{
+//     transform: rotate(360deg);
+//   }
+// }
+
+.horizontal-container::-webkit-scrollbar {
+  height: 10px;
+  background-color: #f1f1f1;
+  display: block;
+  // position: absolute;
+  // z-index: 10;
+}
+
+.horizontal-container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  /* Rounded corners of the scrollbar thumb */
+  background: linear-gradient(180deg, #359ff3 0%, #8256ff 100%) !important;
+}
+
+.all-side-box-shadow {
+  -webkit-box-shadow: 0px 8px 67px -3px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 0px 8px 67px -3px rgba(0, 0, 0, 0.29);
+  box-shadow: 0px 8px 67px -3px rgba(0, 0, 0, 0.29);
+
+}

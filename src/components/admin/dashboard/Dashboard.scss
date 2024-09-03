@@ -1,0 +1,80 @@
+.custom-tile {
+  &.pink {
+    background: linear-gradient(
+      90deg,
+      #ffbe96 50%,
+      #ffa696 78.65%,
+      #fe8996 105.09%
+    );
+  }
+  &.blue {
+    background: linear-gradient(
+      90deg,
+      #88c5f7 50%,
+      #68b8f8 73.75%,
+      #359ff3 105.09%
+    );
+  }
+  &.voilet {
+    background: linear-gradient(
+      90deg,
+      #bba3ff 0%,
+      #a88cfa 41.09%,
+      #8256ff 105.09%
+    );
+  }
+  &.red {
+    background: linear-gradient(
+      90deg,
+      #ffa3a3 0%,
+      #fa8c8c 41.09%,
+      #ff5656 105.09%
+    );
+  }
+  &.yellow {
+    background: linear-gradient(
+      90deg,
+      #ffa3f7 0%,
+      #fa8cf3 41.09%,
+      #ff56e0 105.09%
+    );
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    width: 230px;
+    height: 230px;
+    top: 76px;
+    left: 221px;
+    background: #ffffff1a;
+    @media screen and (max-width: 1200px) {
+      left: 170px;
+    }
+    @media screen and (max-width: 994px) {
+      left: 150px;
+    }
+    @media screen and (max-width: 770px) {
+      left: 150px;
+    }
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    width: 230px;
+    height: 230px;
+    top: -95px;
+    left: 258px;
+    background: #ffffff1a;
+    @media screen and (max-width: 1200px) {
+      left: 200px;
+    }
+    @media screen and (max-width: 994px) {
+      left: 180px;
+    }
+    @media screen and (max-width: 770px) {
+      left: 200px;
+    }
+  }
+}
