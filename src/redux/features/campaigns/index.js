@@ -4681,3 +4681,125 @@ export const getCountInCampaignThunkMiddleware = (payload) => {
     }
   }
 }
+
+export const pdfAndLinkGenerationCampaignThunkMiddleware = (payload) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post(`/campaign/pdfAndLinkGeneration`, payload);
+      if (response.status === 200) {
+        // dispatch(setCampaigns({ totalPdf: response.data }));
+        toastify({ msg: response.data?.message });
+      }
+      dispatch(setLoader({ loader: false }));
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}
+
+export const getOldPdfsLinkCampaignThunkMiddleware = (payload) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+
+      const response = await axios.post(`/campaign/getOldPdfsLink`, payload);
+
+      if (response.status === 200) {
+        const campaignFilesLink = response.data.pdfLinks;
+        toastify({ msg: "PDF Document Download Started!", type: "success" });
+
+        dispatch(setLoader({ loader: false }));
+        dispatch(
+          setProgress({
+            downloadCampaignFileStatus: true,
+            progressTab: "download",
+            progressView: true,
+          })
+        );
+
+        let currentBatchSize = 0;
+        const maxSize = 300 * 1024 * 1024; // 300MB in bytes
+        let batchNumber = 1;
+        let zip = new JSZip();
+        let filesFolder = zip.folder(`Document_Part${batchNumber}`);
+
+        let processedFiles = 0;
+        const totalFiles = campaignFilesLink.length;
+
+        for (let i = 0; i < totalFiles; i++) {
+          if (campaignFilesLink[i] && campaignFilesLink[i].link) {
+            const fileUrl = campaignFilesLink[i].link;
+            try {
+              const fileBlob = await fetch(fileUrl).then((res) => {
+                if (!res.ok) {
+                  throw new Error(`Failed to fetch file: ${fileUrl}`);
+                }
+                return res.blob();
+              });
+
+              const fileSize = fileBlob.size;
+
+              if (currentBatchSize + fileSize > maxSize) {
+                const content = await zip.generateAsync({ type: "blob" });
+                saveAs(content, `Document_Part${batchNumber}.zip`);
+
+                // Reset for next batch
+                batchNumber++;
+                zip = new JSZip();
+                filesFolder = zip.folder(`Document_Part${batchNumber}`);
+                currentBatchSize = 0;
+              }
+
+              // Add PDF to the current batch
+              filesFolder.file(`${campaignFilesLink[i]?.name || `file${i + 1}.pdf`}`, fileBlob);
+
+              currentBatchSize += fileSize;
+              processedFiles++;
+
+              dispatch(
+                setProgress({
+                  downloadCampaignFileProgress: (
+                    (processedFiles / totalFiles) *
+                    100
+                  ).toFixed(0),
+                })
+              );
+
+              // console.log(`Added PDF ${i + 1} to zip`);
+            } catch (fetchError) {
+              console.error(`Error fetching file: ${fetchError.message}`);
+              toastifyError(fetchError);
+            }
+          }
+        }
+
+        if (currentBatchSize > 0) {
+          const content = await zip.generateAsync({ type: "blob" });
+          saveAs(content, `Document_Part${batchNumber}.zip`);
+        }
+
+        dispatch(
+          setProgress({
+            downloadCampaignFileStatus: false,
+            progressTab: "download",
+            progressView: false,
+          })
+        );
+
+        toastify({ msg: "PDF Document Download Completed!", type: "success" });
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(
+        setProgress({
+          downloadCampaignFileProgress: 0,
+          downloadCampaignFileStatus: false,
+        })
+      );
+    }
+  };
+};

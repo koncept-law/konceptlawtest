@@ -46,6 +46,7 @@ const BulkEmail = () => {
     },
     handleSubmit,
     reset,
+    watch,
   } = useForm();
 
   const [subject, setSubject] = useState("");
@@ -145,21 +146,7 @@ const BulkEmail = () => {
     console.log("save and send", data)
     if (subject && subject !== "") {
       dispatch(
-        testEmailSendThunkMiddleware(
-          data
-          // {
-          //   subject: subject,
-          //   // text: html,
-          //   // text: "Hard coded text",
-          //   // html: html,
-          //   campaignName: campaignDetails.name,
-          //   // templateName: selectedTemplate,
-          //   bankName: bankName,
-          // },
-          // () => {
-          //   navigate("/campaigns/campaigndetails")
-          // }
-        )
+        testEmailSendThunkMiddleware(data)
       );
       navigate("/campaigns/campaigndetails/reports");
       setOpenConfirm(false);
@@ -171,16 +158,6 @@ const BulkEmail = () => {
 
   const sampleEmailHandler = async (e, event) => {
     console.log(e);
-    // if (data) {
-    //   let sendData = {
-    //     subject: data?.subject,
-    //     toEmail: data?.email,
-    //   }
-    //   const response = await axios.post("/campaign/sample-email", sendData);
-    //   if (response.status === 200) {
-    //     toastify({ msg: response.data?.message | "Sample Email Send Successfully" });
-    //   }
-    // }
     const response = await axios.post("/campaign/getValueBySingleHeader", { campaignName: campaignDetails.name, header: "link" });
     let getValue = response.data;
 
@@ -231,21 +208,6 @@ const BulkEmail = () => {
     } else {
       toastify({ msg: "subject not fill", type: "error" })
     }
-
-    // if (subject && subject !== "") {
-    //   let sendData = {
-    //     subject: subject,
-    //     // campaignName: campaignDetails.name,
-    //     toEmail: data,
-    //   }
-    //   const response = await axios.post("/campaign/sample-email", sendData);
-    //   console.log(response);
-    //   if (response.status === 200) {
-    //     toastify({ msg: response.data?.message | "Sample Email Send Successfully" });
-    //   }
-    // } else {
-    //   toastify({ msg: "subject not fill", type: "error" })
-    // }
   };
 
   const navigate = useNavigate();
@@ -262,11 +224,6 @@ const BulkEmail = () => {
       )
     );
   };
-
-  // console.log(html)
-  // console.log(text)
-
-  // console.log(text)
 
   const handleSelectedTemplate = (value) => {
     if (value === "select") {
@@ -334,38 +291,13 @@ const BulkEmail = () => {
           <div className="flex justify-between items-center w-full">
             <h1 className=" font-bold py-2">Send Bulk Email</h1>
             <div className="flex justify-center gap-x-2 items-center">
-              {/* <Button className="flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-green-700 px-3" onClick={() => navigate("/campaigns/campaigndetails/bulkemail/createtemplate")}>
-                <MdCreate size={"16px"} />
-                <span>Create Template</span>
-              </Button> */}
-
-              <Button className="flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3" onClick={() => setEmailModal(true)}>
+              <Button className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3 ${selectedTemplate !== "" && subject !== "" ? "": "cursor-not-allowed bg-slate-500"}`} onClick={selectedTemplate !== "" && subject !== "" ? ()=> setEmailModal(true):() => {}}>
                 <RiMessage2Line size={"16px"} />
                 <span>Sample Email</span>
               </Button>
             </div>
           </div>
           <form action="" className=" space-y-3">
-            {/* <div className=" flex flex-col gap-2 rounded">
-              <label htmlFor="" className="text-sm font-semibold">
-                Select Template :
-              </label>
-              <select
-                name=""
-                id=""
-                className=" border-2 rounded p-2 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
-                onChange={(e) => setSelectedTemplateIndex(e.target.value)}
-                value={selectedTemplateIndex}
-              >
-                <option value="">Select</option>
-                {campaignEmailTemplates &&
-                  campaignEmailTemplates.map((item, index) => (
-                    <option value={index} key={index} className="">
-                      {item.name}
-                    </option>
-                  ))}
-              </select>
-            </div> */}
             <div className=" flex flex-col gap-2 rounded" >
               <label htmlFor="" className="text-sm font-semibold">
                 Select Template :
@@ -410,35 +342,7 @@ const BulkEmail = () => {
               setVariablesData(data);
             }} />
             <div className=" flex justify-center items-start gap-1 rounded">
-              {/* <JoditEditor
-                rows={6}
-                ref={emailTextRef}
-                config={config}
-                // className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
-                onBlur={newContent => setHtml(newContent)}
-                onChange={newcontent => { }}
-                value={html}
-              /> */}
-              {/* <input value={text} onChange={(e) => setText(e.target.value)} className="bg-gray-300 border border-black" /> */}
-              {/* <JoditEditor
-                rows={6}
-                ref={emailTextRef}
-                config={config}
-                // className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
-                onBlur={newContent => setText(newContent)}
-                onChange={newcontent => { }}
-                value={text}
-              /> */}
-              {/* <label htmlFor="" className="text-sm font-semibold">
-                Text :
-              </label>
-              <EmailBox html={html} setHtml={setHtml} /> */}
               <div className="flex flex-col justify-center gap-y-6 w-1/2 items-center">
-                {/* <div className="flex justify-start items-center gap-x-2 w-full">
-                  <label htmlFor="bankName" className="font-poppins not-italic cursor-pointer leading-normal font-semibold text-lg"><span className="text-red-500">*</span> Bank Name:</label>
-                  <input type="text" placeholder="Type Bank Name" name="bankName" id="bankName" className="outline-none placeholder:text-[15px] placeholder:font-poppins font-poppins not-italic leading-normal border px-2 py-0.5 rounded-sm border-solid border-[#000000]" autoComplete="true" onChange={(e) => setBankName(e.target.value)} />
-                </div> */}
-
                 <div className="flex justify-center items-center gap-x-2">
                   <FaAnglesRight size={18} />
                   <h2 className="font-poppins text-lg not-italic leading-normal font-medium text-red-600">Instructions</h2>

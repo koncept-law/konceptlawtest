@@ -8,14 +8,14 @@ import createAxiosInstance from "../../config/axiosConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../../redux/features/loaders";
 import { toastify } from "../../components/toast";
-import { getCampaignByNameThunkMiddleware } from "../../redux/features/campaigns";
+import { getCampaignByNameThunkMiddleware, getOldPdfsLinkCampaignThunkMiddleware } from "../../redux/features/campaigns";
 import { toastifyError } from "../../constants/errors";
 import { useNavigate } from "react-router-dom";
 
 const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
     const axios = createAxiosInstance();
     const {
-        campaignDetails
+        campaignDetails,
     } = useSelector((state) => state.campaigns);
     // console.log("campaign details in standard", campaignDetails);
 
@@ -30,6 +30,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
             serialNo: campaignDetails?.serialNo || "",
             shortLink: campaignDetails?.shortLink || "",
             longLink: campaignDetails?.longLink || "",
+            oldLink: campaignDetails?.oldLink || "",
         }
     });
     const handleCancel = () => setOpen(!open);
@@ -49,6 +50,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                 serialNo: campaignDetails?.serialNo || "",
                 shortLink: campaignDetails?.shortLink || "",
                 longLink: campaignDetails?.longLink || "",
+                oldLink: campaignDetails?.oldLink || "",
             });
         }
     }, [campaignDetails, reset]);
@@ -86,7 +88,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
     }
 
     useEffect(() => {
-        if(open){
+        if (open) {
             getDocumentVariables();
         }
     }, [open]);
@@ -96,6 +98,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
         let postData = {
             ...data,
             campaignName: campaignDetails?.name,
+            type: campaignDetails?.type,
         }
 
         try {
@@ -206,6 +209,17 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                             control={control}
                             name="longLink"
                         />
+
+                        {
+                            campaignDetails?.type === "linkType" ? <>
+                        <StandardMappingField
+                            title="Old Link:"
+                            dropDownList={dropDownList}
+                            control={control}
+                            name="oldLink"
+                        />    
+                            </>: null
+                        }
 
                         <div className="flex w-full my-3 justify-end gap-x-2 items-center">
                             <Button className="font-poppins capitalize font-medium py-2 px-4 rounded-md bg-gray-800 text-white leading-normal not-italic" onClick={handleSubmit(onSubmit)}>

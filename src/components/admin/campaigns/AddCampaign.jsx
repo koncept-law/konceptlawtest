@@ -24,6 +24,10 @@ const AddCampaign = ({ modal, toggle }) => {
       label: "Merge",
       value: "mergeType",
     },
+    {
+      label: "Links",
+      value: "linkType",
+    }
   ];
 
   const {

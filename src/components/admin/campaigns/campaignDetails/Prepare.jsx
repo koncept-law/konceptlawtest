@@ -11,6 +11,7 @@ import {
   getAllTemplateFilesThunkMiddleware,
   // getDocumentTemplateVaribalesThunkMiddleware,
   mapCampaignFilesThunkMiddleware,
+  pdfAndLinkGenerationCampaignThunkMiddleware,
   SelectedDocumentTemplateThunkMiddleware,
   sendDocumentVaribleValuesThunkMiddleware,
   sendSelectedDocumentTemplateThunkMiddleware,
@@ -36,150 +37,6 @@ import StandardMappingModal from "../../../../common/modals/StandardMappingModal
 import EditModal from "../../../../common/modals/EditModal";
 
 const Prepare = ({ campaignType }) => {
-
-  // const [isMapDataModal, setIsMapDataModal] = useState(false)
-  // const [isDocumentTemplateModal, setIsDocumentTemplateModal] = useState(false)
-
-  // const dispatch = useDispatch();
-  // const inputRef = useRef();
-
-  // const { campaignDetails } = useSelector(
-  //   (state) => state.campaigns
-  // );
-
-  // const { uploadCampaignFileStatus } = useSelector((state) => state.progress);
-
-  // const isExcelPresent = useMemo(
-  //   () => campaignDetails.isExcelPresent,
-  //   [campaignDetails]
-  // );
-
-  // const isExcelValidated = useMemo(
-  //   () => campaignDetails.isExcelValidated,
-  //   [campaignDetails]
-  // );
-
-  // const isDocumentTemplateSelected = useMemo(
-  //   () => campaignDetails.isDocumentTemplatesSelected,
-  //   [campaignDetails]
-  // );
-
-  // // const isDocumentTemplatesSelected = useMemo(
-  // //   () => campaignDetails.isDocumentTemplateSelected,
-  // //   [campaignDetails]
-  // // );
-
-  // // const isDocumentTemplateSelected = useMemo(
-  // //   () => campaignDetails.isDocumentTemplateSelected,
-  // //   [campaignDetails]
-  // // );
-
-  // // const isFilePresent = useMemo(() => {
-  // //   return campaignCount.noOfFiles && campaignCount.noOfFiles !== 0
-  // //     ? true
-  // //     : false;
-  // // }, [campaignDetails]);
-
-  // const isFilePresent = useMemo(() => {
-  //   return campaignDetails.pdfsUploaded && campaignDetails.pdfsUploaded !== "0"
-  //     ? true
-  //     : false;
-  // }, [campaignDetails])
-
-
-
-  // const isDataMappedCorrectly = useMemo(
-  //   () => campaignDetails.isDataMappedCorrectly,
-  //   [campaignDetails]
-  // );
-
-  // // const isDocumentTemplatesSelected = useMemo(
-  // //   () => campaignDetails.itemsInExcel,
-  // //   [campaignDetails]
-  // // )
-
-  // const uploadExcelFileHandler = (event) => {
-  //   if (event.target.files[0]) {
-  //     dispatch(
-  //       addCampaignExcelThunkMiddleware({
-  //         campaignName: campaignDetails.name,
-  //         // change made by abhyanshu
-  //         campaignType: campaignType,
-  //         file: event.target.files[0],
-  //         inputRef,
-  //       })
-  //     );
-  //   }
-  // };
-
-  // const deleteExcelFileHandler = () => {
-  //   dispatch(
-  //     deleteCampaignExcelThunkMiddleware({
-  //       campaignName: campaignDetails.name,
-  //       // change made by abhyanshu
-  //       // campaignType: campaignType,
-  //     })
-  //   );
-  // };
-
-  // const validateExcelFileHandler = () => {
-  //   if (isExcelPresent) {
-  //     if (!isExcelValidated) {
-  //       dispatch(
-  //         validateCampaignExcelThunkMiddleware({
-  //           campaignName: campaignDetails.name,
-  //           // change made by abhyanshu
-  //           // campaignType: campaignType,
-  //         })
-  //       );
-  //     }
-  //   }
-  // };
-
-  // // console.log("campaign name ", campaignDetails.name)
-
-  // const uploadMultipleFileHandler = (event) => {
-  //   dispatch(
-  //     uploadCampaignFilesThunkMiddleware({
-  //       campaignName: campaignDetails.name,
-  //       // change made by abhyanshu
-  //       campaignType: campaignType,
-  //       files: event.target.files,
-  //       inputRef,
-  //     })
-  //   );
-  // };
-
-  // const deleteFilesHandler = () => {
-  //   dispatch(
-  //     deleteCampaignFilesThunkMiddleware({
-  //       campaignName: campaignDetails.name,
-  //       // change made by abhyanshu
-  //       campaignType: campaignType,
-  //     })
-  //   );
-  // };
-
-  // const mapFilesHandler = () => {
-  //   // original  condition
-  //   // if (isFilePresent) {
-  //   if (isFilePresent) {
-  //     dispatch(
-  //       mapCampaignFilesThunkMiddleware({
-  //         campaignName: campaignDetails.name,
-  //         // change made by abhyanshu
-  //         campaignType: campaignType,
-  //       })
-  //     );
-  //   }
-  // };
-
-  // const deleteMapSelectedVarialbesHandler = () => {
-  //   if (isDataMappedCorrectly) {
-  //     dispatch(deleteMapSelectedVariableValues({ campaignName: campaignDetails.name }))
-  //   }
-  // }
-
   const [isMapDataModal, setIsMapDataModal] = useState(false)
   const [isDocumentTemplateModal, setIsDocumentTemplateModal] = useState(false)
   const [DeleteModalONMap, setDeleteModalONMap] = useState(false);
@@ -218,22 +75,6 @@ const Prepare = ({ campaignType }) => {
     [campaignDetails]
   );
 
-  // const isDocumentTemplatesSelected = useMemo(
-  //   () => campaignDetails.isDocumentTemplateSelected,
-  //   [campaignDetails]
-  // );
-
-  // const isDocumentTemplateSelected = useMemo(
-  //   () => campaignDetails.isDocumentTemplateSelected,
-  //   [campaignDetails]
-  // );
-
-  // const isFilePresent = useMemo(() => {
-  //   return campaignCount.noOfFiles && campaignCount.noOfFiles !== 0
-  //     ? true
-  //     : false;
-  // }, [campaignDetails]);
-
   const isFilePresent = useMemo(() => {
     return campaignDetails.pdfsUploaded && campaignDetails.pdfsUploaded !== "0"
       ? true
@@ -246,11 +87,6 @@ const Prepare = ({ campaignType }) => {
     () => campaignDetails.isDataMappedCorrectly,
     [campaignDetails]
   );
-
-  // const isDocumentTemplatesSelected = useMemo(
-  //   () => campaignDetails.itemsInExcel,
-  //   [campaignDetails]
-  // )
 
   const uploadExcelFileHandler = (event) => {
     if (event.target.files[0]) {
@@ -340,6 +176,10 @@ const Prepare = ({ campaignType }) => {
     dispatch(deleteDocumentTemplateThunkMiddleware({ campaignName: campaignDetails.name }));
   }
 
+  const handleSaveDocument = () => {
+    dispatch(pdfAndLinkGenerationCampaignThunkMiddleware({ campaignName: campaignDetails?.name }));
+  }
+
   return (
     <>
       <DeleteModal open={DeleteModalONMap} setOpen={setDeleteModalONMap} title="Are you sure you want to reset the Map data?" deleteEvent={(event) => {
@@ -377,38 +217,6 @@ const Prepare = ({ campaignType }) => {
           >
             <MdCloudUpload size={30} />
             <Text className="text-center text-[14px]">Upload Contact Excel</Text>
-            {/* 
-            {isExcelPresent && (
-              <>
-                <div
-                  className="absolute top-2 right-2 z-20"
-                  onClick={deleteExcelFileHandler}
-                >
-                  <figure
-                    className={`text-red-600 font-bold  -translate-y-10 transition-all duration-300 
-                      group-hover:translate-y-0`}
-                  >
-                    <IoReloadCircle size={30} />
-                  </figure>
-                </div>
-                <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
-              </>
-            )}
-
-
-            {!isExcelPresent && (
-              <input
-                ref={inputRef}
-                type="file"
-                className=" absolute top-0 left-0 w-full h-full opacity-0"
-                onChange={uploadExcelFileHandler}
-              />
-            )}
-
-            <div className={` min-h-7 px-1 bg-green-600 min-w-7 text-white font-bold rounded-full absolute top-2 
-              left-2 grid place-items-center`}>
-              {Number.parseInt(campaignDetails.itemsInExcel) ? Number.parseInt(campaignDetails.itemsInExcel) : 0}
-            </div> */}
 
             {isExcelPresent && (
               <>
@@ -444,49 +252,34 @@ const Prepare = ({ campaignType }) => {
             </div>
           </div>
 
-          {/* Validate Excel Section  */}
-          {/* {campaignType === "pdfType" && (<div
-            onClick={validateExcelFileHandler}
-            className={`relative flex items-center w-full justify-between flex-col gap-3 bg-blue-100 px-3 py-1 cursor-pointer border border-gray-700 rounded-md group transition-all duration-200 hover:bg-slate-800 hover:text-[#FFFF] capitalize text-[#000] overflow-hidden`}
-          >
-            <MdCloudUpload size={30} />
-            <Text className="text-center text-[14px]">Validate Excel</Text>
-
-            {(!isExcelPresent || isExcelValidated) && (
-              <>
-                <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
-              </>
-            )}
-          </div>)} */}
-
           {/* Standard Mapping */}
           <Button
             className={`relative flex items-center w-full justify-between flex-col gap-3 bg-blue-100 px-3 py-1 cursor-pointer border border-gray-700 rounded-md group transition-all duration-200  hover:bg-slate-800 hover:text-[#FFFF] capitalize text-[#000] overflow-hidden`}
             // onClick={() => setIsStandardMappingModal(true)}
             onClick={
-                isStandardMappingDone ? () => { } :
+              isStandardMappingDone ? () => { } :
                 () => setIsStandardMappingModal(true)}
           >
             <MdCloudUpload size={30} />
             <Text className="text-center text-[14px]">Standard Mapping</Text>
 
             {(isStandardMappingDone) && (
-                <>
-                  {isStandardMappingDone && (
-                    <div className="absolute top-2 right-2 z-20">
-                      <figure
-                        className={`text-green-700 font-bold  -translate-y-10 transition-all duration-300 group-hover:translate-y-0`}
-                        // onClick={deleteFilesHandler}
-                        onClick={() => setEditModalOnStandardMapping(true)}
-                      >
-                        <IoReloadCircle size={30} />
-                      </figure>
-                    </div>
-                  )}
+              <>
+                {isStandardMappingDone && (
+                  <div className="absolute top-2 right-2 z-20">
+                    <figure
+                      className={`text-green-700 font-bold  -translate-y-10 transition-all duration-300 group-hover:translate-y-0`}
+                      // onClick={deleteFilesHandler}
+                      onClick={() => setEditModalOnStandardMapping(true)}
+                    >
+                      <IoReloadCircle size={30} />
+                    </figure>
+                  </div>
+                )}
 
-                  <div className="absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
-                </>
-              )}
+                <div className="absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
+              </>
+            )}
           </Button>
 
           {/* Upload Files Section  */}
@@ -552,14 +345,13 @@ const Prepare = ({ campaignType }) => {
                 >
                   <MdCloudUpload size={30} />
                   <Text className="text-center text-[14px]">Document Template</Text>
-                  {/* {(!isExcelPresent || isDocumentTemplateSelected) && (
+                  {(isDocumentTemplateSelected) && (
                     <>
-                      {isFilePresent && (
+                      {isDocumentTemplateSelected && (
                         <div className="absolute top-2 right-2 z-20">
                           <figure
-                            className={`text-red-600 font-bold  -translate-y-10 transition-all duration-300 
-                            group-hover:translate-y-0`}
-                            onClick={deleteFilesHandler}
+                            className={`text-red-600 font-bold  -translate-y-10 transition-all duration-300 group-hover:translate-y-0`}
+                            onClick={deleteDocumentTemplateHandler}
                           >
                             <IoReloadCircle size={30} />
                           </figure>
@@ -567,34 +359,7 @@ const Prepare = ({ campaignType }) => {
                       )}
                       <div className="absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
                     </>
-                  )} */}
-                   {(isDocumentTemplateSelected) && (
-                      <>
-                        {isDocumentTemplateSelected && (
-                          <div className="absolute top-2 right-2 z-20">
-                            <figure
-                              className={`text-red-600 font-bold  -translate-y-10 transition-all duration-300 group-hover:translate-y-0`}
-                              onClick={deleteDocumentTemplateHandler}
-                            >
-                              <IoReloadCircle size={30} />
-                            </figure>
-                          </div>
-                        )}
-                        <div className="absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
-                      </>
-                    )}
-                  {/* // (isDocxExcelPresent && isDocxExcelValidated) && ( */}
-                  {/* {
-                    (isExcelPresent ||
-                      !isDocumentTemplateSelected
-                    ) && (
-                      <button className="absolute top-0 left-0 w-full h-full opacity-0" onClick={() =>
-                        setIsDocumentTemplateModal(true)}
-                      >
-                      </button>
-                    )
-                  } */}
-                  {/* // ) */}
+                  )}
                 </div>
               </>
             )
@@ -609,14 +374,6 @@ const Prepare = ({ campaignType }) => {
                 >
                   <MdCloudUpload size={30} />
                   <Text className="text-center text-[14px]">Map Data</Text>
-
-                  {/* {!isFilePresent && ( */}
-                  {/* original condition */}
-                  {/* {(!isFilePresent) && (
-                    <>
-                      <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
-                    </>
-                  )} */}
                   {(!isFilePresent) && (
                     <>
                       <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
@@ -637,7 +394,7 @@ const Prepare = ({ campaignType }) => {
                 >
                   <MdCloudUpload size={30} />
                   <Text className="text-center text-[14px]">Map Data</Text>
-                  {/* {(!isExcelPresent ||
+                  {(!isExcelPresent ||
                     !isDocumentTemplateSelected ||
                     isDataMappedCorrectly) && (
                       <>
@@ -653,9 +410,23 @@ const Prepare = ({ campaignType }) => {
                         )}
                         <div className="absolute top-0 left-0 bg-gray-100 w-full h-full bg-opacity-80"></div>
                       </>
-                    )} */}
+                    )}
+                </div>
+              </>
+            )
+          }
+
+          {
+            campaignType === "linkType" && (
+              <>
+                <div
+                  className={`relative flex items-center w-full justify-between flex-col gap-3 bg-blue-100 px-3 py-1 cursor-pointer border border-gray-700 rounded-md group transition-all duration-200 hover:bg-slate-800 hover:text-[#FFFF] capitalize text-[#000] overflow-hidden`}
+                  // onClick={!isDocumentTemplateSelected || isDataMappedCorrectly ? () => { } : () => setIsMapDataModal(true)}
+                  onClick={handleSaveDocument}
+                >
+                  <MdCloudUpload size={30} />
+                  <Text className="text-center text-[14px]">Save Document</Text>
                   {(!isExcelPresent ||
-                    !isDocumentTemplateSelected ||
                     isDataMappedCorrectly) && (
                       <>
                         {isDataMappedCorrectly && (
@@ -684,7 +455,7 @@ const Prepare = ({ campaignType }) => {
         campaignType={campaignType} setIsDocumentTemplateModal={setIsDocumentTemplateModal} />}
       {isMapDataModal && <MapDataModal isMapDataModal={isMapDataModal} setIsMapDataModal={setIsMapDataModal}
         campaignType={campaignType} />}
-        <DeleteModal title="Are you sure you want to reset the Document Template?" open={DeleteDocumentTemplateModal} setOpen={setDeleteDocumentTemplateModal} deleteEvent={resetDocumentTemplate} />
+      <DeleteModal title="Are you sure you want to reset the Document Template?" open={DeleteDocumentTemplateModal} setOpen={setDeleteDocumentTemplateModal} deleteEvent={resetDocumentTemplate} />
     </>
   );
 };

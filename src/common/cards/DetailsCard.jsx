@@ -9,6 +9,7 @@ import { deleteCampaigns, getCampaignByNameThunkMiddleware, setCampaigns } from 
 import { useNavigate } from "react-router-dom";
 import ConfirmMessage from "../../components/common/ConfirmMessage";
 import moment from "moment/moment";
+import { getNotificationThunkMiddleware } from "../../redux/features/notification";
 
 const DetailsCard = ({ data = null, active = false }) => {
     const { user } = useSelector(state => state.user);
@@ -38,7 +39,7 @@ const DetailsCard = ({ data = null, active = false }) => {
                 }
             )
         );
-        dispatch(getNotificationThunkMiddleware(campaignDetails.name));
+        dispatch(getNotificationThunkMiddleware(campaignDetails?.name));
     }
 
     const handleDeleteCampaign = (id) => {

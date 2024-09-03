@@ -117,7 +117,7 @@ const CampaignDetails = () => {
   const { campaignDetails, selectedDocs, totalPdf, currentShortLink } = useSelector(
     (state) => state.campaigns
   );
-  const currentShortLinkRef = useRef(currentShortLink); 
+  const currentShortLinkRef = useRef(currentShortLink);
 
   const { loadShortLink } = useSelector(state => state.loaders);
 
@@ -289,7 +289,7 @@ const CampaignDetails = () => {
   //   intervalRef.current = null;
   //   dispatch(setProgress({ loadShortLink: false }));
   //   // console.log("stop");
-  // }
+  // }  
 
   // const handleCreateShortLink = () => {
   //   if (loadShortLink) {
@@ -364,13 +364,17 @@ const CampaignDetails = () => {
                 )
               }
 
-              <div className="flex justify-center items-center gap-x-2 mx-2">
-                <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">ShortLink:</h2>
-                {
-                  campaignDetails?.areShortLinksCreated ? <IoIosCloudDone size={26} className="text-green-700" />
-                    : <MdCancel size={23} className="text-red-700" />
-                }
-              </div>
+              {
+                campaignDetails?.type !== "linkType" && (
+                  <div className="flex justify-center items-center gap-x-2 mx-2">
+                    <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">ShortLink:</h2>
+                    {
+                      campaignDetails?.areShortLinksCreated ? <IoIosCloudDone size={26} className="text-green-700" />
+                        : <MdCancel size={23} className="text-red-700" />
+                    }
+                  </div>
+                )
+              }
             </div>
           } />
           <div className="py-1 w-full space-y-4">
@@ -390,66 +394,74 @@ const CampaignDetails = () => {
                 </div>
               )}
 
-              <div className="bg-white p-4 sm:px-8 sm:py-5 flex flex-col border border-solid border-slate-200 justify-between h-auto items-center rounded-md w-full">
-                <div className="gap-4 grid w-full h-1/2 grid-cols-3">
-                  <Button
-                    className="relative flex-col items-center justify-center h-full gap-3 flex bg-blue-100 px-3 py-2 cursor-pointer border border-gray-700 rounded-md hover:bg-slate-800 text-[#000000] capitalize not-italic leading-normal hover:text-white transition-all duration-200 w-full"
-                    onClick={bulkEmailCampaignHandler}
-                  >
-                    <MdOutlineAttachEmail size={30} />
-                    <Text className="text-center text-[14px]">Email</Text>
-                    {/* {(!isDataMappedCorrectly) && (
-                      <>
-                        <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
-                      </>
-                    )} */}
-                    {/* {!permission && (
-                      <div className="absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
-                    )} */}
-                  </Button>
+              {
+                campaignDetails?.type !== "linkType" && (
+                  <div className="bg-white p-4 sm:px-8 sm:py-5 flex flex-col border border-solid border-slate-200 justify-between h-auto items-center rounded-md w-full">
+                    <div className="gap-4 grid w-full h-1/2 grid-cols-3">
+                      <Button
+                        className="relative flex-col items-center justify-center h-full gap-3 flex bg-blue-100 px-3 py-2 cursor-pointer border border-gray-700 rounded-md hover:bg-slate-800 text-[#000000] capitalize not-italic leading-normal hover:text-white transition-all duration-200 w-full"
+                        onClick={bulkEmailCampaignHandler}
+                      >
+                        <MdOutlineAttachEmail size={30} />
+                        <Text className="text-center text-[14px]">Email</Text>
+                        {/* {(!isDataMappedCorrectly) && (
+                        <>
+                          <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
+                        </>
+                      )} */}
+                        {/* {!permission && (
+                        <div className="absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
+                      )} */}
+                      </Button>
 
-                  <Button
-                    className="relative flex-col items-center justify-center gap-3 flex bg-blue-100 px-3 py-2 cursor-pointer border border-gray-700 rounded-md hover:bg-slate-800 text-[#000000] capitalize not-italic leading-normal hover:text-white transition-all duration-200 w-full"
-                    onClick={sendCampaignHandler}
-                  >
-                    <BiMessageRoundedDetail size={30} />
-                    <Text className="text-center text-[14px]">SMS</Text>
-                    {/* {(!isDataMappedCorrectly) && (
-                      <>
-                        <div className=" absolute top-0 left-0 bg-gray-100 w-full rounded-md h-full bg-opacity-80"></div>
-                      </>
-                    )} */}
-                    {/* {!permission && (
-                      <div className="absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
-                    )} */}
-                  </Button>
+                      <Button
+                        className="relative flex-col items-center justify-center gap-3 flex bg-blue-100 px-3 py-2 cursor-pointer border border-gray-700 rounded-md hover:bg-slate-800 text-[#000000] capitalize not-italic leading-normal hover:text-white transition-all duration-200 w-full"
+                        onClick={sendCampaignHandler}
+                      >
+                        <BiMessageRoundedDetail size={30} />
+                        <Text className="text-center text-[14px]">SMS</Text>
+                        {/* {(!isDataMappedCorrectly) && (
+                        <>
+                          <div className=" absolute top-0 left-0 bg-gray-100 w-full rounded-md h-full bg-opacity-80"></div>
+                        </>
+                      )} */}
+                        {/* {!permission && (
+                        <div className="absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
+                      )} */}
+                      </Button>
 
-                  <Button
-                    className="relative flex-col items-center justify-center gap-3 flex bg-blue-100 px-3 py-2 cursor-pointer border border-gray-700 rounded-md hover:bg-slate-800 hover:text-white text-[#000000] capitalize not-italic leading-normal transition-all duration-300 w-full"
-                    onClick={whatsappCampaignHandler}
-                  >
-                    {/* <MdOutlineRemoveRedEye size={30} /> */}
-                    <IoLogoWhatsapp size={30} />
-                    <Text className="text-center text-[14px]">Whatsapp</Text>
-                    {/* {(!isDataMappedCorrectly) && (
-                      <>
-                        <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
-                      </>
-                    )} */}
-                    {/* {!permission && (
-                      <div className="absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
-                    )} */}
-                  </Button>
-                </div>
-                <div className="w-full flex flex-col justify-center items-center">
-                  <h2 className="h-[1px] bg-slate-300 w-full my-2"></h2>
-                  <h1 className=" font-bold text-lg text-center">Campaign</h1>
-                </div>
-              </div>
+                      <Button
+                        className="relative flex-col items-center justify-center gap-3 flex bg-blue-100 px-3 py-2 cursor-pointer border border-gray-700 rounded-md hover:bg-slate-800 hover:text-white text-[#000000] capitalize not-italic leading-normal transition-all duration-300 w-full"
+                        onClick={whatsappCampaignHandler}
+                      >
+                        {/* <MdOutlineRemoveRedEye size={30} /> */}
+                        <IoLogoWhatsapp size={30} />
+                        <Text className="text-center text-[14px]">Whatsapp</Text>
+                        {/* {(!isDataMappedCorrectly) && (
+                        <>
+                          <div className=" absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
+                        </>
+                      )} */}
+                        {/* {!permission && (
+                        <div className="absolute top-0 left-0 bg-gray-100 w-full h-full rounded-md bg-opacity-80"></div>
+                      )} */}
+                      </Button>
+                    </div>
+                    <div className="w-full flex flex-col justify-center items-center">
+                      <h2 className="h-[1px] bg-slate-300 w-full my-2"></h2>
+                      <h1 className=" font-bold text-lg text-center">Campaign</h1>
+                    </div>
+                  </div>
+                )
+              }
 
-              <div className="bg-white p-4 w-full border border-solid border-slate-200 rounded-md">
-                <Finalize campaignType={campaignDetails?.type} />
-              </div>
+              {
+                campaignDetails?.type !== "linkType" && (
+                  <div className="bg-white p-4 w-full border border-solid border-slate-200 rounded-md">
+                    <Finalize campaignType={campaignDetails?.type} />
+                  </div>
+                )
+              }
 
               <div className="bg-white p-4 w-full border border-solid border-slate-200 rounded-md">
                 <Reports campaignType={campaignDetails?.type} />
