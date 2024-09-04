@@ -41,8 +41,8 @@ const SmsCampaign = () => {
   const navigate = useNavigate();
   const path = usePath();
 
-  const [selectVender, setSelectVender] = useState("airtel");
-
+  // const [selectVender, setSelectVender] = useState("airtel");
+  const [selectVender, setSelectVender] = useState("enableX");
 
   const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(null);
 
