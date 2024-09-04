@@ -652,7 +652,8 @@ const SmsCampaign = () => {
                 // defaultValue={{ label: "Select an Option", value: "select" }}
                 className="rounded flex-1 focus:ring-2 h-[44px] focus:ring-purple-800 outline-none w-full"
                 // options={selectOptions}
-                defaultValue={"airtel"}
+                // defaultValue={"airtel"}
+                defaultValue={"enableX"}
                 options={[
                   {
                     label: <div className="flex justify-start font-medium font-poppins not-italic leading-normal gap-x-2 items-center">

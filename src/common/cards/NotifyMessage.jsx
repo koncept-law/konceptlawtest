@@ -2,20 +2,30 @@ import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { deleteNotification, deleteNotificationThunkMiddleware } from "../../redux/features/notification";
+import { deleteNotification, deleteNotificationThunkMiddleware, getGlobalNotificationThunkMiddleware, getNotificationThunkMiddleware } from "../../redux/features/notification";
 import moment from "moment";
+import usePath from "../../hooks/usePath";
 
-const NotifyMessage = ({ type = "error", message = "", path = "", time="", campaignName="", id = null }) => {
+const NotifyMessage = ({ type = "error", message = "", time="", campaignName="", id = null }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [showCross, setShowCross] = useState(false);
     const { campaignDetails } = useSelector(state => state.campaigns);
+    const path = usePath();
 
     const onHover = () => setShowCross(!showCross);
 
     const deleteEvent = () => {
         if(id){
-            dispatch(deleteNotificationThunkMiddleware({ id: id, name: campaignDetails?.name }));
+            dispatch(deleteNotificationThunkMiddleware({ id: id, name: campaignDetails?.name }, (call) => {
+                if(call){
+                    if(path.startsWith("campaigns")){
+                        dispatch(getNotificationThunkMiddleware(campaignDetails?.name));
+                    }else {
+                        dispatch(getGlobalNotificationThunkMiddleware());
+                    }
+                }
+            }));
         }
     }
 
@@ -24,9 +34,9 @@ const NotifyMessage = ({ type = "error", message = "", path = "", time="", campa
         onMouseLeave={onHover}
         onMouseEnter={onHover}
         onClick={() => {
-            if(path !== ""){
-                navigate(path);
-            }
+            // if(path !== ""){
+            //     navigate(path);
+            // }
         }}>
             <p className="bg-white px-1 cursor-pointer absolute -top-2.5 text-[12px] font-poppins not-italic leading-normal font-semibold left-2 rounded-sm text-[#000000]">{moment(time).format("MM-DD-YYYY: hh:mm:ss")}</p>
             <button className={`bg-white p-1 cursor-pointer absolute ${showCross ? "top-0.5" : "-top-2 hidden"} hover:bg-gray-100 active:bg-gray-200 transition-all right-0.5 rounded-sm text-[#000000]`} onClick={deleteEvent}>

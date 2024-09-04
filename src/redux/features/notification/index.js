@@ -73,6 +73,7 @@ export const getNotificationThunkMiddleware = (payload) => {
         } catch (error) {
             console.error(error);
             // toastifyError(error);
+            dispatch(setNotification({ allNotification: [] }));
         } finally {
             // dispatch(setLoader({ loader: false }));
         }
@@ -96,13 +97,15 @@ export const getGlobalNotificationThunkMiddleware = () => {
     };
 }
 
-export const deleteNotificationThunkMiddleware = (payload) => {
+export const deleteNotificationThunkMiddleware = (payload, callback = function(){}) => {
     return async (dispatch) => {
         try {
+            // console.log(payload);
             const response = await axios.post(`/campaign/notifications/${payload?.id}`);
             if(response.status === 200){
                 toastify({ msg: response.data?.message });
-                dispatch(getNotificationThunkMiddleware(payload?.name));
+                // dispatch(getNotificationThunkMiddleware(payload?.name));
+                callback(true);
             }
         } catch (error) {
             // console.log(error);

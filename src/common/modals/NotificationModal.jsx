@@ -8,14 +8,19 @@ import notificationAudio from "../../assets/notification.mp3";
 import { useDispatch, useSelector } from 'react-redux';
 import NotifyMessage from '../cards/NotifyMessage';
 import { getGlobalNotificationThunkMiddleware, getNotificationThunkMiddleware, setNotification } from '../../redux/features/notification';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
+
+// hooks
 import usePath from '../../hooks/usePath';
+import useStorage from '../../hooks/useStorage';
 
 const NotificationModal = ({ isVisible = false, onClose = function () { } }) => {
     const { notification, allNotification } = useSelector(state => state.notification);
     const { campaignDetails } = useSelector(state => state.campaigns);
     const dispatch = useDispatch();
     const path = usePath();
+    const store = useStorage();
+    const not_fic = "koncept-law-notification";
 
     const audio = new Audio(notificationAudio);
     const modalStyle = {
@@ -25,6 +30,23 @@ const NotificationModal = ({ isVisible = false, onClose = function () { } }) => 
         margin: 0,
         transform: 'none', // Prevent default transformations
     };
+
+    useEffect(()=>{
+        if(allNotification){
+            if(store.find(not_fic)){
+                let leng = parseInt(store.get(not_fic));
+                if(allNotification?.length > leng){
+                    store.set(not_fic, allNotification?.length || 0)
+                    audio.play();
+                    dispatch(setNotification({
+                        notification: false,
+                    }));
+                }
+            }else {
+                store.set(not_fic, allNotification?.length || 0)
+            }
+        }
+    }, [allNotification]);
 
     useEffect(()=> {
         if(notification){
@@ -38,7 +60,7 @@ const NotificationModal = ({ isVisible = false, onClose = function () { } }) => 
     const navigate = useNavigate();
 
     useEffect(()=> {
-        if(path.startsWith("campaigns")){
+        if(path.startsWith("campaigns")){ 
             dispatch(getNotificationThunkMiddleware(campaignDetails?.name));
         }else {
             dispatch(getGlobalNotificationThunkMiddleware());

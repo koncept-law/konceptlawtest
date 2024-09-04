@@ -58,6 +58,7 @@ const BulkEmail = () => {
   const [DropDownList, setDropDownList] = useState([]);
   const [variablesData, setVariablesData] = useState([]);
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [isfillVariables, setIsFillVariables] = useState(false);
   // const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(null);
   // const emailTextRef = useRef(null)
 
@@ -72,14 +73,6 @@ const BulkEmail = () => {
     (state) => state.campaigns
   );
   const { singleUser } = useSelector(state => state.campaigns);
-  // console.log("campaignCategories", emailCategories);
-  // console.log("Email Templates Data", campaignEmailTemplates);
-
-  // const selectedTemplate = useMemo(
-  //   () => campaignEmailTemplates[selectedTemplateIndex],
-  //   [selectedTemplateIndex]
-  // );
-  // console.log(selectedTemplate);
 
   const dispatch = useDispatch();
 
@@ -102,17 +95,17 @@ const BulkEmail = () => {
     dispatch(getCampaignEmailTemplateThunkMiddleware());
   }, []);
 
-  console.log("single user",singleUser);
+  console.log("single user", singleUser);
 
   const templateData = useMemo(() => {
     // Filter and map over campaignEmailTemplates to create options only for matching accountId
     return campaignEmailTemplates
       ? campaignEmailTemplates
-          .filter((item) => item?.accountId === singleUser?.accountId) // Filter matching accountId
-          .map((item) => ({
-            label: <DropdownOption title={item?.templateName} value={item} />,
-            value: item?.templateName,
-          }))
+        .filter((item) => item?.accountId === singleUser?.accountId) // Filter matching accountId
+        .map((item) => ({
+          label: <DropdownOption title={item?.templateName} value={item} />,
+          value: item?.templateName,
+        }))
       : [];
   }, [campaignEmailTemplates, singleUser?.accountId]);
 
@@ -161,11 +154,11 @@ const BulkEmail = () => {
     const response = await axios.post("/campaign/getValueBySingleHeader", { campaignName: campaignDetails.name, header: "link" });
     let getValue = response.data;
 
-    if (!e["cc"]) {
-      toastify({ msg: "'CC' is not defined. Please check your configuration.", type: "error" })
-      setOpenConfirm(false);
-      return null;
-    }
+    // if (!e["cc"]) {
+    //   toastify({ msg: "'CC' is not defined. Please check your configuration.", type: "error" })
+    //   setOpenConfirm(false);
+    //   return null;
+    // }
     let data = {
       campaignName: campaignDetails?.name,
       variables: variablesData,
@@ -277,13 +270,22 @@ const BulkEmail = () => {
             >
               Create Template
             </button>
-            <button
+
+            <Button className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3 ${selectedTemplate !== "" && subject !== "" && !isfillVariables && watch("cc") !== "" ? "" : "cursor-not-allowed bg-slate-500"
+              }`}
+              onClick={
+                selectedTemplate !== "" && subject !== "" && !isfillVariables && watch("cc") !== "" ? () => setOpenConfirm(true) : () => { }
+              }>
+              <span>Save & Send</span>
+            </Button>
+
+            {/* <button
               // onClick={testEmailHandler}
               onClick={() => setOpenConfirm(true)}
               className=" flex items-center gap-1 bg-gray-600 px-2 py-1 rounded-md text-white font-semibold"
             >
               Save & Send
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -291,7 +293,11 @@ const BulkEmail = () => {
           <div className="flex justify-between items-center w-full">
             <h1 className=" font-bold py-2">Send Bulk Email</h1>
             <div className="flex justify-center gap-x-2 items-center">
-              <Button className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3 ${selectedTemplate !== "" && subject !== "" ? "": "cursor-not-allowed bg-slate-500"}`} onClick={selectedTemplate !== "" && subject !== "" ? ()=> setEmailModal(true):() => {}}>
+              <Button className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3 ${selectedTemplate !== "" && subject !== "" && !isfillVariables && watch("cc") !== "" ? "" : "cursor-not-allowed bg-slate-500"
+                }`}
+                onClick={
+                  selectedTemplate !== "" && subject !== "" && !isfillVariables && watch("cc") !== "" ? () => setEmailModal(true) : () => { }
+                }>
                 <RiMessage2Line size={"16px"} />
                 <span>Sample Email</span>
               </Button>
@@ -338,9 +344,22 @@ const BulkEmail = () => {
                 name="cc"
               />
             </div>
-            <EmailTemplateEditor messageRef={messageRef} sampleMessageRef={sampleMessageRef} template={selectTemplate} dropdown={DropDownList} onEdit={(data) => {
-              setVariablesData(data);
-            }} />
+            <EmailTemplateEditor
+              messageRef={messageRef}
+              sampleMessageRef={sampleMessageRef}
+              template={selectTemplate}
+              dropdown={DropDownList}
+              isFill={(fill) => {
+                if (fill) {
+                  setIsFillVariables(false);
+                } else {
+                  setIsFillVariables(true);
+                }
+              }}
+              onEdit={(data) => {
+                setVariablesData(data);
+              }}
+            />
             <div className=" flex justify-center items-start gap-1 rounded">
               <div className="flex flex-col justify-center gap-y-6 w-1/2 items-center">
                 <div className="flex justify-center items-center gap-x-2">

@@ -334,7 +334,7 @@ const CampaignDetails = () => {
           <Topbar path="/dashboard" message={
             <div className="flex justify-center items-center gap-x-1">
               {
-                campaignDetails.type === "pdfType" && (
+                campaignDetails?.type === "pdfType" && (
                   <div className="flex justify-center items-center gap-x-2 mx-2">
                     <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">Current ShortLink:</h2>
                     {/* <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-green-700">{currentShortLink ? currentShortLink : 0}</h2> */}
@@ -344,7 +344,7 @@ const CampaignDetails = () => {
               }
 
               {
-                campaignDetails.type === "pdfType" && (
+                campaignDetails?.type === "pdfType" && (
                   <div className="flex justify-center items-center gap-x-2 mx-2">
                     <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">Current PDF:</h2>
                     <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-green-700">{totalPdf ? totalPdf : 0}</h2>
@@ -353,7 +353,7 @@ const CampaignDetails = () => {
               }
 
               {
-                campaignDetails.type === "mergeType" && (
+                campaignDetails?.type === "mergeType" && (
                   <div className="flex justify-center items-center gap-x-2 mx-2">
                     <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">Document Merged:</h2>
                     {
@@ -375,6 +375,16 @@ const CampaignDetails = () => {
                   </div>
                 )
               }
+
+              {
+                campaignDetails?.type === "linkType" && (
+                  <div className="flex justify-center items-center gap-x-2 mx-2">
+                    <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">Regenerated Pdfs:</h2>
+                    {/* <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-green-700">{currentShortLink ? currentShortLink : 0}</h2> */}
+                    <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-green-700">{campaignDetails?.regeneratedPdfs ? campaignDetails?.regeneratedPdfs : 0}</h2>
+                  </div>
+                )
+              }
             </div>
           } />
           <div className="py-1 w-full space-y-4">
@@ -382,7 +392,6 @@ const CampaignDetails = () => {
               <Stats items={data} />
             </div>
 
-            {/* changes made by abhyanshu */}
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
               <div className="bg-white p-4 rounded-md border border-solid border-slate-200 w-full">
                 <Prepare campaignType={campaignDetails?.type} />

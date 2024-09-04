@@ -39,7 +39,7 @@ const DetailsCard = ({ data = null, active = false }) => {
                 }
             )
         );
-        dispatch(getNotificationThunkMiddleware(campaignDetails?.name));
+        // dispatch(getNotificationThunkMiddleware(campaignDetails?.name));
     }
 
     const handleDeleteCampaign = (id) => {
