@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component"
 import { IoIosCloudDone, IoMdArrowRoundBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setLoader } from "../../../../../redux/features/loaders";
+import loaders, { setLoader } from "../../../../../redux/features/loaders";
 import { toastify } from "../../../../toast";
 // import axios from "axios";
 import Spinner from "../../../../common/Spinner";
@@ -23,6 +23,7 @@ import { MdCancel } from "react-icons/md";
 import JSZip from "jszip";
 import { setProgress } from "../../../../../redux/features/progress";
 import { toastifyError } from "../../../../../constants/errors";
+import Loader from "../../../../common/Loader";
 
 const DownloadDocumentByCategory = () => {
 
@@ -30,7 +31,7 @@ const DownloadDocumentByCategory = () => {
     const navigate = useNavigate();
 
     const { campaignDetails } = useSelector((state) => state.campaigns);
-    const { loader } = useSelector((state) => state.loaders);
+    const { loader, categoriesLoader } = useSelector((state) => state.loaders);
     const [tableData, setTableData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     // const axios = createAxiosInstance()
@@ -42,7 +43,6 @@ const DownloadDocumentByCategory = () => {
     //     //     links: tableData.links , description: row.description,
     //     // }));
     // }
-
 
     const columns = [
         {
@@ -364,7 +364,7 @@ const DownloadDocumentByCategory = () => {
 
     const getTableData = async () => {
         try {
-            dispatch(setLoader({ loader: true }))
+            dispatch(setLoader({ loader: true, categoriesLoader: true }))
             const response = await axios.post(`https://t.konceptlaw.in/docs/getAllCategoryData`, { campaignName: campaignDetails.name })
 
             if (response.status === 200) {
@@ -374,20 +374,13 @@ const DownloadDocumentByCategory = () => {
                 toastify({ msg: message, type: "success" });
             }
         } catch (error) {
-            // if (error.response?.data) {
-            //     toastify({ msg: error.response.data.message, type: "error" })
-            // }
-            // else {
-            //     toastify({ msg: error.message, type: "error" })
-            // }
             toastifyError(error, (call)=> {
                 if(call === "logout"){
                   navigate("/login");
                 }
               })
-            // dispatch(setLoader({loader: false}))
         } finally {
-            dispatch(setLoader({ loader: false }))
+            dispatch(setLoader({ loader: false, categoriesLoader: false }))
         }
     }
 
@@ -410,7 +403,7 @@ const DownloadDocumentByCategory = () => {
                 buttonText="Send Email"
                 onSubmit={() => { }}
             />
-            {/* { loader && <Spinner/>} */}
+            {(categoriesLoader && !loader ) && <Loader />}
             <div className="h-[94vh] w-[100%] overflow-hidden px-2 py-2 flex gap-2 md:gap-4 flex-col">
                 <DownloadDocumentTopBar title={campaignDetails.name} refreshPage={() => getTableData()} items={
                     <div className="flex justify-center items-center gap-x-2">

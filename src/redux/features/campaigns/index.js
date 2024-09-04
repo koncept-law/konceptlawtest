@@ -351,7 +351,7 @@ export const getCampaignByNameThunkMiddleware = (
   return async (dispatch) => {
     try {
       console.log("api call")
-      dispatch(setLoader({ loader: true }));
+      dispatch(setLoader({ loader: true, categoriesLoader: true }));
       const response = await axios.post(`/campaign/getOneCampaign`, {
         name: campaignName,
       });
@@ -392,7 +392,7 @@ export const getCampaignByNameThunkMiddleware = (
       // }
       toastifyError(error)
     } finally {
-      dispatch(setLoader({ loader: false }));
+      dispatch(setLoader({ loader: false, categoriesLoader: false }));
     }
   };
 };
@@ -4673,7 +4673,6 @@ export const getCountInCampaignThunkMiddleware = (payload) => {
       if (response.status === 200) {
         dispatch(setCampaigns({ totalPdf: response.data }));
       }
-      dispatch(setLoader({ loader: false }));
     } catch (error) {
       toastifyError(error);
     } finally {
@@ -4691,7 +4690,7 @@ export const pdfAndLinkGenerationCampaignThunkMiddleware = (payload) => {
         // dispatch(setCampaigns({ totalPdf: response.data }));
         toastify({ msg: response.data?.message });
       }
-      dispatch(setLoader({ loader: false }));
+      // dispatch(setLoader({ loader: false }));
     } catch (error) {
       toastifyError(error);
     } finally {
@@ -4711,7 +4710,7 @@ export const getOldPdfsLinkCampaignThunkMiddleware = (payload) => {
         const campaignFilesLink = response.data.pdfLinks;
         toastify({ msg: "PDF Document Download Started!", type: "success" });
 
-        dispatch(setLoader({ loader: false }));
+        // dispatch(setLoader({ loader: false }));
         dispatch(
           setProgress({
             downloadCampaignFileStatus: true,

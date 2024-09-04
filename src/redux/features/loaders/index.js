@@ -15,6 +15,8 @@ export const initialState = {
 
   templateLoader: false,
   reportsLoader: false,
+
+  categoriesLoader: false,
 };
 
 const loadersSlice = createSlice({
