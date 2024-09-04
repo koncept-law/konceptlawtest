@@ -295,7 +295,8 @@ const SmsCampaign = () => {
             templateName: selectedTemplate.templateName,
             // message: selectedTemplate.message,
             message: message,
-            variables: selectedVariables,
+            // variables: selectedVariables,
+            variables: userDisplayVariables,
             campaignName: campaignDetails.name,
             senderId: senderId ? senderId : "KNCPTL",
             mobile: mobile,
@@ -417,6 +418,7 @@ const SmsCampaign = () => {
   // console.log(selectedTemplate)
   // console.log(selectedVariables)
   // console.log("variables values need to be displayed to user", userDisplayVariables)
+  // console.log(userDisplayVariables);
 
   return (
     <div className="overflow-y-auto h-full w-full px-2 py-2 md:gap-4 space-y-3">
