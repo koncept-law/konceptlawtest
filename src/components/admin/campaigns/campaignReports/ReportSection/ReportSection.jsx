@@ -70,26 +70,62 @@ const ReportSection = ({ dataInCampaign,
 
         if(dataInCampaign?.type?.toLowerCase() === "email"){
             SetDataArray([ 
+                // {
+                //     number: totalSent,
+                //     title: "Total",
+                //     color: "blue",
+                // }, 
+                // {
+                //     number : totalSent,
+                //     title: "Sent",
+                //     color: "lightgreen",  
+                // },
+                // {
+                //     number: totalDelivered,
+                //     title: "Delivered",
+                //     color: "green",
+                // },
+                // {
+                //     number: totalFailed,
+                //     title: "Failed",
+                //     color:  "red",
+                // },
                 {
-                    number: totalSent,
+                    number: dataInCampaign?.total,
                     title: "Total",
                     color: "blue",
                 }, 
                 {
-                    number : totalSent,
-                    title: "Sent",
+                    number : dataInCampaign?.sent,
+                    title: "Delivered",
                     color: "lightgreen",  
                 },
+                // {
+                //     number: dataInCampaign?.delivered,
+                //     title: "Delivered",
+                //     color: "green",
+                // },
                 {
-                    number: totalDelivered,
-                    title: "Delivered",
-                    color: "green",
-                },
-                {
-                    number: totalFailed,
+                    // number: dataInCampaign?.failed,
+                    number: (dataInCampaign?.softBounce + dataInCampaign?.hardBounce + dataInCampaign?.dropped),
                     title: "Failed",
                     color:  "red",
                 },
+                {
+                    number: dataInCampaign?.softBounce,
+                    title: "Soft Bounce",
+                    color: "yellow"
+                },
+                {
+                    number: dataInCampaign?.hardBounce,
+                    title: "Hard Bounce",
+                    color: "pink",
+                },
+                {
+                    number: dataInCampaign?.dropped,
+                    title: "Dropped",
+                    color: "purple"
+                }
             ])
         }else {
             SetDataArray([ 

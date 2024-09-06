@@ -1034,22 +1034,35 @@ export const deleteCampaignSmsTemplateThunkMiddleware = (
 };
 
 export const testCampaignSmsTemplateThunkMiddleware = (
-  { templateId, templateName, message, variables, campaignName, senderId, mobile },
+  { templateId, templateName, message, variables, campaignName, senderId, mobile, type },
   callback = {}
 ) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
 
-      const response = await axios.post(`/campaign/sendSampleSms`, {
-        templateId,
-        templateName,
-        message,
-        variables,
-        // campaignName,
-        senderId,
-        mobile,
-      });
+      let response;
+      if(type === "airtel"){
+        response = await axios.post("/campaign/sendSampleSmsAirtel", {
+          // templateId,
+          templateName,
+          // message,
+          variables,
+          // senderId,
+          mobile,
+        });
+
+      }else {
+        response = await axios.post(`/campaign/sendSampleSms`, {
+          templateId,
+          templateName,
+          message,
+          variables,
+          // campaignName,
+          senderId,
+          mobile,
+        });
+      }
 
       console.log("sms campaign testing", response);
 

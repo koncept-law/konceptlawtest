@@ -44,7 +44,7 @@ const InsideCampaignTable = ({ data }) => {
 
         let allData = campaignReports[0]?.insideWhatsappCampaign.concat(campaignReports[0]?.insideSmsCampaigns).concat(campaignReports[0]?.insideEmailCampaign
         );
-        const allSortedData = allData.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
+        const allSortedData = allData.sort((a, b) => new Date(a?.date) - new Date(b?.date)).reverse();
 
         if (!filteredData) {
             setFilteredData(allSortedData[0]);

@@ -289,6 +289,7 @@ const SmsCampaign = () => {
     }
     try {
       if (selectedTemplate && variableCount === textVariableCount) {
+        // console.log("type", selectVender)
         dispatch(
           testCampaignSmsTemplateThunkMiddleware({
             templateId: selectedTemplate.templateId,
@@ -296,6 +297,7 @@ const SmsCampaign = () => {
             // message: selectedTemplate.message,
             message: message,
             // variables: selectedVariables,
+            type: selectVender,
             variables: userDisplayVariables,
             campaignName: campaignDetails.name,
             senderId: senderId ? senderId : "KNCPTL",
@@ -486,24 +488,37 @@ const SmsCampaign = () => {
             Logs
           </button>
           <button
-            onClick={(e) => {
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   if (selectedTemplate) {
+            //     setShowSaveConfirmMessage(true);
+            //   }
+            // }}
+            // className=" flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
+            onClick={selectedTemplate && variableCount === textVariableCount ? (e) => {
               e.preventDefault();
               if (selectedTemplate) {
                 setShowSaveConfirmMessage(true);
               }
-            }}
-            className=" flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
+            } : () => { }}
+            className={`flex items-center gap-1  px-2 py-1 rounded-md text-white font-semibold ${selectedTemplate && variableCount === textVariableCount ? "bg-green-600" : "cursor-not-allowed bg-gray-500"}`}
           >
             Save
           </button>
           <button
-            onClick={(e) => {
+            onClick={selectedTemplate && variableCount === textVariableCount ? (e) => {
               e.preventDefault();
               if (selectedTemplate) {
                 setShowSaveAndSendConfirmMessage(true);
               }
-            }}
-            className=" flex items-center gap-1 bg-gray-600 px-2 py-1 rounded-md text-white font-semibold"
+            } : () => { }}
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   if (selectedTemplate) {
+            //     setShowSaveAndSendConfirmMessage(true);
+            //   }
+            // }}
+            className={`flex items-center gap-1  px-2 py-1 rounded-md text-white font-semibold ${selectedTemplate && variableCount === textVariableCount ? "bg-gray-600" : "cursor-not-allowed bg-gray-500"}`}
           >
             Save & Send
           </button>
@@ -603,7 +618,10 @@ const SmsCampaign = () => {
                   Create Template
                 </Link>
                 {/* <UploadPdf onClick={setSelectLongLink} /> */}
-                <Button className="flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3" onClick={() => setOpenTestBox(true)}>
+                <Button
+                  className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3 ${selectedTemplate && variableCount === textVariableCount ? "" : "cursor-not-allowed bg-gray-500"}`}
+                  onClick={selectedTemplate && variableCount === textVariableCount ? () => setOpenTestBox(true) : () => { }}
+                >
                   <RiMessage2Line size={"16px"} />
                   <span>Sample Message</span>
                 </Button>
@@ -636,7 +654,7 @@ const SmsCampaign = () => {
                     // options={selectOptions}
                     // options={templateOptions || []}
                     // options={[{ label: "Select A Template", value: "" }, ...templateOptions?.map((option, index) => ({ label: option.templateName, value: index }))]}
-                    options={[{ label: "Select A Template", value: "" }, ...templateOptions?.map((option, index) => ({ label: <DropdownOption  title={option?.templateName} value={option} />, value: index }))]}
+                    options={[{ label: "Select A Template", value: "" }, ...templateOptions?.map((option, index) => ({ label: <DropdownOption title={option?.templateName} value={option} />, value: index }))]}
                     // options={
                     //   [{ label: "Select A Template", value: "" }, ...templateOptions?.filter((item) => item?.accountId === singleUser?.accountId) // Filter matching accountId
                     //   .map((item) => ({
@@ -644,9 +662,9 @@ const SmsCampaign = () => {
                     //     value: item?.templateName,
                     //   }))]
                     // }
-              onChange={(value) => setSelectedTemplateIndex(value)}
+                    onChange={(value) => setSelectedTemplateIndex(value)}
                   />
-              )
+                )
               }
 
               <Select

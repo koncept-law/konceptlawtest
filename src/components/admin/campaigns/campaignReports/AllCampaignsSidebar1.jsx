@@ -50,15 +50,24 @@ const AllCampaignsSidebar = ({ data, refreshData, countData }) => {
         let whatsappCampaignData = campaignReports[0]?.insideWhatsappCampaign;
         let smsCampaignData = campaignReports[0]?.insideSmsCampaigns;
         let insideEmailCampaign = campaignReports?.length ? (campaignReports[0]?.insideEmailCampaign) : [];
+        let insideEmailCampaignwebhook = campaignReports?.length ? (campaignReports[0]?.insideEmailCampaignwebhook) : [];
+        // console.log("insideEmailCampaignwebhook", insideEmailCampaignwebhook)
+
+        // console.log("whatsappCampaignData", whatsappCampaignData)
+        // console.log("smsCampaignData", smsCampaignData);
+        console.log("insideEmailCampaign", insideEmailCampaign);
+        // console.log("insideEmailCampaignwebhook", insideEmailCampaignwebhook)
 
         // let
-
+        // console.log("working...")
         let allData = [];
         let allSortedData = [];
         try {
             allData = smsCampaignData.concat(whatsappCampaignData).concat(insideEmailCampaign);
             allSortedData = allData?.sort((a, b) => new Date(a?.date) - new Date(b?.date)).reverse();
         } catch (err) { }
+
+        // console.log(allData)
 
         if (selectedCampaign === null) {
             setSelectedCampaign(allSortedData[0]);
