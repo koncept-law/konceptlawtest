@@ -47,6 +47,7 @@ const EmailCategories = () => {
             Category: [data?.Category],
             campaignName: campaignDetails?.name,
         }
+        // console.log(data)
         dispatch(emailCategoriesThunkMiddleware(data));
         navigate("/campaigns/campaigndetails/email/bulkemail");
     }

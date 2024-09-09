@@ -151,7 +151,7 @@ const BulkEmail = () => {
 
   const sampleEmailHandler = async (e, event) => {
     console.log(e);
-    const response = await axios.post("/campaign/getValueBySingleHeader", { campaignName: campaignDetails.name, header: "link" });
+    const response = await axios.post("/campaign/getValueBySingleHeader", { campaignName: campaignDetails.name, header: campaignDetails?.longLink });
     let getValue = response.data;
 
     // if (!e["cc"]) {
@@ -188,7 +188,7 @@ const BulkEmail = () => {
       campaignName: campaignDetails?.name,
       email: event["email"],
       cc: e["cc"],
-      html: data?.sampleMessage,
+      html: data?.sampleMessage, 
     }
 
     console.log(form);

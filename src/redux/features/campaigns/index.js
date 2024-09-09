@@ -4533,6 +4533,10 @@ export const campaignCategoriesThunkMiddleware = (payload) => {
   return async (dispatch) => {
     // console.log("campaign payload", payload);
     try {
+      dispatch(setCampaigns({
+        campaignCategories: [],
+      }));
+    
       const response = await axios.post("/docs/campaignCategories", payload);
       console.log(response);
       if (response.status === 200) {

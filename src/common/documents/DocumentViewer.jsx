@@ -1,127 +1,121 @@
-// import React from "react";
+// import React, { useMemo, useEffect } from "react";
 // import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+// import { useSelector } from "react-redux";
+// import { isEqual } from "lodash"; // Import deep comparison utility
+// import useDocument from "../../hooks/useDocument";
 
 // const DocumentViewer = ({ fileUrl, data }) => {
-//     // const docs = [{ uri: fileUrl }];
-//     // const docs = [{ uri: "https://t.konceptlaw.in/campaign/download/dipesh/57220006163109.pdf" }];
-//     // const docs = [{ uri: "https://t.konceptlaw.in/docs/docsBuffer/doctemplet.docx" }];
+//   // Use deep equality check for useSelector
+//   const selectFile = useSelector(
+//     (state) => state.campaigns.selectFile,
+//     isEqual
+//   );
+//   const docs = useDocument();
+  
 
-//     if (fileUrl === "") return <div className="h-full w-full bg-white" >on file path found</div>
-//     const docs = [
-//         {
-//             uri: `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`,
-//             fileType: "docx",
-//             fileName: data?.name,
-//         }
-//     ];
+//   const file = selectFile?.path?.split("/")[1];
 
-//     return (
-//         <DocViewer
-//             documents={docs}
-//             pluginRenderers={DocViewerRenderers}
-//             // initialActiveDocument={docs[0]}
-//             config={{
-//                 header: {
-//                     disableHeader: true,
-//                 },
-//             }}
-//             style={{ width: "100%", height: "100%" }}
-//         />
-//     );
-// };
+//   console.log("Selected file:", selectFile);
 
-// export default DocumentViewer;
+//   // Memoize the documents array to prevent re-computation on each render
+//   const docx = useMemo(() => {
+//     if (!file) return null;
 
-// ==========================================================================================================
-// import React, { useMemo } from "react";
-// import { useSelector } from "react-redux";
-
-// const DocumentViewer = ({ fileUrl }) => {
-//     const { selectFile } = useSelector(state => state.campaigns);
-//     console.log("Select file in doc. viwer", selectFile);
-//     let file = selectFile?.path?.split("/")[1];
-//     console.log("select file", file);
-//     if (!fileUrl) {
-//         return <div>No file path found</div>;
+//     return {
+//       uri: `https://t.konceptlaw.in/docs/docsBuffer/${file}`,
+//       fileType: "docx",
+//       fileName: selectFile?.name,
 //     }
+//   }, [file, selectFile]);
 
-//     const googleDocsViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-//         `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`
-//     )}&embedded=true`;
+//   // Trigger effect when 'docs' changes
+//   // const converter = async () => {
+//   //   console.log("not convert hmtl ")
+//   //   const fetchBuffer = await fetch(docx.uri);
+//   //   const resp = await fetchBuffer.blob();
+//   //   const converHtml = await docs.docxConvertHtml([resp]);
+//   //   console.log("convert html", converHtml)
+//   // }
+//   useEffect(() => {
+//     // converter();
+//     console.log("Documents changed:", docx);
+//   }, [docx]);
 
-//     // const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
-//     //     `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`
-//     // )}`;
-//     const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
-//         `https://t.konceptlaw.in/docs/docsBuffer/${file}`
-//     )}`;
-    
+//   // If no file path is found, display an error message
+//   if (!file) {
+//     return <div className="h-full w-full bg-white">No file path found</div>;
+//   }
 
-//     // const googleDocsViewerUrl = useMemo(() => {
-//     //     return `https://docs.google.com/gview?url=${encodeURIComponent(
-//     //         `https://t.konceptlaw.in/docs/docsBuffer/${fileUrl}`
-//     //     )}&embedded=true`;
-//     // }, [fileUrl]);
-
-//     return <>
-//         <iframe
-//             // src={googleDocsViewerUrl}
-//             src={officeViewerUrl}
-//             style={{ width: "100%", height: "72vh", border: "none" }}
-//             title="Document Viewer"
-//         />
-//     </>
+//   return (
+//     <DocViewer
+//       key={docx ? docx?.uri : "no-doc"} // Unique key based on documents URI
+//       documents={docx}
+//       pluginRenderers={DocViewerRenderers}
+//       config={{
+//         header: {
+//           disableHeader: true,
+//         },
+//       }}
+//       style={{ width: "100%", height: "100%" }}
+//     />
+//   );
 // };
 
 // export default DocumentViewer;
-import React, { useMemo, useEffect } from "react";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+
+import React, { useMemo, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Spin } from "antd"; // Import the Spin component from Ant Design
 import { isEqual } from "lodash"; // Import deep comparison utility
 
 const DocumentViewer = ({ fileUrl, data }) => {
   // Use deep equality check for useSelector
   const selectFile = useSelector((state) => state.campaigns.selectFile, isEqual);
 
-  const file = selectFile?.path?.split("/")[1];
+  const [loading, setLoading] = useState(true);
+  const [iframeUrl, setIframeUrl] = useState(null);
 
-  console.log("Selected file:", selectFile);
+  // Memoize the Google Docs URL to prevent re-computation on each render
+  const googleDocsUrl = useMemo(() => {
+    if (!selectFile?.path) return null;
 
-  // Memoize the documents array to prevent re-computation on each render
-  const docs = useMemo(() => {
-    if (!file) return null;
+    const file = selectFile.path.split("/")[1];
+    const docxUrl = `https://t.konceptlaw.in/docs/docsBuffer/${file}`;
+    // Create a Google Docs Viewer URL
+    return `https://docs.google.com/gview?url=${encodeURIComponent(docxUrl)}&embedded=true`;
+  }, [selectFile]);
 
-    return [
-      {
-        uri: `https://t.konceptlaw.in/docs/docsBuffer/${file}`,
-        fileType: "docx",
-        fileName: selectFile?.name,
-      },
-    ];
-  }, [file, selectFile]);
-
-  // Trigger effect when 'docs' changes
+  // Effect to handle changes in selectFile
   useEffect(() => {
-    console.log("Documents changed:", docs);
-  }, [docs]);
+    setLoading(true);
+    setIframeUrl(null); // Clear the iframe URL to force re-render
+  }, [selectFile]);
+
+  useEffect(() => {
+    if (googleDocsUrl) {
+      setIframeUrl(googleDocsUrl); // Set the iframe URL
+    }
+  }, [googleDocsUrl]);
 
   // If no file path is found, display an error message
-  if (!file) {
+  if (!selectFile?.path) {
     return <div className="h-full w-full bg-white">No file path found</div>;
   }
 
   return (
-    <DocViewer
-      key={docs ? docs[0].uri : 'no-doc'} // Unique key based on documents
-      documents={docs}
-      pluginRenderers={DocViewerRenderers}
-      config={{
-        header: {
-          disableHeader: true,
-        },
-      }}
-      style={{ width: "100%", height: "100%" }}
-    />
+    <div className="h-full w-full relative">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Spin size="default" /> {/* Ant Design Spin component */}
+        </div>
+      )}
+      <iframe
+        src={iframeUrl}
+        style={{ width: "100%", height: "100%", border: "none" }}
+        title="Google Docs Viewer"
+        onLoad={() => setLoading(false)} // Set loading to false when iframe loads
+      />
+    </div>
   );
 };
 

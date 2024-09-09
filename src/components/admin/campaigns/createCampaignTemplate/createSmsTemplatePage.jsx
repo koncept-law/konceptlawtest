@@ -14,8 +14,9 @@ const CreateSmsTemplatePage = () => {
   // const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   const [templateName, setTemplateName] = useState("");
-  const [textVariableCount, setTextVariableCount] = useState(null);``
-  const [variableCount, setVariableCount] = useState(null);``
+  const [templateId, setTemplateId] = useState("");
+  const [textVariableCount, setTextVariableCount] = useState(null);
+  const [variableCount, setVariableCount] = useState(null);
   const [addedInputs, setAddedInputs] = useState([]);
   const [addedVariables, setAddedVariables] = useState({})
 
@@ -64,28 +65,32 @@ const CreateSmsTemplatePage = () => {
 
   const handleCreateTemplate = async () => {
     // try {
-      if (templateName.length !== null && text !== null 
-        && addedInputs.length === textVariableCount && textVariableCount === variableCount
-      ) {
-        dispatch(createCampaignSmsTemplateThunkMiddleware({
-          templateName: templateName,
-          message: text,
-          type: "sms",
-          variables: addedVariables,
-          verified: true,
-        },
-        (error)=>{
-          if(!error){
+    if (templateName.length !== null && text !== null
+      && addedInputs.length === textVariableCount && textVariableCount === variableCount
+      && templateId && templateId !== ""
+    ) {
+      let data = {
+        templateName: templateName,
+        message: text,
+        type: "sms",
+        variables: addedVariables,
+        verified: true,
+        templateId,
+      }
+      // console.log(data)
+      dispatch(createCampaignSmsTemplateThunkMiddleware(data,
+        (error) => {
+          if (!error) {
             // setTimeout(() => {
-              navigate("/campaigns/campaigndetails/sms")
+            navigate("/campaigns/campaigndetails/sms")
             // }, 1500)
           }
         }
       ));
-        // navigate("/campaigns/campaigndetails/sms");
-      }else {
-        toastify({msg: "Data Not File: TemplateName, Text, AddedInputs!", type: "error"});
-      }
+      navigate("/campaigns/campaigndetails/sms");
+    } else {
+      toastify({ msg: "Fill The Data: TemplateName, Text, AddedInputs, TemplateId!", type: "error" });
+    }
     // } catch (error) {
     //   if (error.response?.data) {
     //     toastify({ msg: error.response.data.message, type: "error" });
@@ -146,7 +151,7 @@ const CreateSmsTemplatePage = () => {
   // console.log("does variables and the variables added matched ", textVariableCount === variableCount)
 
   return (
-    <div className="overflow-y-auto px-6 py-4 md:gap-4 space-y-3">
+    <div className="overflow-y-auto px-3 py-2 md:gap-4 space-y-3">
       {/* Topbar  */}
       <div className="h-fit px-4 py-2 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white rounded-md">
         <div className=" flex items-center gap-4">
@@ -171,16 +176,30 @@ const CreateSmsTemplatePage = () => {
       <div className=" bg-white rounded-md h-full p-3">
         <h1 className=" font-bold py-2">Create SMS Template</h1>
         <form action="" className=" space-y-3">
-          <div className=" flex flex-col gap-1 rounded flex-1">
-            <label htmlFor="" className="text-sm font-semibold">
-              Template Name :
-            </label>
-            <input
-              type="text"
-              className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
-              onChange={(e) => setTemplateName(e.target.value)}
-              value={templateName}
-            />
+          <div className="grid grid-cols-2 gap-x-3 w-full">
+            <div className=" flex flex-col gap-1 rounded flex-1">
+              <label htmlFor="" className="text-sm font-semibold">
+                Template Name :
+              </label>
+              <input
+                type="text"
+                className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
+                onChange={(e) => setTemplateName(e.target.value)}
+                value={templateName}
+              />
+            </div>
+
+            <div className=" flex flex-col gap-1 rounded flex-1">
+              <label htmlFor="" className="text-sm font-semibold">
+                Template ID :
+              </label>
+              <input
+                type="text"
+                className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
+                onChange={(e) => setTemplateId(e.target.value)}
+                value={templateId}
+              />
+            </div>
           </div>
           <div className="flex gap-4">
             <div className=" flex flex-col gap-1 rounded flex-1">
