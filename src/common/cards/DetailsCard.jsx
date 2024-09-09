@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { IoCloudDone } from "react-icons/io5";
 import { MdOutlineDateRange, MdModeEditOutline, MdDelete, MdDeleteOutline } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { GoEye } from "react-icons/go";
 import EditCampaign from "../modals/EditCampaign";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCampaigns, getCampaignByNameThunkMiddleware, setCampaigns } from "../../redux/features/campaigns";
+import { deleteCampaigns, getCampaignByNameThunkMiddleware, setCampaigns, updateBankReportThunkMiddleware } from "../../redux/features/campaigns";
 import { useNavigate } from "react-router-dom";
 import ConfirmMessage from "../../components/common/ConfirmMessage";
 import moment from "moment/moment";
 import { getNotificationThunkMiddleware } from "../../redux/features/notification";
+
+import { PiBankFill } from "react-icons/pi";
+import { BsShiftFill } from "react-icons/bs";
+
+import ResetModal from "../modals/ResetModal";
+import { Tooltip } from "antd";
+import MoveCampaignModal from "../modals/MoveCampaignModal";
 
 const DetailsCard = ({ data = null, active = false }) => {
     const { user } = useSelector(state => state.user);
@@ -20,13 +27,24 @@ const DetailsCard = ({ data = null, active = false }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isOpenUpdateCampaing, setIsOpenUpdateCampaing] = useState(false);
     const [DeleteMode, setDeleteMode] = useState(false);
+    const [resetOpen, setResetOpen] = useState(false);
+    const [isMoveCampaign, setIsMoveCampaign] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [selectedRow, setSelectedRow] = useState(false);
 
-    useEffect(()=>{
-        if(DeleteMode){
+    // const updateBankReport = useMemo(()=> {
+    //     return campaignDetails?.bankReport;
+    // }, [campaignDetails]);
+    const updateBankReport = data?.bankReport;
+
+    // console.log("update bank report", updateBankReport);
+
+    useEffect(() => {
+        if (DeleteMode) {
             dispatch(setCampaigns({ campaignDetails: [...allCampaigns].reverse()[0] }));
+            dispatch(getCampaignByNameThunkMiddleware({ campaignName: [...allCampaigns].reverse()[0]?.name }));
             setDeleteMode(false);
         }
     }, [allCampaigns]);
@@ -45,8 +63,8 @@ const DetailsCard = ({ data = null, active = false }) => {
     const handleDeleteCampaign = (id) => {
         const singleUserArr = []
         singleUserArr.push(id);
-        dispatch(deleteCampaigns({ userId: singleUserArr, accountId: singleUser.accountId }, (call)=> {
-            if(call){
+        dispatch(deleteCampaigns({ userId: singleUserArr, accountId: singleUser.accountId }, (call) => {
+            if (call) {
                 setDeleteMode(true);
             }
         }));
@@ -60,7 +78,7 @@ const DetailsCard = ({ data = null, active = false }) => {
                         campaignName: data?.name,
                     },
                     (error) => {
-                        if(!error){
+                        if (!error) {
                             navigate("/campaigns/campaigndetails");
                         }
                     }
@@ -69,10 +87,29 @@ const DetailsCard = ({ data = null, active = false }) => {
         }
     }
 
+    const handleBankReports = () => {
+        let campaignName = data?.name;
+        // console.log("campaign name:", campaignName)
+        dispatch(updateBankReportThunkMiddleware({
+            campaignName,
+            newBankReportValue: (updateBankReport ? false : true),
+            accountId: singleUser.accountId,
+        }));
+    }
+
     // console.log("Campaign Data", data);
 
     return <>
         <EditCampaign visible={isOpenUpdateCampaing} data={data} onClose={() => setIsOpenUpdateCampaing(false)} />
+        <MoveCampaignModal isModalVisible={isMoveCampaign} setIsModalVisible={setIsMoveCampaign} />
+
+        <ResetModal
+            open={resetOpen}
+            setOpen={setResetOpen}
+            title="Reset Bank Submission Report?"
+            resetEvent={handleBankReports}
+        />
+
         {
             selectedRow ? <>
                 < ConfirmMessage yes="Yes, I am sure" deleteBtn={true} saveOrsend="" className="flex-col" no="No, I'm not sure!" value={(e) => {
@@ -112,15 +149,32 @@ const DetailsCard = ({ data = null, active = false }) => {
                         </> : null
                     } */}
 
-                    <button className="p-1 rounded-3xl cursor-pointer bg-green-600 text-white" onClick={openDocument}>
-                        <GoEye size={"15px"} />
-                    </button>
+                    <Tooltip title="Move Campaign">
+                        <button className="p-1.5 rounded-3xl cursor-pointer bg-cyan-600 text-white" onClick={() => setIsMoveCampaign(true)}>
+                            <BsShiftFill size={"10px"} />
+                        </button>
+                    </Tooltip>
+
+
+                    <Tooltip title={updateBankReport ? "Bank Reports Submitted" : "Bank Reports not Submitted"}>
+                        <button className={`p-1 rounded-3xl cursor-pointer ${updateBankReport ? "bg-green-600" : "bg-yellow-600"} text-white`} onClick={updateBankReport ? () => setResetOpen(true) : handleBankReports}>
+                            <PiBankFill size={"15px"} />
+                        </button>
+                    </Tooltip>
+
+                    <Tooltip title="View Campaign">
+                        <button className="p-1 rounded-3xl cursor-pointer bg-blue-600 text-white" onClick={openDocument}>
+                            <GoEye size={"15px"} />
+                        </button>
+                    </Tooltip>
 
                     {
                         permission ? <>
-                            <button className="p-1 rounded-3xl cursor-pointer bg-red-600 text-white" onClick={() => setSelectedRow(true)}>
-                                <MdDelete size={"15px"} />
-                            </button>
+                            <Tooltip title="Campaign Delete">
+                                <button className="p-1 rounded-3xl cursor-pointer bg-red-600 text-white" onClick={() => setSelectedRow(true)}>
+                                    <MdDelete size={"15px"} />
+                                </button>
+                            </Tooltip>
                         </> : null
                     }
                 </div>

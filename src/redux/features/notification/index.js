@@ -65,7 +65,7 @@ export const getNotificationThunkMiddleware = (payload) => {
             const response = await axios.get(`/campaign/notifications/${payload}`);
             if(response.status === 200){
                 if(response.data?.notifications){
-                    dispatch(setNotification({ allNotification: response.data?.notifications }));
+                    dispatch(setNotification({ allNotification: [...response.data?.notifications]?.reverse() }));
                 }else {
                     dispatch(setNotification({ allNotification: [] }));
                 }
@@ -85,7 +85,7 @@ export const getGlobalNotificationThunkMiddleware = () => {
         try {
             const response = await axios.get(`/campaign/notificationsG2`);
             if(response.status === 200){
-                dispatch(setNotification({ allNotification: response.data?.notifications }));
+                dispatch(setNotification({ allNotification: [...response.data?.notifications]?.reverse() }));
             }
         } catch (error) {
             console.error(error);

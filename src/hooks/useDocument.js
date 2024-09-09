@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import * as XLSX from "xlsx";
 import mammoth from "mammoth";
+import JSZip from "jszip";
 
 const useDocument = () => {
     const [file, setFile] = useState(null);
@@ -341,6 +342,16 @@ const useDocument = () => {
         window.URL.revokeObjectURL(url);
     }
 
+    /**
+     * @example
+     *   const converter = async () => {
+    console.log(docs.file)
+    const html = await docs.docxConvertHtml([docs.file]); // docs.files 
+    // without file
+    // const html = await docs.docxConvertHtml();
+    console.log("html", html)
+  }
+     */
     const docxConvertHtml = async (fileData = null) => {
         if (!fileData) {
             // console.log(file, files);
@@ -367,6 +378,73 @@ const useDocument = () => {
 
     }
 
+    /**
+     * 
+     * @example
+     *  let longLinks = unqiueAccountNoData?.map(({longLink}) => ({link: longLink}));
+        // console.log(longLinks);
+        docs.downloadPdf("filterAccountPdfs", longLinks)
+     */
+    const downloadPdf = async (folderName = "", campaignFilesLink = []) => {
+        let currentBatchSize = 0;
+        const maxSize = 300 * 1024 * 1024; // 300MB in bytes
+        let batchNumber = 1;
+        let zip = new JSZip();
+        let filesFolder = zip.folder(`${folderName}${batchNumber}`);
+
+        const totalFiles = campaignFilesLink.length;
+
+        for (let i = 0; i < totalFiles; i++) {
+            const fileLink = campaignFilesLink[i]?.link;
+            const fileName = campaignFilesLink[i]?.name || `file${i + 1}.pdf`;
+
+            if (fileLink) {
+                const fileUrl = `${fileLink}?t=${Date.now()}`;
+
+                try {
+
+                    const response = await fetch(fileUrl);
+                    if (!response.ok) throw new Error(`Failed to fetch file: ${response.statusText}`);
+
+                    const fileBlob = await response.blob();
+
+                    const fileSize = fileBlob.size;
+
+                    if (currentBatchSize + fileSize > maxSize) {
+                        // Generate and download the current batch's zip file
+                        const content = await zip.generateAsync({ type: "blob" });
+                        saveAs(content, `${folderName}${batchNumber}.zip`);
+
+                        // Reset for next batch
+                        batchNumber++;
+                        zip = new JSZip();
+                        filesFolder = zip.folder(`${folderName}${batchNumber}`);
+                        currentBatchSize = 0;
+                    }
+
+                    // Add PDF to the current batch
+                    filesFolder.file(fileName, fileBlob);
+                    currentBatchSize += fileSize;
+                } catch (error) {
+                    console.error(`Failed to fetch or process file: ${fileName}`, error);
+                }
+            } else {
+                console.warn(`Skipping invalid or empty file link at index ${i}`);
+            }
+        }
+
+        // Download remaining files in the last batch
+        if (currentBatchSize > 0) {
+            try {
+                const content = await zip.generateAsync({ type: "blob" });
+                saveAs(content, `${folderName}${batchNumber}.zip`);
+            } catch (error) {
+                console.error(`Failed to generate zip file: ${error}`);
+            }
+        }
+    };
+
+
     return {
         upload,
         file,  // Expose the single file (if single mode is used)
@@ -383,6 +461,7 @@ const useDocument = () => {
         insertRowXLSX,
         docxConvertHtml,
         downloadDocx,
+        downloadPdf,
     };
 };
 

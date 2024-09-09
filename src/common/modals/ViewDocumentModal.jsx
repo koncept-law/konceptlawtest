@@ -5,17 +5,24 @@ import DataTable from 'react-data-table-component';
 import { useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
 import DownloadXLSX from "../downloads/DownloadXLSX";
+import useDocument from "../../hooks/useDocument";
 
 const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
     const { unqiueAccountNoData } = useSelector(
         (state) => state.campaigns
     );
     const { loader } = useSelector(state => state.loaders);
+    const docs = useDocument();
     const handleCancel = () => {
         setOpen(false); // Close the modal when "Cancel" is clicked
     };
 
     const columns = [
+        {
+            name: <div className="text-wrap">{'Campaign Name'}</div>,
+            selector: row => row?.campaignName,
+            wrap: true,
+        },
         {
             name: <div className="text-wrap">{'Serial Number'}</div>,
             selector: row => row?.serialNo,
@@ -41,16 +48,16 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
             selector: row => row?.customerName,
             wrap: true,
         },
-        {
-            name: <div className="text-wrap">{'Category1'}</div>,
-            selector: row => row?.category1,
-            wrap: true,
-        },
-        {
-            name: <div className="text-wrap">{'Category'}</div>,
-            selector: row => row?.category,
-            wrap: true,
-        },
+        // {
+        //     name: <div className="text-wrap">{'Category1'}</div>,
+        //     selector: row => row?.category1,
+        //     wrap: true,
+        // },
+        // {
+        //     name: <div className="text-wrap">{'Category'}</div>,
+        //     selector: row => row?.category,
+        //     wrap: true,
+        // },
         // {
         //     name: <div className="text-wrap">{'ShortLink'}</div>,
         //     selector: row => row?.shortLink,
@@ -58,7 +65,10 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
         // },
         {
             name: <div className="text-wrap">{'LongLink'}</div>,
-            selector: row => row?.longLink,
+            // selector: row => row?.longLink,
+            cell: (row) => (
+                <a href={row?.longLink} target="_blank">{row?.longLink}</a>
+            ),
             wrap: true,
         },
     ];
@@ -67,13 +77,14 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
         if (Array.isArray(data)) {
             return data?.map((item) => (
                 {
+                    "Campaign Name": item?.campaignName,
                     "Serial Number": item?.serialNo,
                     "Loan Account Number": item?.loanAccountNo,
                     "Email": item?.email,
                     "Customer Mobile Number": item?.customerMobileNumber,
                     "Customer Name": item?.customerName,
-                    "Category1": item?.category1,
-                    "Category": item?.category,
+                    // "Category1": item?.category1,
+                    // "Category": item?.category,
                     // "ShortLink": item?.shortLink,
                     "LongLink": item?.longLink,
                 }
@@ -87,6 +98,12 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
         DownloadXLSX(xlsx, "filterToAccount");
     }
 
+    const handleDownloadPDF = () => {
+        let longLinks = unqiueAccountNoData?.map(({longLink}) => ({link: longLink}));
+        // console.log(longLinks);
+        docs.downloadPdf("filterAccountPdfs", longLinks)
+    }
+
     return (
         <Modal
             open={open}
@@ -95,16 +112,24 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
             footer={null}
             closable={false}
             width={1200}
-        height={500}
+            height={500}
         >
             <div className="flex h-[80vh] flex-col w-full">
                 <div className="flex justify-between items-center py-3 px-4 text-white bg-slate-800">
                     <h2 className="font-poppins not-italic leading-normal font-medium text-[15px]">View Document</h2>
                     <div className="flex justify-center items-center gap-x-6">
-                        <div className="flex justify-center items-center">
-                            <Button className="font-poppins not-italic leading-normal font-light py-1 px-4 capitalize bg-gray-900 text-white rounded-md" onClick={handleDownloadExcel}>
-                                Download Excel
-                            </Button>
+                        <div className="flex justify-center items-center gap-x-2">
+                            <div className="flex justify-center items-center">
+                                <Button className="font-poppins not-italic leading-normal font-light py-1 px-4 capitalize bg-gray-900 text-white rounded-md" onClick={handleDownloadExcel}>
+                                    Download Excel
+                                </Button>
+                            </div>
+
+                            <div className="flex justify-center items-center">
+                                <Button className="font-poppins not-italic leading-normal font-light py-1 px-4 capitalize bg-gray-900 text-white rounded-md" onClick={handleDownloadPDF}>
+                                    Download PDF
+                                </Button>
+                            </div>
                         </div>
 
                         <button className="cursor-pointer active:text-red-700 transition-all text-slate-100" onClick={handleCancel}>
@@ -135,8 +160,8 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
                             }}
                             pagination={true}
                             paginationPerPage={10}
-                            // paginationRowsPerPageOptions={[1, 5, 10]}
-                        />: <div className="flex justify-center gap-x-3 text-lg gap-y-3 flex-col text-center font-poppins not-italic leading-normal font-medium items-center w-full h-full">
+                        // paginationRowsPerPageOptions={[1, 5, 10]}
+                        /> : <div className="flex justify-center gap-x-3 text-lg gap-y-3 flex-col text-center font-poppins not-italic leading-normal font-medium items-center w-full h-full">
                             {/* <h2>Loading...</h2> */}
                             <Spin /> <h2 className=" -mr-3 text-center">Loading...</h2>
                         </div>

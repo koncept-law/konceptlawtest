@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DocumentTemplateTopBar from "./DocumentTemplateTopBar";
 
@@ -27,6 +27,7 @@ import { MdDelete } from "react-icons/md";
 import { Tooltip } from "antd";
 import DeleteModal from "../../../../common/modals/DeleteModal";
 import usePath from "../../../../hooks/usePath";
+import useDocument from "../../../../hooks/useDocument";
 
 const DocumentTemplates = () => {
   const dispatch = useDispatch();
@@ -101,9 +102,9 @@ const DocumentTemplates = () => {
   // );
 
   const handleBackEvent = () => {
-    if(OpenFolderSection){
+    if (OpenFolderSection) {
       path.back();
-    }else {
+    } else {
       setOpenFolderSection(true);
     }
   }
@@ -254,16 +255,16 @@ const DocumentTemplates = () => {
               <div className="h-full w-full">
                 {
                   SelectFile && (
-                    !templateLoader ? 
-                    SelectFile?.path ? <DocumentViewer fileUrl={SelectFile?.path?.split("/")[1]} data={SelectFile} /> : SelectFolder !== "" ? null : <h2 className="h-full flex justify-center items-center font-poppins not-italic leading-normal font-semibold w-full text-center text-slate-600 text-2xl flex-col gap-y-1" onClick={() => {
-                      toastify({ msg: (allFolders ? "Please Select a Folder" : "Please Create New Template"), type: "error" });
-                    }}>
-                      <FaRegFolderOpen size={45} />
-                      {
-                        allFolders ? "Select a Folder" : "Create New Template"
-                      }
-                    </h2>
-                    : <h2 className="flex justify-center items-center w-full h-full">Loading...</h2>
+                    !templateLoader ?
+                      SelectFile?.path ? <DocumentViewer fileUrl={SelectFile?.path?.split("/")[1]} data={SelectFile} /> : SelectFolder !== "" ? null : <h2 className="h-full flex justify-center items-center font-poppins not-italic leading-normal font-semibold w-full text-center text-slate-600 text-2xl flex-col gap-y-1" onClick={() => {
+                        toastify({ msg: (allFolders ? "Please Select a Folder" : "Please Create New Template"), type: "error" });
+                      }}>
+                        <FaRegFolderOpen size={45} />
+                        {
+                          allFolders ? "Select a Folder" : "Create New Template"
+                        }
+                      </h2>
+                      : <h2 className="flex justify-center items-center w-full h-full">Loading...</h2>
                   )
                 }
               </div>

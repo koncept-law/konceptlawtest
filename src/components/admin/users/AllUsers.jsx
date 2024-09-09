@@ -5,7 +5,7 @@ import DataTable from "react-data-table-component";
 import Columns from "./Columns";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
-import { getAllUsersThunkMiddleware, setCampaigns, setSingleUserThunkMiddleware } from "../../../redux/features/campaigns";
+import { deleteAccountThunkMiddleware, getAllUsersThunkMiddleware, setCampaigns, setSingleUserThunkMiddleware, updateAccountNameThunkMiddleware } from "../../../redux/features/campaigns";
 import { useNavigate } from "react-router-dom";
 
 import "./SwitchUserBoxStyle.css";
@@ -15,6 +15,13 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import Stats from "../campaigns/campaignDetails/Stats";
+import AccountLogin from "../../../common/modals/AccountLogin";
+import PasswordField from "../../../common/fields/PasswordField";
+import { useForm } from "react-hook-form";
+import EditAccount from "../../../common/modals/EditAccount";
+
+import { AiFillEdit } from "react-icons/ai";
+import { toastify } from "../../toast";
 
 const AllUsers = () => {
     const { allUsers, singleUser } = useSelector((state) => state.campaigns);
@@ -22,6 +29,15 @@ const AllUsers = () => {
     const navigate = useNavigate();
     const searchRef = useRef(null);
     // console.log("singleUser", singleUser);
+
+    const {
+        control,
+        formState: {
+            errors,
+        },
+        handleSubmit,
+        reset,
+    } = useForm();
 
     // useEffect(() => {
     //   if (navigate) {
@@ -45,6 +61,10 @@ const AllUsers = () => {
     const [selectedRow, setSelectedRow] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [DeleteUser, setDeleteUser] = useState(false);
+
+    const [isPassword, setIsPassword] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(null);
 
     const navigateTo = async () => {
         // console.log("selectedUser", selectedUser);
@@ -73,18 +93,65 @@ const AllUsers = () => {
         dispatch(getAllUsersThunkMiddleware());
     }, []);
 
+    const passwords = [
+        {
+            name: "HDFC PREVIOUS BANK",
+            password: "Koncept@9818",
+        },
+        {
+            name: "bandhan previous bank",
+            password: "Koncept@9818",
+        },
+        {
+            name: "TATA PREVIOUS CAPITAL",
+            password: "Koncept@9818",
+        }
+    ]
+
     const handleSettingSelectedUser = (user) => {
-        setSelectedUser(user);
-        toast.success("Switch Account", { position: "bottom-right", autoClose: 800 });
+        let name = `${user.firstName} ${user.lastName}`;
+        let passw = passwords.filter((passw) => passw?.name === name)[0];
+        // console.log("passw", passw)
+        if (passw) {
+            passw = {
+                ...passw,
+                user,
+            }
+            setIsPassword(passw);
+            setIsOpen(true);
+        } else {
+            setIsPassword({});
+            setSelectedUser(user);
+            toast.success("Switch Account", { position: "bottom-right", autoClose: 800 });
+        }
+    }
+
+    const handleEditAccount = (data) => {
+        // console.log("edit account", data)
+        if(data) setIsEdit(data);
     }
 
     const DeleteCancel = () => {
         setDeleteUser(false);
     }
 
-    const DeleteConfirm = () => {
-        console.log("delete button is been clicked on the user", selectedRow)
-        setDeleteUser(false);
+    const DeleteConfirm = ({ password }) => {
+        // console.log(password);
+        if(password === "Koncept@9818"){
+            const { accountId } = selectedRow;
+            // console.log("delete button is been clicked on the user", accountId)
+            dispatch(deleteAccountThunkMiddleware({ accountId }, (call) => {
+                if(call){
+                    dispatch(getAllUsersThunkMiddleware());
+                }
+            }));
+            reset({
+                password: "",
+            });
+            setDeleteUser(false);
+        } else {
+            toastify({ msg: "Wrong Password!", type: "error" })
+        }
     }
 
     const filteredData = reversedUsers?.filter(item => {
@@ -109,7 +176,7 @@ const AllUsers = () => {
                         <RxCross2 size={"20px"} />
                     </button>
                 </div>
-                <div className="bg-white p-3 w-full flex font-poppins font-semibold gap-y-3 text-slate-700 not-italic leading-normal flex-col justify-center items-center">
+                <form onSubmit={handleSubmit(DeleteConfirm)} className="bg-white p-3 w-full flex font-poppins font-semibold gap-y-3 text-slate-700 not-italic leading-normal flex-col justify-center items-center">
                     <MdDeleteOutline size={"55px"} />
                     <p className="font-medium text-center text-[15px] w-full">Do You Want to Delete This User? <br />
                         <span className="font-semibold text-lg capitalize">
@@ -117,13 +184,48 @@ const AllUsers = () => {
                         </span>
                     </p>
 
+                    <PasswordField
+                        name={"password"}
+                        control={control}
+                        errors={errors}
+                        label="Password"
+                    />
+
                     <div className="flex justify-end items-center w-full gap-x-1">
                         <Button className="bg-gray-100 text-black rounded-sm py-1.5 border border-solid px-3 text-sm shadow-sm hover:shadow-sm capitalize font-poppins font-medium not-italic leading-normal" onClick={DeleteCancel}>No</Button>
-                        <Button className="bg-red-600 text-white shadow-sm rounded-sm py-1.5 text-sm px-3 hover:shadow-sm capitalize font-poppins font-medium not-italic leading-normal" onClick={DeleteConfirm}>Delete</Button>
+                        <Button type="submit" className="bg-red-600 text-white shadow-sm rounded-sm py-1.5 text-sm px-3 hover:shadow-sm capitalize font-poppins font-medium not-italic leading-normal">Delete</Button>
                     </div>
-                </div>
+                </form>
             </div>
         </Modal>
+
+        <AccountLogin
+            isModalVisible={isOpen}
+            setIsModalVisible={setIsOpen}
+            title={selectedRow?.firstName + " " + selectedRow?.lastName}
+            passwordDetails={isPassword}
+            onSubmit={(data) => {
+                // console.log("login password", data)
+                if (data){
+                    setIsPassword({});
+                    setSelectedUser(data?.user);
+                    toast.success("Switch Account", { position: "bottom-right", autoClose: 800 });
+                }
+            }}
+        />
+
+        <EditAccount
+            isModalVisible={isEdit ? true: false}
+            setIsModalVisible={setIsEdit}
+            accountDetails={isEdit}
+            onSubmit={(data) => {
+                dispatch(updateAccountNameThunkMiddleware(data, (call) => {
+                    if(call){
+                        dispatch(getAllUsersThunkMiddleware());
+                    }
+                }));
+            }}
+        />
 
         <div className="w-full h-[25%] lg:h-[15%]">
             <Stats />
@@ -158,6 +260,18 @@ const AllUsers = () => {
                                     </Tooltip>
                                 </div>
                                 <div className="flex justify-center gap-x-2 items-center">
+                                    <Tooltip title="Edit Account" placement="leftBottom">
+                                        <Button
+                                            className="bg-blue-700 rounded-sm p-2 cursor-pointer"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleEditAccount(item);
+                                            }}
+                                        >
+                                            <AiFillEdit size={"16px"} color="white" />
+                                        </Button>
+                                    </Tooltip>
+
                                     <Tooltip title="Switch Account" placement="leftBottom">
                                         <Button
                                             className="bg-green-700 rounded-sm p-2 cursor-pointer"

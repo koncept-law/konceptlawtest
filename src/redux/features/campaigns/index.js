@@ -4516,8 +4516,11 @@ export const emailCategoriesThunkMiddleware = (payload) => {
   return async (dispatch) => {
     try {
 
-      dispatch(setCampaigns({ emailCategories: payload }));
-
+      // dispatch(setCampaigns({ emailCategories: payload }));
+      const response = await axios.post("/campaign/search-category1", payload);
+      if(response.status === 200){
+        toastify({ msg: response.data?.message });
+      }
     } catch (error) {
       toastifyError(error)
     } finally {
@@ -4815,3 +4818,75 @@ export const getOldPdfsLinkCampaignThunkMiddleware = (payload) => {
     }
   };
 };
+
+export const updateBankReportThunkMiddleware = (payload) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post(`/campaign/updateBankReport`, payload);
+      if (response.status === 200) {
+        toastify({ msg: response.data?.message });
+        dispatch(getAllCampaignThunkMiddleware({ accountId: payload?.accountId }));
+        dispatch(getCampaignByNameThunkMiddleware({ campaignName: payload?.camapignName }));
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}
+
+// user
+
+export const updateAccountNameThunkMiddleware = (payload, callback = function() {}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post(`/account/editName`, payload);
+      if (response.status === 200) {
+        toastify({ msg: response.data?.message });
+        callback(true);
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}
+export const moveCampaignThunkMiddleware = (payload, callback = function() {}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post(`/campaign/moveCampaign`, payload);
+      if (response.status === 200) {
+        toastify({ msg: response.data?.message });
+        callback(true);
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}
+
+export const deleteAccountThunkMiddleware = (payload, callback = function() {}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post(`/account/delete`, payload);
+      if (response.status === 200) {
+        toastify({ msg: response.data?.message });
+        callback(true);
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}
+
+// ----------

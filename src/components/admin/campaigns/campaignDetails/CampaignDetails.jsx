@@ -333,6 +333,14 @@ const CampaignDetails = () => {
         <div className="px-2 py-2 w-full flex gap-2 md:gap-4 flex-col">
           <Topbar path="/dashboard" message={
             <div className="flex justify-center items-center gap-x-1">
+              <div className="flex justify-center items-center gap-x-2 mx-2">
+                <h2 className="not-italic leading-normal font-poppins font-semibold text-[13.5px] text-[#000000]">Reported:</h2>
+                {
+                  campaignDetails?.bankReport ? <IoIosCloudDone size={26} className="text-green-700" />
+                    : <MdCancel size={23} className="text-red-700" />
+                }
+              </div>
+
               {
                 campaignDetails?.type === "pdfType" && (
                   <div className="flex justify-center items-center gap-x-2 mx-2">
@@ -351,6 +359,7 @@ const CampaignDetails = () => {
                   </div>
                 )
               }
+
 
               {
                 campaignDetails?.type === "mergeType" && (

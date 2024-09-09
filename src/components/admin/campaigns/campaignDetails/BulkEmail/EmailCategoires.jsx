@@ -38,10 +38,16 @@ const EmailCategories = () => {
         }
     });
 
-    const NextEvent = (e) => {
+    const NextEvent = (data) => {
         // console.log(e);
         // console.log(filterValues);
-        dispatch(emailCategoriesThunkMiddleware({ category: e, filter: filterValues }));
+        // dispatch(emailCategoriesThunkMiddleware({ category: e, filter: filterValues }));
+        data = {
+            ...data,
+            Category: [data?.Category],
+            campaignName: campaignDetails?.name,
+        }
+        dispatch(emailCategoriesThunkMiddleware(data));
         navigate("/campaigns/campaigndetails/email/bulkemail");
     }
 
@@ -127,7 +133,7 @@ const EmailCategories = () => {
                     <SelectField
                         control={control}
                         errors={errors}
-                        name="categories"
+                        name="Category"
                         placeholder="Select a category"
                         options={options ? [{ label: "All Categories", value: "all" }, ...options] : []}
                     />
@@ -136,7 +142,7 @@ const EmailCategories = () => {
                 <h2 className="my-3 font-poppins not-italic leading-normal text-slate-800 text-lg font-semibold">Filter</h2>
 
                 <Controller
-                    name={"category1"}
+                    name={"Category1"}
                     control={control}
                     render={({ field }) => (
                         <Select
