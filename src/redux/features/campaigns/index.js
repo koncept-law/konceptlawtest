@@ -4595,10 +4595,16 @@ export const fetchReportApiThunkMiddleware = (payload) => {
   return async (dispatch) => {
     // console.log("campaign payload", payload);
     try {
-      const response = await axios.post("/docs/fetchAndSaveSmsData", payload);
+      let response;
+      if(payload?.type === "email"){
+        response = await axios.post("/campaign/update-email-statusV2", payload);
+      }else {
+        response = await axios.post("/docs/fetchAndSaveSmsData", payload);
+      }
       console.log(response);
       if (response.status === 200) {
         toastify({ msg: "Data Fetch Successfully!" });
+        dispatch(getAllCampaignReportsThunkMiddleware({ campaignName: payload.campaignName }))
       }
     } catch (error) {
       toastifyError(error)

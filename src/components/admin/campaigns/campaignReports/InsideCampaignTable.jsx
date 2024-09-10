@@ -269,8 +269,10 @@ const InsideCampaignTable = ({ data }) => {
     }
 
     const fetchFlag = async () => {
-        let id = filteredData[0]?.id;
-        dispatch(fetchReportApiThunkMiddleware({ id: id, campaignName: campaignDetails?.name }));
+        let data = filteredData[0];
+        // console.log(data);
+        // let id = filteredData[0]?.id;
+        dispatch(fetchReportApiThunkMiddleware({ id: data?.id, campaignName: campaignDetails?.name, type: data?.type }));
     }
 
     useEffect(() => {
