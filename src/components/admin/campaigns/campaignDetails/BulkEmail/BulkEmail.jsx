@@ -66,7 +66,8 @@ const BulkEmail = () => {
     // { label: "dhimandeepak957@gmail.com", value: "dhimandeepak957@gmail.com" },
     { label: "konceptlegalllp@yahoo.in", value: "konceptlegalllp@yahoo.in" },
     { label: "bahlkamal@gmail.com", value: "bahlkamal@gmail.com" },
-    { label: "advambikamehra@gmail.com", value: "advambikamehra@gmail.com" }
+    { label: "advambikamehra@gmail.com", value: "advambikamehra@gmail.com" },
+    { label: "info@konceptlawassociates.com", value: "info@konceptlawassociates.com" }
   ]
 
   const { campaignEmailTemplates, campaignDetails, emailCategories } = useSelector(
