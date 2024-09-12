@@ -12,30 +12,20 @@ import MergeBook from "./MergeBook";
 import Converter from "./Converter";
 import DynamicMerge from "./DynamicMerge";
 import UploadFolder from "../../../common/fields/UploadFolder";
+import { FaMapLocationDot } from "react-icons/fa6";
+import AddressMerge from "./AddressMerge";
 
 const Tools = () => {
     const [openMerge, setOpenMerge] = useState(false);
     const [openConverter, setOpenConverter] = useState(false);
     const [openDynamice, setOpenDynamice] = useState(false);
-
-    const folderRef = useRef(null);
-
-    const filesNameChange = (folders) => {
-        // Simulate event data
-        const updatedFolders = folders.map((folder, index) => ({
-            ...folder,
-            name: `${index + 1}` // Example renaming logic
-        }));
-
-        console.log(updatedFolders); // Log the new array with updated folder names
-
-        // setFolders(updatedFolders); // Update state with new folder names
-    };
+    const [openAddress, setOpenAddress] = useState(false);
 
     return <>
         <MergeBook open={openMerge} setOpen={setOpenMerge} />
         <Converter open={openConverter} setOpen={setOpenConverter} />
-        <DynamicMerge open={openDynamice} setOpen={setOpenDynamice}  />
+        <DynamicMerge open={openDynamice} setOpen={setOpenDynamice} />
+        <AddressMerge open={openAddress} setOpen={setOpenAddress} />
 
         <div className="flex flex-col w-full justify-center px-4 items-center">
             <h2 className="font-semibold font-poppins not-italic leading-normal flex gap-x-3 justify-start items-center text-slate-800 text-3xl text-start w-full">
@@ -43,7 +33,7 @@ const Tools = () => {
                 <span className="text-purple-800">Tools</span>
             </h2>
             <div className="w-full flex justify-start items-center my-3 gap-x-4">
-                <Button className="text-white bg-blue-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={()=> setOpenMerge(true)}>
+                <Button className="text-white bg-blue-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenMerge(true)}>
                     <RiFileExcel2Fill size={30} />
                     <span>Merge Book</span>
                 </Button>
@@ -60,13 +50,17 @@ const Tools = () => {
                         <RiBracesFill size={16} />
                     </div>
                 </Button>
-                
-                <Button className="text-white bg-purple-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={()=> setOpenDynamice(true)}>
+
+                <Button className="text-white bg-purple-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenDynamice(true)}>
                     <MdRocketLaunch size={30} />
                     <span>Dynamic Merge</span>
                 </Button>
 
-                {/* <UploadFolder folderRef={folderRef} onChange={filesNameChange} /> */}
+
+                <Button className="text-white bg-orange-600 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenAddress(true)}>
+                    <FaMapLocationDot size={30} />
+                    <span>Address Merge</span>
+                </Button>
             </div>
         </div>
     </>
