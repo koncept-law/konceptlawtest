@@ -17,13 +17,6 @@ const Converter = ({ open = false, setOpen = () => { } }) => {
     const [fileName, setFileName] = useState(null);
 
     const SelectEvent = (e) => {
-        // let file = e.target.files[0];
-        // if(file){
-        //     setFileName(file.name);
-        // }else {
-        //     setFileName(null);
-        //     fileRef.current.value = "";
-        // }
         let file = e.target.files;
         if (file) {
             setFileName(Object.keys(file).length);
@@ -34,69 +27,6 @@ const Converter = ({ open = false, setOpen = () => { } }) => {
     }
 
     const startConverting = async () => {
-        // let file = fileRef.current.files[0];
-        // if(file){
-        //     const formData = new FormData();
-        //     formData.append("file", file);
-        //     setShowSpinner(true); 
-        //     const response = await axios.postForm("/tools/convertV2", formData, {
-        //         responseType: 'blob'
-        //     }); 
-
-        //     if(response.status === 200){
-        //         setShowSpinner(false);
-        //         const blob = response.data;
-        //         const url = window.URL.createObjectURL(blob);
-        //         const a = document.createElement('a');
-        //         a.style.display = 'none';
-        //         a.href = url;
-        //         a.download = file?.name ? file.name: 'convertDocx.docx';
-        //         document.body.appendChild(a);
-        //         a.click();
-        //         window.URL.revokeObjectURL(url);
-        //         toastify({ msg: "File merged and downloaded successfully!", type: "success" })
-        //         fileRef.current.value = "";
-        //         setFileName(null);
-        //         handleOpen();
-        //     }
-        // }else {
-        //     toastify({ msg: "No File Selected", type: "error" })
-        // }
-        // let files = fileRef.current.files;
-        // // console.log(files);
-        // if (files) {
-        //     // const formData = new FormData();
-        //     // Object.keys(files)?.map((file)=> (
-        //     //     formData.append('file', files[file])
-        //     // ))
-
-        //     // setShowSpinner(true); 
-        //     // const response = await axios.postForm("/tools/convertV2", formData, {
-        //     //     responseType: 'blob'
-        //     // }); 
-
-        //     // console.log(response);
-
-        //     // if(response.status === 200){
-        //     //     setShowSpinner(false);
-        //     //     const blob = response.data;
-        //     //     const url = window.URL.createObjectURL(blob);
-        //     //     const a = document.createElement('a');
-        //     //     a.style.display = 'none';
-        //     //     a.href = url;
-        //     //     // a.download = file?.name ? file.name: 'convertDocx.docx';
-        //     //     a.download = "convertDocx.docx";
-        //     //     document.body.appendChild(a);
-        //     //     a.click();
-        //     //     window.URL.revokeObjectURL(url);
-        //     //     toastify({ msg: "File merged and downloaded successfully!", type: "success" })
-        //     //     fileRef.current.value = "";
-        //     //     setFileName(null);
-        //     //     handleOpen();
-        //     // }
-        // } else {
-        //     toastify({ msg: "No File Selected", type: "error" })
-        // }
         let files = fileRef.current.files;
 
         if (files) {

@@ -14,25 +14,30 @@ import DynamicMerge from "./DynamicMerge";
 import UploadFolder from "../../../common/fields/UploadFolder";
 import { FaMapLocationDot } from "react-icons/fa6";
 import AddressMerge from "./AddressMerge";
+import { TbMapPinCode } from "react-icons/tb";
+import PinCode from "./PinCode";
+
 
 const Tools = () => {
     const [openMerge, setOpenMerge] = useState(false);
     const [openConverter, setOpenConverter] = useState(false);
     const [openDynamice, setOpenDynamice] = useState(false);
     const [openAddress, setOpenAddress] = useState(false);
+    const [openPinCode, setOpenPinCode] = useState(false);
 
     return <>
         <MergeBook open={openMerge} setOpen={setOpenMerge} />
         <Converter open={openConverter} setOpen={setOpenConverter} />
         <DynamicMerge open={openDynamice} setOpen={setOpenDynamice} />
         <AddressMerge open={openAddress} setOpen={setOpenAddress} />
+        <PinCode open={openPinCode} setOpen={setOpenPinCode} />
 
         <div className="flex flex-col w-full justify-center px-4 items-center">
             <h2 className="font-semibold font-poppins not-italic leading-normal flex gap-x-3 justify-start items-center text-slate-800 text-3xl text-start w-full">
                 <FaTools size={22} />
                 <span className="text-purple-800">Tools</span>
             </h2>
-            <div className="w-full flex justify-start items-center my-3 gap-x-4">
+            <div className="w-full grid grid-cols-4 gap-y-6 my-3 gap-x-4">
                 <Button className="text-white bg-blue-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenMerge(true)}>
                     <RiFileExcel2Fill size={30} />
                     <span>Merge Book</span>
@@ -60,6 +65,11 @@ const Tools = () => {
                 <Button className="text-white bg-orange-600 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenAddress(true)}>
                     <FaMapLocationDot size={30} />
                     <span>Address Merge</span>
+                </Button>
+
+                <Button className="text-white bg-yellow-500 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenPinCode(true)}>
+                    <TbMapPinCode size={30} />
+                    <span>PIN Code Extracter</span>
                 </Button>
             </div>
         </div>
