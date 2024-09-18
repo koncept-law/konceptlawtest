@@ -83,3 +83,32 @@
 .custom-ant-select .ant-select-arrow {
   color: var(--custom-black);
 }
+
+/* theme */
+/* background */
+.koncept-background {
+  background: linear-gradient(130.7deg, #00237D 0%, #E2282B 100%);
+}
+
+.koncept-background-reverse {
+  background: linear-gradient(320deg, #00237D 0%, #E2282B 100%);
+}
+
+.koncept-hover:hover {
+  background: linear-gradient(130.7deg, #00237D 0%, #E2282B 100%);
+}
+
+.koncept-text {
+  background: linear-gradient(130.7deg, #00237D 0%, #E2282B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.koncept-border:hover {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: linear-gradient(#252525, #252525) padding-box, 
+              linear-gradient(130.7deg, #00237D 0%, #E2282B 100%) border-box;
+}

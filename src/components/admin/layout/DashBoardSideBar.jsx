@@ -12,13 +12,18 @@ import { IoCall } from "react-icons/io5"; // phone
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
-import { FaTools } from "react-icons/fa";
+import { FaFileExport, FaTools } from "react-icons/fa";
+import { MdCampaign } from "react-icons/md";
+import AddCampaign from "../campaigns/AddCampaign.jsx";
+import ExportModal from "../../../common/modals/ExportModal.jsx";
 
 const DashBoardSideBar = () => {
     // Define the menu items for the dropdown
     const [open, setOpen] = useState(false);
     const { singleUser } = useSelector((state) => state.campaigns);
     const navigate = useNavigate();
+    const [isOpenAddCampaign, setIsOpenAddCampaign] = useState(false);
+    const [isOpenExport, setIsOpenExport] = useState(false);
 
     const dropdownMenu = (
         <Menu
@@ -64,7 +69,7 @@ const DashBoardSideBar = () => {
 
     return <>
         {/* <SwitchUserBox open={open} setOpen={setOpen} /> */}
-        <div className="bg-slate-800 h-screen flex flex-col px-2 justify-start items-center sticky top-0 left-0">
+        <div className="koncept-background h-screen flex flex-col px-2 justify-start items-center sticky top-0 left-0">
             <Tooltip title="Switch Account" placement="rightBottom">
                 <img src={logo} alt="logo" className="w-12 h-10 cursor-pointer my-3" onClick={() => {
                     navigate(`/all-accounts`);
@@ -114,8 +119,32 @@ const DashBoardSideBar = () => {
                         </div>
                     </Button>
                 </Tooltip>
+
+                <Tooltip title="New Campaign" placement="rightBottom">
+                    <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
+                        setIsOpenAddCampaign(true);
+                    }}>
+                        <div className="w-full flex justify-start flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
+                            <MdCampaign size={"25px"} />
+                            <span className="font-poppins not-italic leading-normal flex py-0.5 flex-col justify-center items-center capitalize font-light text-[11px] text-wrap"><span>New</span> Camp.</span>
+                        </div>
+                    </Button>
+                </Tooltip>
+
+                <Tooltip title="Export Excel" placement="rightBottom">
+                    <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
+                        setIsOpenExport(true)
+                    }}>
+                        <div className="w-full flex justify-center flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
+                            <FaFileExport size={"18px"} />
+                            <span className="font-poppins not-italic leading-normal flex py-0.5 flex-col justify-center items-center capitalize font-light text-[11px] text-wrap">Export</span>
+                        </div>
+                    </Button>
+                </Tooltip>
             </div>
         </div>
+        <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />
+        <ExportModal visible={isOpenExport} onCancel={() => setIsOpenExport(false)} />
     </>
 }
 

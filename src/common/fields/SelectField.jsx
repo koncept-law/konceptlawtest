@@ -1,43 +1,70 @@
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Select } from "antd";
+import { Select } from "antd"; // Import Ant Design's Select component
 
-const { Option } = Select;
+import "./styles/SelectStyle.css";
 
 const SelectField = ({
-    placeholder = "",
-    name = "",
-    control,
-    errors,
-    disabled = false,
-    options = [],
+  control,
+  errors,
+  name,
+  options = [],
+  placeholder = "",
+  className = "",
+  label = "",
+  labelClass = "",
+  parentClass = "",
+  disabled = false,
+  mode = "multiple", // Added mode prop to support "multiple" and "tags"
+  onSelectChange = function () {}, // Optional prop for handling onSelect change
 }) => {
-    return <>
-        <Controller
-            name={name}
-            control={control}
-            render={({ field }) => (
-                <Select
-                    {...field}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    onChange={(value) => field.onChange(value)}
-                    onBlur={field.onBlur}
-                    value={field.value}
-                    style={{ width: '100%' }}
-                >
-                    {options.map((option) => (
-                        <Option key={option.value} value={option.value}>
-                            {option.label}
-                        </Option>
-                    ))}
-                </Select>
-            )}
-        />
-        {errors[name] && (
-            <span className="text-red-500">{errors[name].message}</span>
+  return (
+    <div
+      className={
+        "flex flex-col w-full gap-2" + (parentClass !== "" ? ` ${parentClass}` : "")
+      }
+    >
+      {label && (
+        <label
+          htmlFor={name}
+          className={
+            "font-medium ml-0.5 text-[#000000]" + (labelClass !== "" ? ` ${labelClass}` : "")
+          }
+        >
+          {label}
+        </label>
+      )}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: { onChange, value } }) => (
+          <Select
+            id={name}
+            mode={mode}
+            showSearch
+            allowClear
+            placeholder={placeholder}
+            onChange={(selectedValue) => {
+              onChange(selectedValue);
+              if (onSelectChange) {
+                onSelectChange(selectedValue);
+              }
+            }}
+            disabled={disabled}
+            value={value}
+            className={`w-full custom-multi-select border-[#6E6E6E] ${
+              disabled ? "" : "bg-white"
+            } rounded-sm disabled:border ${className}`}
+            options={options}
+            filterOption={(input, option) =>
+              option.label.toLowerCase().includes(input.toLowerCase())
+            }
+          />
         )}
-    </>
+      />
+      {errors[name] && <p className="text-red-500">{errors[name]?.message}</p>}
+    </div>
+  );
 };
 
 export default SelectField;

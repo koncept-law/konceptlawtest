@@ -7,21 +7,35 @@ import { totalDemographicsReportThunkMiddleware } from "../../../../redux/featur
 
 import { HiMiniDocumentDuplicate } from "react-icons/hi2";
 import { HiDocumentPlus } from "react-icons/hi2";
+import CountUp from "react-countup";
 
-const StatsCard = ({ title, value, icon, iconClass = "", textClass = "" }) => {
+const StatsCard = ({
+  title,
+  value,
+  icon,
+  iconClass = "",
+  textClass = ""
+}) => {
   return (
     <>
       <div
         key={value}
-        className="bg-white rounded-md cursor-pointer flex w-full items-center px-2  xl:px-4 py-1 shadow-lg "
+        className="bg-white rounded-md cursor-pointer flex w-full items-center px-2  xl:px-3 py-1 shadow-lg "
       >
         <div className="flex items-center gap-y-2 gap-x-3">
           <div className={` w-fit h-fit p-2 xl:p-2.5 rounded-full text-white text-xl ${iconClass}`}>
             {icon}
           </div>
-          <div className="flex flex-row gap-x-2 gap-y-2 xl:flex-col justify-start items-center xl:justify-center xl:items-start">
+          <div className="flex flex-row gap-x-2 text-[#000] gap-y-0.5 xl:flex-col justify-start items-center xl:justify-center xl:items-start">
             {/* <h1 className={`font-bold text-xl ${textClass}`}>{numberConvertion(value)}</h1> */}
-            <h1 className={`font-bold text-xl ${textClass}`}>{value}</h1>
+            {/* <h1 className={`font-bold text-xl ${textClass}`}>{value}</h1> */}
+            {
+              !String(value).match("k") && !String(value).match("m") ? <>
+                <h1 className={`font-bold text-xl ${textClass}`}>
+                  <CountUp duration={3} className="counter" end={value} />
+                </h1>
+              </> : <h1 className={`font-bold text-xl ${textClass}`}>{value}</h1>
+            }
             <h1 className=" font-medium text-[12px] font-poppins not-italic leading-normal">{title}</h1>
           </div>
         </div>
@@ -99,8 +113,8 @@ const Stats = ({ items = null }) => {
 
   return (
     <div className={` grid sm:grid-cols-2 md:grid-cols-4 w-full lg:grid-cols-4 ${items?.length === 5 ? "xl:grid-cols-5" :
-        items?.length === 6 ? "lg:grid-cols-3 xl:grid-cols-6" : items?.length === 8 ? "xl:grid-cols-8" :
-          "xl:grid-cols-6"
+      items?.length === 6 ? "lg:grid-cols-3 xl:grid-cols-6" : items?.length === 8 ? "xl:grid-cols-8" :
+        "xl:grid-cols-6"
       } gap-x-4 gap-y-6`}>
       {items ? items?.map((item, index) => (
         <StatsCard

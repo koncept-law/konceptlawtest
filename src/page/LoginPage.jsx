@@ -14,6 +14,9 @@ import Spinner from "../components/common/Spinner";
 import { useState } from "react";
 import { toastifyError } from "../constants/errors";
 
+import InputField from "../common/fields/InputField";
+import { Button } from "@material-tailwind/react";
+
 const LoginPage = () => {
 
     const [loginPage, setLoginPage] = useState(true);
@@ -23,6 +26,7 @@ const LoginPage = () => {
         register,
         handleSubmit,
         formState: { errors },
+        control,
         reset
     } = useForm({
         resolver: yupResolver(registerPage === true ? registerSchema : loginSchema),
@@ -32,7 +36,7 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loginLoader , registerLoader} = useSelector((state) => state.loaders);
+    const { loginLoader, registerLoader } = useSelector((state) => state.loaders);
 
     const submitHandler = async (data) => {
         try {
@@ -71,10 +75,10 @@ const LoginPage = () => {
             //     toastify({ msg: error.message, type: "error" });
             // }
             toastifyError(error, (call) => {
-                if(call){
-                  navigate("/login");
+                if (call) {
+                    navigate("/login");
                 }
-              })
+            })
         } finally {
             dispatch(setLoader({ loginLoader: false }));
             dispatch(setLoader({ registerLoader: false }));
@@ -83,7 +87,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <div className="flex min-h-screen h-fit flex-col justify-center px-6 py-12 lg:px-8">
+            {/* <div className="flex min-h-screen h-fit flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-lg all-side-box-shadow rounded-xl">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm p-10">
                         <div className="w-full flex flex-col items-center gap-2">
@@ -213,12 +217,7 @@ const LoginPage = () => {
                                     </div>) :
                                     ""
                             }
-                            {/* <div>
-                                <span>Don`t Have an Account ? </span>
-                                <button className="underline text-blue-600 text-md" onClick={() => { setLoginPage(false); setRegisterPage(true) }}>Register</button>
-                                </div> */}
                         </form>
-                        {/* // changes made by abhyanshu */}
                         <div className="my-2">
                             {
                                 loginPage === true ? (
@@ -240,8 +239,6 @@ const LoginPage = () => {
                     </div>
                 </div>
 
-                {/* changes made by abhyanshu */}
-                {/* <div className="absolute bottom-0 w-full"> */}
                 <div className="bottom-0 w-full my-4">
                     <div className="p-6 rounded px-10 flex items-center justify-center">
                         <p>
@@ -252,6 +249,144 @@ const LoginPage = () => {
                             . All rights reserved.
                         </p>
                     </div>
+                </div>
+            </div> */}
+
+            <div className="flex justify-center koncept-background items-center w-full h-screen">
+                <div className="flex flex-col justify-center w-3/4 h-[90vh] lg:w-[60%] items-center py-5 rounded-md border border-[#E2E2E2] bg-white/5 backdrop-blur-[30px] relative">
+                    <div className="absolute font-poppins not-italic leading-normal flex flex-col justify-start text-white text-[15px] items-start top-2 left-2">
+                        <h2 className="uppercase">kamal bahl</h2>
+                        <h2 className="uppercase">ambika mehra</h2>
+                        <h2 className="text-[13px]">(Advocates)</h2>
+                    </div>
+
+                    <div className="absolute font-poppins not-italic leading-normal flex flex-col justify-start text-white font-light text-[13px] items-start top-2 right-2 w-[250px]">
+                        <h2>98, Priyadarshini Vihar Near Model Town Metro Station New Delhi - 110009</h2>
+                        <h2 className="bg-[#FFFFFF] h-[1px] my-1 w-full"></h2>
+                        <h2>Chamber No. 683, Western Wing Tis Hazari Court, Delhi - 110054 Mobile No. 9810201011, 9811193449</h2>
+                        <h2>E-mail:konceptlegalllp@yahoo.in</h2>
+                    </div>
+
+                    <div className="w-full flex flex-col items-center my-2 gap-2">
+                        <img src={logo} alt="logo" className="w-[80px]" />
+                        <div>
+                            <p className=" text-2xl font-bold logo-color font-poppins not-italic leading-normal text-center ">
+                                Koncept Law Associates
+                            </p>
+                        </div>
+                    </div>
+
+                    <form
+                        onSubmit={handleSubmit(submitHandler)}
+                        className="space-y-3 w-[90%]"
+                        action="#"
+                        method="POST"
+                    >
+                        {registerPage === true ?
+                            <InputField
+                                control={control}
+                                errors={errors}
+                                type="text"
+                                name="firstname"
+                                label="First Name"
+                                placeholder="Enter First Name"
+                                labelClass="text-[#FFFFFF]"
+                                className="text-[#FFFFFF] placeholder:text-[#FFFFFF] border-gray-300 font-light"
+                            />
+                            :
+                            ""
+                        }
+
+                        {registerPage === true ?
+                            <>
+                                <InputField
+                                    control={control}
+                                    errors={errors}
+                                    type="text"
+                                    name="lastname"
+                                    label="Last Name"
+                                    placeholder="Enter Last Name"
+                                    labelClass="text-[#FFFFFF]"
+                                    className="text-[#FFFFFF] placeholder:text-[#FFFFFF] border-gray-300 font-light"
+                                />
+                            </>
+                            :
+                            ""
+                        }
+
+                        <InputField
+                            control={control}
+                            errors={errors}
+                            type="email"
+                            name="email"
+                            label="Email"
+                            placeholder="Enter Your Email"
+                            labelClass="text-[#FFFFFF]"
+                            className="text-[#FFFFFF] placeholder:text-[#FFFFFF] border-gray-300 font-light"
+                        />
+
+                        {
+                            loginPage === true ? <>
+                                <InputField
+                                    control={control}
+                                    errors={errors}
+                                    type="password"
+                                    name="password"
+                                    label="Password"
+                                    placeholder="Enter Your Password"
+                                    labelClass="text-[#FFFFFF]"
+                                    className="text-[#FFFFFF] placeholder:text-[#FFFFFF] font-light"
+                                />
+                            </> : false
+                        }
+
+                        {loginPage === true ? (<div>
+                            <Button type="submit" className="font-poppins bg-[#FFFFFF] text-[15px] py-2 flex justify-center items-center gap-x-1 rounded-sm w-full my-4 lg:my-6 capitalize">
+                                {loginLoader ? <Spinner /> : <span className="koncept-text">Log In</span>}
+                            </Button>
+                        </div>) :
+                            registerPage === true ?
+                                (<div>
+                                    <Button type="submit" className="font-poppins bg-[#FFFFFF] text-[15px] py-2 flex justify-center items-center gap-x-1 rounded-sm w-full my-4 lg:my-6 capitalize">
+                                        {registerLoader ? <Spinner /> : <span className="koncept-text">Register</span>}
+                                    </Button>
+                                </div>) :
+                                ""
+                        }
+
+                        <div className="my-2 w-full">
+                            {
+                                loginPage === true ? (
+                                    <div>
+                                        <div className="flex justify-center gap-x-1 text-[#FFFFFF] text-sm font-poppins font-light not-italic leading-normal items-center">
+                                            <span>Don`t Have an Account ? </span>
+                                            <button className="font-medium hover:underline" onClick={(e) => { e.preventDefault(); setLoginPage(false); setRegisterPage(true); navigate("/register") }}>Register</button>
+                                        </div>
+                                    </div>
+                                ) :
+                                    registerPage === true ?
+                                        (
+                                            <div>
+                                                <div className="flex justify-center gap-x-1 text-[#FFFFFF] text-sm font-poppins font-light not-italic leading-normal items-center">
+                                                    <span>Already Have an Account ? </span>
+                                                    <button className="font-medium hover:underline" onClick={() => { setLoginPage(true); setRegisterPage(false); navigate("/login") }}>Login</button>
+                                                </div>
+                                            </div>
+                                        )
+                                        : ""
+                            }
+                        </div>
+
+                        <h2 className="flex justify-center items-center w-full text-[#FFFFFF] text-[14px] not-italic leading-normal font-poppins font-light">
+                            <p>
+                                Copyright ©{" "}
+                                <Link to={"/"} className="font-medium">
+                                    Koncept Law Associates
+                                </Link>
+                                . All rights reserved.
+                            </p>
+                        </h2>
+                    </form>
                 </div>
             </div>
         </>

@@ -38,14 +38,14 @@ const StatsCard = ({ title, value, icon, iconClass = "", textClass = "" }) => {
         <>
             <div
                 key={value}
-                className="bg-white rounded-md cursor-pointer flex w-full items-center  px-4 py-2 shadow-lg "
+                className="bg-white rounded-md cursor-pointer koncept-background-reverse flex w-full items-center  px-4 py-2 shadow-lg "
             >
-                <div className="flex items-center gap-y-2 gap-x-5">
+                <div className="flex items-center gap-y-2 text-white gap-x-5">
                     <div className={` w-fit h-fit p-2.5 rounded-full text-white text-xl ${iconClass}`}>
                         {icon}
                     </div>
                     <div>
-                        <h1 className={`font-bold text-2xl ${textClass}`}>{numberConvertion(value)}</h1>
+                        <h1 className={`font-bold text-2xl  `}>{numberConvertion(value)}</h1>
                         <h1 className=" font-medium text-[14px] font-poppins not-italic leading-normal">{title}</h1>
                     </div>
                 </div>
@@ -334,38 +334,6 @@ const MainDashboard = () => {
         >
             <h2 className="w-full text-start text-white not-italic leading-normal font-poppins font-medium px-2 py-1">{isDataMappedCorrectly ? "Select Campaign" : "Campaigns Not Available"}</h2>
             <h2 className="w-full my-1 h-[1px] bg-gray-600"></h2>
-            {/* {
-                isDataMappedCorrectly ? <>
-                    <Menu.Item className="w-full" onClick={() => {
-                        navigate("/campaigns/sms/categories");
-                    }}>
-                        <div className="w-full flex justify-start gap-x-3 items-center text-white">
-                            <MdSms size={"17px"} />
-                            <span className="font-poppins not-italic leading-normal font-medium text-[14.5px]">Sms</span>
-                        </div>
-                    </Menu.Item>
-
-                    <Menu.Item className="w-full" onClick={() => {
-                        navigate("/campaigns/campaigndetails/whatsapp");
-                    }}>
-                        <div className="w-full flex justify-start gap-x-3 items-center text-white">
-                            <MdWhatsapp size={"18px"} />
-                            <span className="font-poppins not-italic leading-normal font-medium text-[14px]">Whatsapp</span>
-                        </div>
-                    </Menu.Item>
-
-                    <Menu.Item className="w-full" onClick={() => {
-                        navigate("/campaigns/campaigndetails/bulkemail");
-                    }}>
-                        <div className="w-full flex justify-start gap-x-3 items-center text-white">
-                            <MdEmail size={"18px"} />
-                            <span className="font-poppins not-italic leading-normal font-medium text-[14px]">Email</span>
-                        </div>
-                    </Menu.Item>
-                </> : <h2 className="flex justify-center text-[#e0e0e0] text-[13px] text-center not-italic leading-normal font-poppins items-center w-full my-4">
-                    Please review the campaign details for further information.
-                </h2>
-            } */}
             <Menu.Item className="w-full" onClick={() => {
                 navigate("/campaigns/sms/categories");
             }}>
@@ -402,81 +370,40 @@ const MainDashboard = () => {
         <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />
         <ViewDocumentModal open={isOpenDocument} setOpen={() => setIsOpenDocument(false)} />
 
-        <div className="flex w-full flex-col h-[30%] xl:h-[23%]">
+        <div className="flex w-full flex-col h-[30%] xl:h-[15%]">
             <Stats items={accountData} />
-            <div className="flex gap-x-2 justify-start mt-2 w-full items-start">
-                <div className="flex gap-x-2 justify-start w-full items-center">
-                    {/* <FilterField onChange={handleFilter} /> */}
-
-                    <div className="flex justify-center border border-solid overflow-hidden rounded-md">
-                        <input ref={searchRef} type="text" placeholder="Search Campaign Name" className="outline-none px-2 text-[15px] placeholder:text-[14px] py-0.5 w-[180px]" onChange={(e) => setSearchQuery(e.target.value)} />
-                        <Button className="bg-slate-800 px-2 flex justify-center items-center shadow-none py-1 hover:shadow-none rounded-none text-white" onClick={() => {
-                            searchRef.current.value = "";
-                            setSearchQuery("");
-                        }}>
-                            <RxCross2 size={"17px"} />
-                        </Button>
-                    </div>
-
-                    <form onSubmit={handleUnqiueAccount} className="flex justify-center border border-solid overflow-hidden rounded-md">
-                        <input ref={accountNoRef} type="text" placeholder="Enter Loan Account Number" className="outline-none text-[15px] placeholder:text-[13px] px-2 py-0.5 w-[200px]" />
-                        <Button
-                            type="submit"
-                            className="bg-slate-800 px-3 flex justify-center items-center shadow-none py-1 hover:shadow-none rounded-none text-white"
-                        // onClick={handleUnqiueAccount}
-                        >
-                            <LuSearch size={"16px"} />
-                        </Button>
-                    </form>
-                    <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-1 px-4 rounded-md shadow-sm hover:shadow-sm flex justify-center items-center text-[14px] gap-x-1.5" onClick={() => setIsOpenExport(true)}>
-                        <FaFileExport size={"17px"} />
-                        <span>Export</span>
-                    </Button>
-
-                    <Tooltip title="Add Campaign" placement="bottom">
-                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-1 px-4 rounded-md shadow-sm hover:shadow-sm flex justify-center items-center text-[14px] gap-x-1.5" onClick={() => setIsOpenAddCampaign(true)}>
-                            <FaPlus size={"17px"} />
-                            <span>Add</span>
-                        </Button>
-                    </Tooltip>
-
-                    <Tooltip title="Document Templates" placement="bottom">
-                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-1 px-3 rounded-md shadow-sm hover:shadow-sm flex justify-center items-center text-[14px] gap-x-1.5" onClick={() => {
-                            navigate("/campaigns/documenttemplates");
-                        }}>
-                            <IoEyeSharp size={"18px"} />
-                            <span>Templates</span>
-                        </Button>
-                    </Tooltip>
-
-                    <Tooltip title="Reload" placement="rightBottom">
-                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-1.5 px-4 rounded-md shadow-sm hover:shadow-sm flex justify-center items-center text-[14px] gap-x-1.5" onClick={refresh}>
-                            <IoReloadSharp size={"17px"} />
-                        </Button>
-                    </Tooltip>
-                </div>
-                {/* <div className="flex justify-center items-center">
-                <Dropdown
-                    overlay={UploadMenu}
-                    // trigger={['hover']}
-                    trigger={["click"]}
-                    placement="rightBottom"
-                    overlayStyle={{ width: 200 }} // Optional: Ensure consistency in width
-                >
-                    <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-1 px-2 rounded-md shadow-sm hover:shadow-sm flex justify-center text-[14px] items-center gap-x-1.5">
-                        <FiUpload size={"17px"} />
-                        <span>Upload</span>
-                    </Button>
-                </Dropdown>
+            {/* <div className="flex gap-x-2 justify-start mt-2 w-full items-start">
+            //     <div className="flex justify-center items-center">
+            //     <Dropdown
+            //         overlay={UploadMenu}
+            //         // trigger={['hover']}
+            //         trigger={["click"]}
+            //         placement="rightBottom"
+            //         overlayStyle={{ width: 200 }} // Optional: Ensure consistency in width
+            //     >
+            //         <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-1 px-2 rounded-md shadow-sm hover:shadow-sm flex justify-center text-[14px] items-center gap-x-1.5">
+            //             <FiUpload size={"17px"} />
+            //             <span>Upload</span>
+            //         </Button>
+            //     </Dropdown>
+            // </div> 
             </div> */}
-            </div>
         </div>
 
         {/* change by me */}
         {/* <div className="flex justify-center mt-3 items-center h-[70vh] w-full"> */}
-        <div className="flex justify-start h-[70%] xl:h-[77%] items-start w-full">
+        <div className="flex justify-start h-[70%] xl:h-[85%] items-start w-full">
             {/* left */}
             <div className="w-[35%] h-full custom-scroll px-2 overflow-y-scroll">
+                <div className="flex justify-start shadow-md shadow-gray-200 overflow-hidden sticky top-0 left-0 bg-white z-20">
+                    <input ref={searchRef} type="text" placeholder="Search Campaign Name" className="outline-none px-2 text-[15px] placeholder:text-[14px] py-0.5 w-full bg-white" onChange={(e) => setSearchQuery(e.target.value)} />
+                    <Button className="bg-slate-800 px-2 flex justify-center items-center shadow-none py-1 hover:shadow-none rounded-none text-white" onClick={() => {
+                        searchRef.current.value = "";
+                        setSearchQuery("");
+                    }}>
+                        <RxCross2 size={"17px"} />
+                    </Button>
+                </div>
                 {
                     // allCampaigns ? [...allCampaigns]?.reverse()?.map((data, index) => (<DetailsCard key={index} data={data} active={data?.name === campaignDetails?.name} />)) : <h2>Loading...</h2>
                     filteredData ? [...filteredData]?.reverse()?.map((data, index) => (

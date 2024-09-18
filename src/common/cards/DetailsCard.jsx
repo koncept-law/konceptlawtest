@@ -132,7 +132,7 @@ const DetailsCard = ({ data = null, active = false }) => {
         }
 
         <div
-            className={`w-full p-1 rounded-md flex my-2 flex-col shadow-md shadow-slate-200 cursor-pointer justify-start items-start bg-white border border-solid transition-all duration-300 ${isHovered ? 'border-blue-600' : ''} ${active ? 'border-blue-600' : ''}`}
+            className={`w-full p-1 rounded-md flex my-2 flex-col shadow-md shadow-slate-200 cursor-pointer justify-start items-start bg-white border border-solid transition-all duration-300 ${isHovered ? 'border-blue-600' : ''} ${active ? 'border-blue-900 border-[3px]' : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={selectCampagin}

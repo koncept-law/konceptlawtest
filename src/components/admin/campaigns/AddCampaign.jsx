@@ -73,7 +73,7 @@ const AddCampaign = ({ modal, toggle }) => {
       {/* Content  */}
       <div className="bg-white rounded-lg w-[90%] md:w-[60%] p-2 absolute z-10 mt-10">
         {/* Model Header  */}
-        <div className="modelHeadingBackground p-3 border-blue-800 rounded flex items-center justify-between">
+        <div className="koncept-background p-3 border-blue-800 rounded flex items-center justify-between">
           <h1 className="text-white text-xl font-semibold">Add Campaign</h1>
           <span className="text-white text-xl cursor-pointer" onClick={toggle}>
             <MdOutlineClose />
@@ -136,7 +136,8 @@ const AddCampaign = ({ modal, toggle }) => {
 
             <div className="pt-4">
               <Button
-                className="p-3 rounded capitalize font-poppins not-italic leading-normal modelHeadingBackground text-white font-bold hover:bg-transparent transition-all duration-300 w-full"
+              // modelHeadingBackground
+                className="py-2 rounded capitalize font-poppins not-italic leading-normal koncept-background text-white font-semibold hover:bg-transparent transition-all duration-300 text-[16px] w-full"
                 disabled={addLoader}
                 onClick={handleSubmit(uploadHandler)}
               >
