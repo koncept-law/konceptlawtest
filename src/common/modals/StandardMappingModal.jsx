@@ -12,6 +12,10 @@ import { getCampaignByNameThunkMiddleware, getOldPdfsLinkCampaignThunkMiddleware
 import { toastifyError } from "../../constants/errors";
 import { useNavigate } from "react-router-dom";
 
+// coordinates
+import IncreaseDecreaseField from "../IncreaseDecreaseField";
+import { FaArrowRightLong } from "react-icons/fa6";
+
 const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
     const axios = createAxiosInstance();
     const {
@@ -19,7 +23,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
     } = useSelector((state) => state.campaigns);
     // console.log("campaign details in standard", campaignDetails);
 
-    const { control, handleSubmit, reset } = useForm({
+    const { control, handleSubmit, reset, watch } = useForm({
         defaultValues: {
             loanAccountNo: campaignDetails?.loanAccountNo || "",
             emailAddress: campaignDetails?.emailAddress || "",
@@ -32,6 +36,8 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
             longLink: campaignDetails?.longLink || "",
             oldLink: campaignDetails?.oldLink || "",
             barcodeValue: campaignDetails?.barcodeValue || "",
+            barcodeValueX: campaignDetails?.barcodeValueX || "350",
+            barcodeValueY: campaignDetails?.barcodeValueY || "600",
         }
     });
     const handleCancel = () => setOpen(!open);
@@ -53,6 +59,8 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                 longLink: campaignDetails?.longLink || "",
                 oldLink: campaignDetails?.oldLink || "",
                 barcodeValue: campaignDetails?.barcodeValue || "",
+                barcodeValueX: campaignDetails?.barcodeValueX || "350",
+                barcodeValueY: campaignDetails?.barcodeValueY || "600",
             });
         }
     }, [campaignDetails, reset]);
@@ -143,7 +151,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                         </button>
                     </div>
 
-                    <div className="bg-gray-50 gap-y-5 flex flex-col justify-start items-start w-full py-2 px-8"
+                    <div className="bg-gray-50 gap-y-5 flex flex-col overflow-y-scroll h-[80vh] justify-start items-start w-full py-2 px-8"
                     //  style={{ height: "calc(100% - 48px)" }}
                     >
                         <div className="">
@@ -220,6 +228,41 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                                     control={control}
                                     name="barcodeValue"
                                 />
+                            </> : null
+                        }
+
+                        {
+                            campaignDetails?.type === "mergeType" && watch("barcodeValue") !== "" ? <>
+                                <div className="w-full flex justify-start gap-x-3 items-center">
+                                    <h2 className="font-poppins not-italic text-[16px] w-1/3 leading-normal font-medium text-gray-700">Coordinates:</h2>
+                                    <div className="flex justify-start w-full items-center gap-x-4">
+                                        <div className="flex justify-center gap-x-3 items-center">
+                                            <div className="flex flex-col">
+                                                <FaArrowRightLong size={16} className="text-red-700" />
+                                                <h2 className="font-poppins -mt-1 not-italic text-[16px] leading-normal font-medium text-gray-700">X:</h2>
+                                            </div>
+                                            <div className="w-[200px]">
+                                                <IncreaseDecreaseField
+                                                    control={control}
+                                                    name={"barcodeValueX"}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-center gap-x-3 items-center">
+                                            <div className="flex items-center">
+                                                <FaArrowRightLong size={16} className="-rotate-90 text-red-700" />
+                                                <h2 className="font-poppins not-italic text-[16px] leading-normal font-medium text-gray-700">Y:</h2>
+                                            </div>
+                                            <div className="w-[200px]">
+                                                <IncreaseDecreaseField
+                                                    control={control}
+                                                    name={"barcodeValueY"}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </> : null
                         }
 

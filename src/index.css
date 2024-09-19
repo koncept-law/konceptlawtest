@@ -112,3 +112,15 @@
   background: linear-gradient(#252525, #252525) padding-box, 
               linear-gradient(130.7deg, #00237D 0%, #E2282B 100%) border-box;
 }
+
+/* number */
+.number-field-inc-dec-remove::-webkit-outer-spin-button,
+.number-field-inc-dec-remove::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+.number-field-inc-dec-remove {
+  -moz-appearance: textfield;
+}
