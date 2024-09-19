@@ -28,9 +28,9 @@ const App = () => {
 
   return (
     <>
-      {showEntryModal && (
+      {/* {showEntryModal && (
         <EntryModal onClose={handleClose} onConfirm={handleConfirm} />
-      )}
+      )} */}
 
       {loader && <Loader />}
 

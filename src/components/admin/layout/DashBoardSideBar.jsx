@@ -9,7 +9,7 @@ import SwitchUserBox from "../users/SwitchUserBox.jsx";
 // icons
 import { FaFolderOpen } from "react-icons/fa6"; // folder
 import { IoCall } from "react-icons/io5"; // phone
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import { FaFileExport, FaTools } from "react-icons/fa";
@@ -22,6 +22,7 @@ const DashBoardSideBar = () => {
     const [open, setOpen] = useState(false);
     const { singleUser } = useSelector((state) => state.campaigns);
     const navigate = useNavigate();
+    const location = useLocation();
     const [isOpenAddCampaign, setIsOpenAddCampaign] = useState(false);
     const [isOpenExport, setIsOpenExport] = useState(false);
 
@@ -98,7 +99,7 @@ const DashBoardSideBar = () => {
                     </Button>
                 </Tooltip>
 
-                <Tooltip title="My Number" placement="rightBottom">
+                {/* <Tooltip title="My Number" placement="rightBottom">
                     <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
                         navigate("/my-number");
                     }}>
@@ -107,7 +108,7 @@ const DashBoardSideBar = () => {
                             <span className="font-poppins not-italic leading-normal capitalize font-light text-[12px]">Num</span>
                         </div>
                     </Button>
-                </Tooltip>
+                </Tooltip> */}
 
                 <Tooltip title="Tools" placement="rightBottom">
                     <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
@@ -120,27 +121,31 @@ const DashBoardSideBar = () => {
                     </Button>
                 </Tooltip>
 
-                <Tooltip title="New Campaign" placement="rightBottom">
-                    <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
-                        setIsOpenAddCampaign(true);
-                    }}>
-                        <div className="w-full flex justify-start flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
-                            <MdCampaign size={"25px"} />
-                            <span className="font-poppins not-italic leading-normal flex py-0.5 flex-col justify-center items-center capitalize font-light text-[11px] text-wrap"><span>New</span> Camp.</span>
-                        </div>
-                    </Button>
-                </Tooltip>
+                {
+                    !location.pathname?.match("all-accounts") ? <>
+                        <Tooltip title="New Campaign" placement="rightBottom">
+                            <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
+                                setIsOpenAddCampaign(true);
+                            }}>
+                                <div className="w-full flex justify-start flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
+                                    <MdCampaign size={"25px"} />
+                                    <span className="font-poppins not-italic leading-normal flex py-0.5 flex-col justify-center items-center capitalize font-light text-[11px] text-wrap"><span>New</span> Camp.</span>
+                                </div>
+                            </Button>
+                        </Tooltip>
 
-                <Tooltip title="Export Excel" placement="rightBottom">
-                    <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
-                        setIsOpenExport(true)
-                    }}>
-                        <div className="w-full flex justify-center flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
-                            <FaFileExport size={"18px"} />
-                            <span className="font-poppins not-italic leading-normal flex py-0.5 flex-col justify-center items-center capitalize font-light text-[11px] text-wrap">Export</span>
-                        </div>
-                    </Button>
-                </Tooltip>
+                        <Tooltip title="Export Excel" placement="rightBottom">
+                            <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
+                                setIsOpenExport(true)
+                            }}>
+                                <div className="w-full flex justify-center flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
+                                    <FaFileExport size={"18px"} />
+                                    <span className="font-poppins not-italic leading-normal flex py-0.5 flex-col justify-center items-center capitalize font-light text-[11px] text-wrap">Export</span>
+                                </div>
+                            </Button>
+                        </Tooltip>
+                    </> : null
+                }
             </div>
         </div>
         <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />

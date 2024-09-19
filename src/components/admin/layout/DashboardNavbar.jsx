@@ -11,13 +11,16 @@ import { Button } from "@material-tailwind/react";
 import "./CustomMenu.css";
 import SwitchUserBox from "../users/SwitchUserBox";
 import AddUser from "../users/AddUser";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoReloadSharp } from "react-icons/io5";
 import { getAllCampaignThunkMiddleware, getCampaignByNameThunkMiddleware } from "../../../redux/features/campaigns";
 import AddCampaign from "../campaigns/AddCampaign";
 import { FaFileExport, FaPlus } from "react-icons/fa";
 import ExportModal from "../../../common/modals/ExportModal";
 import ViewDocumentModal from "../../../common/modals/ViewDocumentModal";
+
+import usePath from "../../../hooks/usePath";
+import { FaAnglesLeft } from "react-icons/fa6";
 
 const DashboardNavbar = () => {
     const { singleUser, campaignDetails } = useSelector(state => state.campaigns);
@@ -36,6 +39,7 @@ const DashboardNavbar = () => {
     const [isOpenDocument, setIsOpenDocument] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const path = usePath();
 
     const logoutHandle = () => {
         dispatch(logoutThunkMiddleware());
@@ -85,29 +89,49 @@ const DashboardNavbar = () => {
             {/* change by me */}
             {/* <nav className="bg-white w-full flex justify-between shadow-md shadow-slate-200 items-center py-1.5 px-3"> */}
             <nav className="bg-white w-full flex justify-between h-[7%] shadow-md shadow-slate-200 items-center py-1.5 px-3">
-                <h2 className="font-poppins not-italic leading-normal font-medium text-lg">
+                <h2 className="font-poppins not-italic flex justify-center items-center gap-x-0.5 leading-normal font-medium text-lg">
                     {
                         !location.pathname?.match("all-accounts")
-                            ? (singleUser?.firstName + (singleUser?.lastName ? ` ${singleUser?.lastName}` : ""))
+                            ? <>
+                                <Tooltip title="Back" placement="bottom">
+                                    <Button
+                                        onClick={() => path.back()}
+                                        className="w-fit flex items-center gap-1 mx-2 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
+                                    >
+                                        <FaAnglesLeft size={16} />
+                                    </Button>
+                                </Tooltip>
+                                <Link to={"/dashboard"}>
+                                    <h2 className="hover:text-blue-700 hover:underline hover:underline-offset-4 hover:decoration-[2px]">{singleUser?.firstName + (singleUser?.lastName ? ` ${singleUser?.lastName}` : "")}</h2>
+                                </Link>
+                            </>
                             : null
                     }
+                    {/* <CgFormatSlash size={20} />
+                    <h2 className="text-[17px]">{campaignDetails?.name}</h2> */}
                 </h2>
                 <div className="flex justify-center items-center gap-x-2">
-                    <Tooltip title="Loan Account Number" placement="bottom">
-                        <Button
-                            type="submit"
-                            className="bg-slate-800 px-2.5 flex justify-center items-center shadow-none py-[7.5px] hover:shadow-none rounded-md text-white"
-                            onClick={() => setIsOpenDocument(true)}
-                        >
-                            <LuSearch size={"16px"} />
-                        </Button>
-                    </Tooltip>
+                    {
+                        !location.pathname?.match("all-accounts")
+                            ? <>
+                                <Tooltip title="Loan Account Number" placement="bottom">
+                                    <Button
+                                        type="submit"
+                                        className="bg-slate-800 px-2.5 flex justify-center items-center shadow-none py-[7.5px] hover:shadow-none rounded-md text-white"
+                                        onClick={() => setIsOpenDocument(true)}
+                                    >
+                                        <LuSearch size={"16px"} />
+                                    </Button>
+                                </Tooltip>
 
-                    <Tooltip title="Refresh" placement="bottom">
-                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-[7.5px] px-2 rounded-md shadow-sm hover:shadow-sm flex justify-center items-center text-[14px]" onClick={refresh}>
-                            <IoReloadSharp size={"17px"} />
-                        </Button>
-                    </Tooltip>
+                                <Tooltip title="Refresh" placement="bottom">
+                                    <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-[7.5px] px-2 rounded-md shadow-sm hover:shadow-sm flex justify-center items-center text-[14px]" onClick={refresh}>
+                                        <IoReloadSharp size={"17px"} />
+                                    </Button>
+                                </Tooltip>
+                            </>
+                            : null
+                    }
 
                     <Tooltip title="Notification" placement="bottom">
                         <div className="relative inline-block">

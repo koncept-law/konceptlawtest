@@ -144,11 +144,11 @@ const ReportSection = ({ dataInCampaign,
                     title: "Delivered",
                     color: "green",
                 },
-                {
-                    number: totalInvalidNumber,
-                    title: "Invalid Number",
-                    color: "yellow",
-                },
+                // {
+                //     number: totalInvalidNumber,
+                //     title: "Invalid Number",
+                //     color: "yellow",
+                // },
                 {
                     number: totalFailed,
                     title: "Failed",

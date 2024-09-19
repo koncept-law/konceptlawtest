@@ -31,6 +31,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
             shortLink: campaignDetails?.shortLink || "",
             longLink: campaignDetails?.longLink || "",
             oldLink: campaignDetails?.oldLink || "",
+            barcodeValue: campaignDetails?.barcodeValue || "",
         }
     });
     const handleCancel = () => setOpen(!open);
@@ -51,6 +52,7 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                 shortLink: campaignDetails?.shortLink || "",
                 longLink: campaignDetails?.longLink || "",
                 oldLink: campaignDetails?.oldLink || "",
+                barcodeValue: campaignDetails?.barcodeValue || "",
             });
         }
     }, [campaignDetails, reset]);
@@ -211,14 +213,25 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                         />
 
                         {
+                            campaignDetails?.type === "mergeType" ? <>
+                                <StandardMappingField
+                                    title="BarCode Value:"
+                                    dropDownList={dropDownList}
+                                    control={control}
+                                    name="barcodeValue"
+                                />
+                            </> : null
+                        }
+
+                        {
                             campaignDetails?.type === "linkType" ? <>
-                        <StandardMappingField
-                            title="Old Link:"
-                            dropDownList={dropDownList}
-                            control={control}
-                            name="oldLink"
-                        />    
-                            </>: null
+                                <StandardMappingField
+                                    title="Old Link:"
+                                    dropDownList={dropDownList}
+                                    control={control}
+                                    name="oldLink"
+                                />
+                            </> : null
                         }
 
                         <div className="flex w-full my-3 justify-end gap-x-2 items-center">

@@ -30,7 +30,7 @@ const StatsCard = ({
             {/* <h1 className={`font-bold text-xl ${textClass}`}>{numberConvertion(value)}</h1> */}
             {/* <h1 className={`font-bold text-xl ${textClass}`}>{value}</h1> */}
             {
-              !String(value).match("k") && !String(value).match("m") ? <>
+              !String(value).match("k") && !String(value).match("M") ? <>
                 <h1 className={`font-bold text-xl ${textClass}`}>
                   <CountUp duration={3} className="counter" end={value} />
                 </h1>
