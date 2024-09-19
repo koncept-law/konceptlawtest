@@ -3680,71 +3680,24 @@ export const createDocumentsThunkMiddleware = ({
         serverNames: serverNames,
       });
 
-      console.log("create document time console:", response);
+      // console.log("create document time console:", response);
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 202) {
         const { message } = response.data;
         let files = response.data.totalFiles;
 
-        toastify({
-          msg: message,
-          type: "success",
-        });
+        if(response.status === 202){
+          toastify({
+            msg: message,
+            type: "warning",
+          });
+        }else {
+          toastify({
+            msg: message,
+            type: "success",
+          });
+        }
 
-        // await dispatch(
-        //   setProgress({
-        //     progressView: true,
-        //     progressTab: "merge",
-        //     createDocumentsCampaignFilesStatus: true,
-        //   })
-        // );
-
-        // const intervalId =
-        //   setInterval(async () => {
-        //     try {
-        //       const response1 = await axios.post("/docs/getProcessMainMerging", {
-        //         campaignName: campaignName
-        //       });
-
-        //       if (response1.status === 200) {
-        //         // progressResponse++
-        //         const { progress } = response1.data;
-
-        //         dispatch(
-        //           setProgress({
-        //             createDocumentsCampaignFilesProgress: (
-        //               (Number.parseInt(progress) / files) *
-        //               100
-        //             ).toFixed(0),
-        //           })
-        //         );
-
-        //         if (response.data?.totalFiles === Number.parseInt(response1.data?.progress)) {
-        //           clearInterval(intervalId);
-        //           toastify({
-        //             msg: "All Main Document Created Successfully",
-        //             type: "success",
-        //           });
-        //           dispatch(
-        //             setProgress({
-        //               createDocumentsCampaignFilesStatus: false,
-        //               createDocumentsCampaignFilesProgress: 0,
-        //             })
-        //           );
-        //           // await dispatch(getCampaignByNameThunkMiddleware({campaignName}))
-        //         }
-        //       }
-        //     }
-        //     catch (error) {
-        //       clearInterval(intervalId);
-        //       if (error.response?.data) {
-        //         toastify({ msg: error.response.data.message, type: "error" });
-        //       } else {
-        //         toastify({ msg: error.message, type: "error" });
-        //       }
-        //     }
-        //     // calling in every three minutes while creating documents
-        //   }, 1000 * 60 * 3);
         try {
           const response1 = await axios.post("/docs/getProcessMainMerging", {
             campaignName: campaignName
@@ -3779,11 +3732,6 @@ export const createDocumentsThunkMiddleware = ({
           }
         }
         catch (error) {
-          // if (error.response?.data) {
-          //   toastify({ msg: error.response.data.message, type: "error" });
-          // } else {
-          //   toastify({ msg: error.message, type: "error" });
-          // }
           toastifyError(error, (call) => {
             if (call) {
               navigate("/login");
