@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Modal, Spin } from "antd";
 import { RxCross2 } from "react-icons/rx";
 import DataTable from 'react-data-table-component';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
 import DownloadXLSX from "../downloads/DownloadXLSX";
 import useDocument from "../../hooks/useDocument";
+import { unqiueAccountNoDataThunkMiddleware } from "../../redux/features/campaigns";
+import { IoSearch } from "react-icons/io5";
 
 const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
-    const { unqiueAccountNoData } = useSelector(
+    const { unqiueAccountNoData, singleUser } = useSelector(
         (state) => state.campaigns
     );
     const { loader } = useSelector(state => state.loaders);
@@ -16,6 +18,8 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
     const handleCancel = () => {
         setOpen(false); // Close the modal when "Cancel" is clicked
     };
+    const accountNoRef = useRef(null);
+    const dispatch = useDispatch();
 
     const columns = [
         {
@@ -99,9 +103,25 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
     }
 
     const handleDownloadPDF = () => {
-        let longLinks = unqiueAccountNoData?.map(({longLink}) => ({link: longLink}));
+        let longLinks = unqiueAccountNoData?.map(({ longLink }) => ({ link: longLink }));
         // console.log(longLinks);
         docs.downloadPdf("filterAccountPdfs", longLinks)
+    }
+
+    const handleUnqiueAccount = (e) => {
+        e.preventDefault();
+        let accountNo = accountNoRef.current.value;
+        console.log("account no", accountNo)
+        // console.log(singleUser)
+        if (accountNo && accountNo !== "") {
+            dispatch(unqiueAccountNoDataThunkMiddleware({
+                id: singleUser?._id,
+                // unique_account_no: Number.parseInt(accountNo),
+                loanAccountNo: Number.parseInt(accountNo),
+            }))
+        } else {
+            toastify({ msg: "Loan Account Number Not Fill", type: "error" })
+        }
     }
 
     return (
@@ -112,11 +132,29 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
             footer={null}
             closable={false}
             width={1200}
-            height={500}
+        // height={500}
         >
             <div className="flex h-[80vh] flex-col w-full">
                 <div className="flex justify-between items-center py-3 px-4 text-white bg-slate-800">
-                    <h2 className="font-poppins not-italic leading-normal font-medium text-[15px]">View Document</h2>
+                    <div className="flex justify-center items-center gap-x-3">
+                        <h2 className="font-poppins not-italic leading-normal font-medium text-[15px]">View Document</h2>
+                        <div className="flex rounded-sm overflow-hidden">
+                            <input 
+                                ref={accountNoRef} 
+                                type="text" 
+                                className="outline-none text-[#000] px-2 py-1" 
+                                placeholder="Loan Account No." 
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter"){
+                                        handleUnqiueAccount(e);
+                                    }
+                                }}
+                            />
+                            <Button className="font-poppins not-italic leading-normal font-light py-1 px-4 capitalize bg-gray-900 text-white rounded-none" onClick={handleUnqiueAccount}>
+                                <IoSearch size={16} />
+                            </Button>
+                        </div>
+                    </div>
                     <div className="flex justify-center items-center gap-x-6">
                         <div className="flex justify-center items-center gap-x-2">
                             <div className="flex justify-center items-center">

@@ -370,7 +370,7 @@ const MainDashboard = () => {
         <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />
         <ViewDocumentModal open={isOpenDocument} setOpen={() => setIsOpenDocument(false)} />
 
-        <div className="flex w-full flex-col h-[30%] xl:h-[15%]">
+        <div className="flex w-full flex-col h-[24%] md:h-[22%] xl:h-[15%]">
             <Stats items={accountData} />
             {/* <div className="flex gap-x-2 justify-start mt-2 w-full items-start">
             //     <div className="flex justify-center items-center">
@@ -392,7 +392,7 @@ const MainDashboard = () => {
 
         {/* change by me */}
         {/* <div className="flex justify-center mt-3 items-center h-[70vh] w-full"> */}
-        <div className="flex justify-start h-[70%] xl:h-[85%] items-start w-full">
+        <div className="flex justify-start h-[76%] md:h-[78%] xl:h-[85%] items-start w-full">
             {/* left */}
             <div className="w-[35%] h-full custom-scroll px-2 overflow-y-scroll">
                 <div className="flex justify-start shadow-md shadow-gray-200 overflow-hidden sticky top-0 left-0 bg-white z-20">

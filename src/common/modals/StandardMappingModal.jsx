@@ -36,8 +36,8 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
             longLink: campaignDetails?.longLink || "",
             oldLink: campaignDetails?.oldLink || "",
             barcodeValue: campaignDetails?.barcodeValue || "",
-            barcodeValueX: campaignDetails?.barcodeValueX || "350",
-            barcodeValueY: campaignDetails?.barcodeValueY || "600",
+            barcodeValueX: campaignDetails?.barcodeValueX || "370",
+            barcodeValueY: campaignDetails?.barcodeValueY || "650",
         }
     });
     const handleCancel = () => setOpen(!open);
@@ -59,8 +59,8 @@ const StandardMappingModal = ({ open = false, setOpen = () => { } }) => {
                 longLink: campaignDetails?.longLink || "",
                 oldLink: campaignDetails?.oldLink || "",
                 barcodeValue: campaignDetails?.barcodeValue || "",
-                barcodeValueX: campaignDetails?.barcodeValueX || "350",
-                barcodeValueY: campaignDetails?.barcodeValueY || "600",
+                barcodeValueX: campaignDetails?.barcodeValueX || "370",
+                barcodeValueY: campaignDetails?.barcodeValueY || "650",
             });
         }
     }, [campaignDetails, reset]);
