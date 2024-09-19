@@ -3388,70 +3388,24 @@ export const startSamplePdfThunkMiddleware = ({
         campaignName: campaignName,
       });
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 202) {
         const { message } = response.data;
         // console.log("whole data at the request ", response.data)
         // console.log("whole data at the request only response", response)
         let files = response.data.totalFiles;
 
-        toastify({
-          msg: message,
-          type: "success",
-        });
+        if(response.status === 202){
+          toastify({
+            msg: message,
+            type: "warning",
+          });
+        }else {
+          toastify({
+            msg: message,
+            type: "success",
+          });
+        }
 
-        // await dispatch(
-        //   setProgress({
-        //     progressView: true,
-        //     progressTab: "merge",
-        //     samplePdfCampaignFilesStatus: true,
-        //   })
-        // );
-
-        // const intervalId =
-        //   setInterval(async () => {
-        //     try {
-        //       const response1 = await axios.post("/docs/getProgressSampleMerging", {
-        //         campaignName: campaignName
-        //       });
-
-        //       if (response1.status === 200) {
-        //         // progressResponse++
-        //         const { progress } = response1.data;
-
-        //         dispatch(
-        //           setProgress({
-        //             samplePdfCampaignFilesProgress: (
-        //               (Number.parseInt(progress) / files) *
-        //               100
-        //             ).toFixed(0),
-        //           })
-        //         );
-
-        //         if (response.data?.totalFiles === Number.parseInt(response1.data?.progress)) {
-        //           toastify({
-        //             msg: "All Sample Pdfs Merge Successfully",
-        //             type: "success",
-        //           });
-        //           dispatch(
-        //             setProgress({
-        //               samplePdfCampaignFilesStatus: false,
-        //               samplePdfCampaignFilesProgress: 0,
-        //             })
-        //           );
-        //           clearInterval(intervalId);
-        //           // await dispatch(getCampaignByNameThunkMiddleware({campaignName}))
-        //         }
-        //       }
-        //     }
-        //     catch (error) {
-        //       clearInterval(intervalId);
-        //       if (error.response?.data) {
-        //         toastify({ msg: error.response.data.message, type: "error" });
-        //       } else {
-        //         toastify({ msg: error.message, type: "error" });
-        //       }
-        //     }
-        //   }, 1000);
         try {
           const response1 = await axios.post("/docs/getProgressSampleMerging", {
             campaignName: campaignName
