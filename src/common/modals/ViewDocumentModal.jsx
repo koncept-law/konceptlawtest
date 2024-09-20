@@ -30,8 +30,8 @@ const ViewDocumentModal = ({
 
     useEffect(() => {
         if(!open){
-            dispatch(setCampaigns({ unqiueAccountNoData: null }));
-            dispatch(setLoader({ loader: false }));
+            // dispatch(setCampaigns({ unqiueAccountNoData: null }));
+            // dispatch(setLoader({ loader: false }));
         }
     }, [open]);
 
@@ -73,21 +73,6 @@ const ViewDocumentModal = ({
             selector: row => row?.customerName,
             wrap: true,
         },
-        // {
-        //     name: <div className="text-wrap">{'Category1'}</div>,
-        //     selector: row => row?.category1,
-        //     wrap: true,
-        // },
-        // {
-        //     name: <div className="text-wrap">{'Category'}</div>,
-        //     selector: row => row?.category,
-        //     wrap: true,
-        // },
-        // {
-        //     name: <div className="text-wrap">{'ShortLink'}</div>,
-        //     selector: row => row?.shortLink,
-        //     wrap: true,
-        // },
         {
             name: <div className="text-wrap">{'LongLink'}</div>,
             // selector: row => row?.longLink,
@@ -108,9 +93,6 @@ const ViewDocumentModal = ({
                     "Email": item?.email,
                     "Customer Mobile Number": item?.customerMobileNumber,
                     "Customer Name": item?.customerName,
-                    // "Category1": item?.category1,
-                    // "Category": item?.category,
-                    // "ShortLink": item?.shortLink,
                     "LongLink": item?.longLink,
                 }
             ))
@@ -124,8 +106,12 @@ const ViewDocumentModal = ({
     }
 
     const handleDownloadPDF = () => {
-        let longLinks = unqiueAccountNoData?.map(({ longLink }) => ({ link: longLink }));
-        // console.log(longLinks);
+        let longLinks = unqiueAccountNoData?.map(({ longLink }) => {
+            let split_link = longLink?.split("/");
+            let fileName = split_link[split_link.length - 1];
+            
+            return { link: longLink, name: fileName }
+        });
         docs.downloadPdf("filterAccountPdfs", longLinks)
     }
 

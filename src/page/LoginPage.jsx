@@ -253,7 +253,7 @@ const LoginPage = () => {
             </div> */}
 
             <div className="flex justify-center koncept-background items-center w-full h-screen">
-                <div className="flex flex-col justify-center w-3/4 h-[90vh] lg:w-[60%] items-center py-5 rounded-md border border-[#E2E2E2] bg-white/5 backdrop-blur-[30px] relative">
+                <div className="flex flex-col justify-center w-3/4 h-[90vh] lg:w-[80%] items-center py-5 rounded-md border border-[#E2E2E2] bg-white/5 backdrop-blur-[30px] relative">
                     <div className="absolute font-poppins not-italic leading-normal flex flex-col justify-start text-white text-[15px] items-start top-2 left-2">
                         <h2 className="uppercase">kamal bahl</h2>
                         <h2 className="uppercase">ambika mehra</h2>

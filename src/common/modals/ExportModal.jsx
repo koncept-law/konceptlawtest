@@ -9,8 +9,8 @@ import { bulkSearchLoanAccNoThunkMiddleware, excelFileDataThunkMiddleware } from
 import { useDispatch, useSelector } from "react-redux";
 import { toastify } from "../../components/toast";
 
-const ExportModal = ({ 
-    visible = false, 
+const ExportModal = ({
+    visible = false,
     onCancel = function () { },
     global = false,
 }) => {
@@ -49,13 +49,18 @@ const ExportModal = ({
         if (docs.file) {
             if (docs.file?.name?.match(".xlsx")) {
                 const formData = new FormData();
-                if(global){
+                if (global) {
                     formData.append("id", singleUser?.accountId);
                     formData.append("file", docs.file);
                     dispatch(bulkSearchLoanAccNoThunkMiddleware(formData, (data) => {
                         if (data) {
                             if (type === "pdf") {
-                                let longLinks = data?.map(({ longLink }) => ({ link: longLink }));
+                                let longLinks = data?.map(({ longLink }) => {
+                                    let split_link = longLink?.split("/");
+                                    let fileName = split_link[split_link.length - 1];
+                                    return { link: longLink, name: fileName }
+                                });
+                                // console.log(longLinks)
                                 docs.downloadPdf("exportFilterDocuments", longLinks)
                             } else {
                                 let xlsx = Converter(data);
@@ -63,13 +68,17 @@ const ExportModal = ({
                             }
                         }
                     }));
-                }else {
+                } else {
                     formData.append("campaignName", campaignDetails?.name);
                     formData.append("file", docs.file);
                     dispatch(excelFileDataThunkMiddleware(formData, (data) => {
                         if (data) {
                             if (type === "pdf") {
-                                let longLinks = data?.map(({ longLink }) => ({ link: longLink }));
+                                let longLinks = data?.map(({ longLink }) => {
+                                    let split_link = longLink?.split("/");
+                                    let fileName = split_link[split_link.length - 1];
+                                    return { link: longLink, name: fileName }
+                                });
                                 docs.downloadPdf("exportFilterDocuments", longLinks)
                             } else {
                                 let xlsx = Converter(data);
