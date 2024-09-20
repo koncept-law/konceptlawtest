@@ -115,7 +115,7 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
         // console.log(singleUser)
         if (accountNo && accountNo !== "") {
             dispatch(unqiueAccountNoDataThunkMiddleware({
-                id: singleUser?._id,
+                id: singleUser?.accountId,
                 // unique_account_no: Number.parseInt(accountNo),
                 loanAccountNo: Number.parseInt(accountNo),
             }))
