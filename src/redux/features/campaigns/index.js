@@ -4509,6 +4509,7 @@ export const fetchReportApiThunkMiddleware = (payload) => {
         dispatch(getAllCampaignReportsThunkMiddleware({ campaignName: payload.campaignName }))
       }
     } catch (error) {
+      console.log(error)
       toastifyError(error)
     } finally {
       dispatch(setLoader({ getLoader: false }));
@@ -4539,6 +4540,46 @@ export const unqiueAccountNoDataThunkMiddleware = (payload) => {
           unqiueAccountNoData: null,
         })
       );
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  };
+};
+
+export const excelFileDataThunkMiddleware = (payload, callback = function(){}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      // const response = await axios.post(`/campaign/searchUniqueAccNo`, payload);
+      const response = await axios.postForm(`/campaign/bulkSearchCampaignWiseLoanAccNo`, payload);
+
+      if (response.status === 200) {
+        let data = response.data;
+        callback(data);
+        dispatch(setLoader({ loader: false }));
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  };
+};
+
+export const bulkSearchLoanAccNoThunkMiddleware = (payload, callback = function(){}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      // const response = await axios.post(`/campaign/searchUniqueAccNo`, payload);
+      const response = await axios.postForm(`/campaign/bulkSearchLoanAccNo`, payload);
+
+      if (response.status === 200) {
+        let data = response.data;
+        callback(data);
+        dispatch(setLoader({ loader: false }));
+      }
+    } catch (error) {
+      toastifyError(error);
     } finally {
       dispatch(setLoader({ loader: false }));
     }

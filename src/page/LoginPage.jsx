@@ -278,7 +278,7 @@ const LoginPage = () => {
 
                     <form
                         onSubmit={handleSubmit(submitHandler)}
-                        className="space-y-3 w-[90%]"
+                        className="space-y-3 w-[30%]"
                         action="#"
                         method="POST"
                     >
@@ -317,10 +317,10 @@ const LoginPage = () => {
                         <InputField
                             control={control}
                             errors={errors}
-                            type="email"
+                            type="text"
                             name="email"
-                            label="Email"
-                            placeholder="Enter Your Email"
+                            label="Username"
+                            placeholder="Enter Your User Name"
                             labelClass="text-[#FFFFFF]"
                             className="text-[#FFFFFF] placeholder:text-[#FFFFFF] border-gray-300 font-light"
                         />

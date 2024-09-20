@@ -8,8 +8,11 @@ export const toastifyError = (error, callback = function(){}) => {
     } else if (error.response?.data?.error) {
         toastify({ msg: error.response.data.error, type: "error" })
         callback("data");
-    } else if (error.response?.data) {
+    } else if (error.response?.data?.message) {
         toastify({ msg: error.response.data.message, type: "error" })
+        callback("data");
+    } else if (error.response?.data) {
+        toastify({ msg: error.response.data, type: "error" })
         callback("data");
     } else {
         toastify({ msg: error.message, type: "error" });

@@ -87,7 +87,8 @@ const Router = () => {
   const element = useRoutes([
     {
       path: "/",
-      element: <HomePage />,
+      // element: <HomePage />,
+      element: <LoginPage />,
     },
     {
       path: "/login",

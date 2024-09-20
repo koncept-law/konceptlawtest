@@ -17,7 +17,7 @@ import { MdAccountBox, MdEmail, MdMarkEmailRead, MdSms, MdWhatsapp } from "react
 import { FiFileText } from "react-icons/fi";
 import ExportModal from "../../../common/modals/ExportModal";
 import AddCampaign from "../campaigns/AddCampaign";
-import { accountDemographicsReportThunkMiddleware, downloadCampaignFilesThunkMiddleware, downloadCampaignSinglePdfFileThunkMiddleware, getAllCampaignReportsThunkMiddleware, getAllCampaignThunkMiddleware, getCampaignByNameThunkMiddleware, searchCampaignWiseLoanAccNoThunkMiddleware, setCampaigns, unqiueAccountNoDataThunkMiddleware } from "../../../redux/features/campaigns";
+import { accountDemographicsReportThunkMiddleware, downloadCampaignFilesThunkMiddleware, downloadCampaignModifyExcelThunkMiddleware, downloadCampaignSinglePdfFileThunkMiddleware, getAllCampaignReportsThunkMiddleware, getAllCampaignThunkMiddleware, getCampaignByNameThunkMiddleware, searchCampaignWiseLoanAccNoThunkMiddleware, setCampaigns, unqiueAccountNoDataThunkMiddleware } from "../../../redux/features/campaigns";
 import { Link, useNavigate } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { numberConvertion } from "../../../functions/NumberConvertion";
@@ -472,8 +472,17 @@ const MainDashboard = () => {
                         </Button> */}
 
                         <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-0.5 px-1 rounded-md shadow-sm hover:shadow-sm flex justify-center text-[10px] lg:text-[14px] items-center gap-x-1.5" onClick={() => {
-                            dispatch(getAllCampaignReportsThunkMiddleware({ campaignName: campaignDetails?.name }));
-                            navigate("/campaigns/campaigndetails/reports");
+                            // dispatch(getAllCampaignReportsThunkMiddleware({ campaignName: campaignDetails?.name }));
+                            // navigate("/campaigns/campaigndetails/reports");
+                            if (campaignDetails?.isExcelPresent) {
+                                dispatch(
+                                    downloadCampaignModifyExcelThunkMiddleware({
+                                        campaignName: campaignDetails.name,
+                                    })
+                                );
+                            }else {
+                                toastify({ msg: "Excel is currently unavailable.", type: "error" })
+                            }
                         }}>
                             <IoEyeSharp size={"18px"} />
                             <span>Reports</span>

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Modal, Spin } from "antd";
 import { RxCross2 } from "react-icons/rx";
 import DataTable from 'react-data-table-component';
@@ -6,10 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
 import DownloadXLSX from "../downloads/DownloadXLSX";
 import useDocument from "../../hooks/useDocument";
-import { unqiueAccountNoDataThunkMiddleware } from "../../redux/features/campaigns";
+import { getCampaignByNameThunkMiddleware, setCampaigns, unqiueAccountNoDataThunkMiddleware } from "../../redux/features/campaigns";
 import { IoSearch } from "react-icons/io5";
+import { setLoader } from "../../redux/features/loaders";
+import { useNavigate } from "react-router-dom";
 
-const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
+const ViewDocumentModal = ({
+    open = true,
+    setOpen = function () { },
+    globalSearch = false,
+}) => {
     const { unqiueAccountNoData, singleUser } = useSelector(
         (state) => state.campaigns
     );
@@ -20,11 +26,26 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
     };
     const accountNoRef = useRef(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!open){
+            dispatch(setCampaigns({ unqiueAccountNoData: null }));
+            dispatch(setLoader({ loader: false }));
+        }
+    }, [open]);
 
     const columns = [
         {
             name: <div className="text-wrap">{'Campaign Name'}</div>,
-            selector: row => row?.campaignName,
+            // selector: row => row?.campaignName,
+            cell: (row) => (
+                <span className="hover:text-blue-700 cursor-pointer" onClick={() => {
+                    setOpen(false);
+                    dispatch(getCampaignByNameThunkMiddleware({ campaignName: row?.campaignName }));
+                    navigate("/campaigns/campaigndetails");
+                }}>{row?.campaignName}</span>
+            ),
             wrap: true,
         },
         {
@@ -133,27 +154,32 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
             closable={false}
             width={1200}
         // height={500}
+        className="rounded-md overflow-hidden"
         >
             <div className="flex h-[80vh] flex-col w-full">
-                <div className="flex justify-between items-center py-3 px-4 text-white bg-slate-800">
+                <div className="flex justify-between items-center py-3 px-4 text-white bg-slate-800 koncept-background">
                     <div className="flex justify-center items-center gap-x-3">
                         <h2 className="font-poppins not-italic leading-normal font-medium text-[15px]">View Document</h2>
-                        <div className="flex rounded-sm overflow-hidden">
-                            <input 
-                                ref={accountNoRef} 
-                                type="text" 
-                                className="outline-none text-[#000] px-2 py-1" 
-                                placeholder="Loan Account No." 
-                                onKeyDown={(e) => {
-                                    if(e.key === "Enter"){
-                                        handleUnqiueAccount(e);
-                                    }
-                                }}
-                            />
-                            <Button className="font-poppins not-italic leading-normal font-light py-1 px-4 capitalize bg-gray-900 text-white rounded-none" onClick={handleUnqiueAccount}>
-                                <IoSearch size={16} />
-                            </Button>
-                        </div>
+                        {
+                            globalSearch ? <>
+                                <div className="flex rounded-sm overflow-hidden">
+                                    <input
+                                        ref={accountNoRef}
+                                        type="text"
+                                        className="outline-none text-[#000] px-2 py-1"
+                                        placeholder="Loan Account No."
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                handleUnqiueAccount(e);
+                                            }
+                                        }}
+                                    />
+                                    <Button className="font-poppins not-italic leading-normal font-light py-1 px-4 capitalize bg-gray-900 text-white rounded-none" onClick={handleUnqiueAccount}>
+                                        <IoSearch size={16} />
+                                    </Button>
+                                </div>
+                            </> : null
+                        }
                     </div>
                     <div className="flex justify-center items-center gap-x-6">
                         <div className="flex justify-center items-center gap-x-2">
@@ -181,10 +207,15 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
                         !loader ? <DataTable
                             columns={columns}
                             data={unqiueAccountNoData || []}
+                            // className="shadow-md"
                             customStyles={{
                                 headRow: {
                                     style: {
-                                        backgroundColor: "#f3f4f6", // Your background color for the header row
+                                        backgroundColor: "#1e293b", // Your background color for the header row
+                                        color: "white",
+                                        fontFamily: "Poppins",
+                                        fontStyle: "normal",
+                                        fontWeight: "400"
                                     },
                                 },
                                 headCells: {
@@ -195,6 +226,12 @@ const ViewDocumentModal = ({ open = true, setOpen = function () { } }) => {
                                         textAlign: 'center', // Optional: center-aligns the header text
                                     },
                                 },
+                                table: {
+                                    style: {
+                                        borderRadius: "4px",
+                                        overflow: "hidden"
+                                    }
+                                }
                             }}
                             pagination={true}
                             paginationPerPage={10}

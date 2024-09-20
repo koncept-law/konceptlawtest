@@ -84,7 +84,11 @@ const DashboardNavbar = () => {
             <NotificationModal isVisible={OpenNotification} onClose={() => setOpenNotification(false)} />
             {/* <SwitchUserBox open={open} setOpen={setOpen} /> */}
             <AddUser open={addOpen} setOpen={() => setAddOpen(false)} />
-            <ViewDocumentModal open={isOpenDocument} setOpen={() => setIsOpenDocument(false)} />
+            <ViewDocumentModal 
+                open={isOpenDocument} 
+                setOpen={() => setIsOpenDocument(false)} 
+                globalSearch={true}
+            />
 
             {/* change by me */}
             {/* <nav className="bg-white w-full flex justify-between shadow-md shadow-slate-200 items-center py-1.5 px-3"> */}

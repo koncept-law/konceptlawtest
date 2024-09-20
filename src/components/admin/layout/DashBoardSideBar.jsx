@@ -149,7 +149,11 @@ const DashBoardSideBar = () => {
             </div>
         </div>
         <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />
-        <ExportModal visible={isOpenExport} onCancel={() => setIsOpenExport(false)} />
+        <ExportModal 
+            visible={isOpenExport} 
+            onCancel={() => setIsOpenExport(false)} 
+            global={true}
+        />
     </>
 }
 
