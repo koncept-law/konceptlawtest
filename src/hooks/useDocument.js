@@ -383,9 +383,9 @@ const useDocument = () => {
      * @example
      *  let longLinks = unqiueAccountNoData?.map(({longLink}) => ({link: longLink}));
         // console.log(longLinks);
-        docs.downloadPdf("filterAccountPdfs", longLinks)
+        docs.downloadPdf("filterAccountPdfs", longLinks, (load)=>{ // loading... })
      */
-    const downloadPdf = async (folderName = "", campaignFilesLink = []) => {
+    const downloadPdf = async (folderName = "", campaignFilesLink = [], loading = function () { }) => {
         let currentBatchSize = 0;
         const maxSize = 300 * 1024 * 1024; // 300MB in bytes
         let batchNumber = 1;
@@ -402,20 +402,20 @@ const useDocument = () => {
                 const fileUrl = `${fileLink}?t=${Date.now()}`;
 
                 try {
-
+                    // Fetch file
                     const response = await fetch(fileUrl);
                     if (!response.ok) throw new Error(`Failed to fetch file: ${response.statusText}`);
 
                     const fileBlob = await response.blob();
-
                     const fileSize = fileBlob.size;
 
+                    // Check if adding this file exceeds the batch size
                     if (currentBatchSize + fileSize > maxSize) {
                         // Generate and download the current batch's zip file
                         const content = await zip.generateAsync({ type: "blob" });
                         saveAs(content, `${folderName}${batchNumber}.zip`);
 
-                        // Reset for next batch
+                        // Reset for the next batch
                         batchNumber++;
                         zip = new JSZip();
                         filesFolder = zip.folder(`${folderName}${batchNumber}`);
@@ -425,6 +425,10 @@ const useDocument = () => {
                     // Add PDF to the current batch
                     filesFolder.file(fileName, fileBlob);
                     currentBatchSize += fileSize;
+
+                    // Update loading or progress state
+                    loading(Math.round(((i + 1) / totalFiles) * 100)); // Update the percentage
+
                 } catch (error) {
                     console.error(`Failed to fetch or process file: ${fileName}`, error);
                 }
@@ -442,8 +446,10 @@ const useDocument = () => {
                 console.error(`Failed to generate zip file: ${error}`);
             }
         }
-    };
 
+        // Notify completion
+        loading(100); // Full progress
+    };
 
     return {
         upload,
