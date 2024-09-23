@@ -52,9 +52,7 @@ const WhatsappCampaign = () => {
     [selectedTemplateIndex, campaignWhatsappTemplates]
   );
 
-  useEffect(() => {
-    dispatch(getCampaignWhatsappTemplateThunkMiddleware());
-  }, []);
+  console.log("campaignWhatsappTemplates", campaignWhatsappTemplates);
 
   // changes made by abhyanshu
   const [ShowDeleteConfirmMessage, setShowDeleteConfirmMessage] = useState(false);
@@ -74,9 +72,13 @@ const WhatsappCampaign = () => {
   const [message, setMessage] = useState(``);
   const [textVariableCount, setTextVariableCount] = useState(null);
   const [variableCount, setVariableCount] = useState(null);
-  const [WabaSelect, setWabaSelect] = useState("Waba from Vendor1");
+  const [WabaSelect, setWabaSelect] = useState("whatsappAirtel");
   const [OpenTestBox, setOpenTestBox] = useState(false);
   // changes made by abhyanshu
+
+  useEffect(() => {
+    dispatch(getCampaignWhatsappTemplateThunkMiddleware(WabaSelect));
+  }, [WabaSelect]);
 
   // changes made by abhyanshu
   const sendWhatsappHandler = () => {
@@ -204,6 +206,8 @@ const WhatsappCampaign = () => {
           }))
       : [];
   }, [campaignWhatsappTemplates, singleUser?.accountId]);
+
+  console.log("select template", selectedTemplate)
 
   const saveAndSendWhatsappHandler = () => {
     // console.log("save and send start")
@@ -466,9 +470,10 @@ const WhatsappCampaign = () => {
   }, [messageInTemplate, variableCount, textVariableCount, selectedVariables, userDisplayVariables])
 
   const wabaOption = [
-    { label: "Waba from enablex", value: "Waba from enablex" },
-    { label: "Waba from Vendor1", value: "Waba from Vendor1" },
-    { label: "Waba from Airtel", value: "Waba from Airtel" },
+    // { label: "Waba from enablex", value: "Waba from enablex" },
+    // { label: "Waba from Vendor1", value: "Waba from Vendor1" },
+    { label: "Waba from Airtel", value: "whatsappAirtel" },
+    { label: "Waba from Waba", value: "whatsapp" },
   ]
 
   return (
@@ -610,7 +615,7 @@ const WhatsappCampaign = () => {
                     <Select
                       placeholder="Select an Option"
                       // defaultValue={{ label: "Select an Option", value: "select" }}
-                      defaultValue={"Waba from Vendor1"}
+                      defaultValue={"whatsappAirtel"}
                       className="rounded flex-1 focus:ring-2 h-[44px] focus:ring-purple-800 outline-none w-full"
                       options={wabaOption}
                       onChange={(value) => setWabaSelect(value)}

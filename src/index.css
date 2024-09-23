@@ -124,3 +124,7 @@
 .number-field-inc-dec-remove {
   -moz-appearance: textfield;
 }
+
+.ant-select-item-option-active {
+  background-color: #cbd5e1 !important;
+}

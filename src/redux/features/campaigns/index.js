@@ -951,14 +951,14 @@ export const saveAndSendCampaignSmsAirtelTemplateThunkMiddleware = (
 
 // changes made by abhyanshu
 export const createCampaignSmsTemplateThunkMiddleware = (
-//   {
-//   templateName,
-//   message,
-//   type,
-//   variables,
-//   verified
-// },
-payload,
+  //   {
+  //   templateName,
+  //   message,
+  //   type,
+  //   variables,
+  //   verified
+  // },
+  payload,
   callback
 ) => {
   return async (dispatch) => {
@@ -1042,7 +1042,7 @@ export const testCampaignSmsTemplateThunkMiddleware = (
       dispatch(setLoader({ loader: true }));
 
       let response;
-      if(type === "airtel"){
+      if (type === "airtel") {
         response = await axios.post("/campaign/sendSampleSmsAirtel", {
           // templateId,
           templateName,
@@ -1052,7 +1052,7 @@ export const testCampaignSmsTemplateThunkMiddleware = (
           mobile,
         });
 
-      }else {
+      } else {
         response = await axios.post(`/campaign/sendSampleSms`, {
           templateId,
           templateName,
@@ -1389,14 +1389,15 @@ export const downloadCampaignModifyExcelThunkMiddleware = ({
   };
 };
 
-export const getCampaignWhatsappTemplateThunkMiddleware = (callback = () => { }) => {
+export const getCampaignWhatsappTemplateThunkMiddleware = (WabaSelect, callback = () => { }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
       console.log("api call")
 
       const response = await axios.post(`/campaign/getAllTemplates`, {
-        type: "whatsapp",
+        // type: "whatsapp",
+        type: WabaSelect,
       });
 
       if (response.status === 200) {
@@ -1533,7 +1534,12 @@ export const saveAndSendCampaignWhatsappTemplateThunkMiddleware = (
       //   variables,
       //   campaignName,
       // });
-      const response = await axios.post(`/campaign/sendWhatsappFromWaba`, data)
+      let response;
+      if (data?.whatsappVendor === "whatsappAirtel") {
+        response = await axios.post("/campaign/sendWhatsappFromAirtelIq", data);
+      } else {
+        response = await axios.post(`/campaign/sendWhatsappFromWaba`, data)
+      }
 
       // console.log(response)
 
@@ -1618,25 +1624,13 @@ export const startCampaignTemplateThunkMiddleware = ({
 };
 
 // changes made by abhyanshu
-export const createCampaignWhatsappTemplateThunkMiddleware = ({
-  templateName,
-  message,
-  type,
-  variables,
-  verified
-},
+export const createCampaignWhatsappTemplateThunkMiddleware = (data,
   callback = {}
 ) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
-      const response = await axios.post(`/whatsappTemp/create`, {
-        templateName,
-        message,
-        type,
-        variables,
-        verified,
-      });
+      const response = await axios.post(`/whatsappTemp/create`, data);
       // console.log(response.data)
 
       if (response.status === 200) {
@@ -3394,12 +3388,12 @@ export const startSamplePdfThunkMiddleware = ({
         // console.log("whole data at the request only response", response)
         let files = response.data.totalFiles;
 
-        if(response.status === 202){
+        if (response.status === 202) {
           toastify({
             msg: message,
             type: "warning",
           });
-        }else {
+        } else {
           toastify({
             msg: message,
             type: "success",
@@ -3640,12 +3634,12 @@ export const createDocumentsThunkMiddleware = ({
         const { message } = response.data;
         let files = response.data.totalFiles;
 
-        if(response.status === 202){
+        if (response.status === 202) {
           toastify({
             msg: message,
             type: "warning",
           });
-        }else {
+        } else {
           toastify({
             msg: message,
             type: "success",
@@ -3910,7 +3904,7 @@ export const createMergeCampaignShortLinkThunkMiddleware = ({
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
-      dispatch(setProgress({progressTab: "shortLink", createShortLink: true, createShortLinkProgress: 0, progressView: true}));
+      dispatch(setProgress({ progressTab: "shortLink", createShortLink: true, createShortLinkProgress: 0, progressView: true }));
 
       const response = await axios.post(
         // `/campaign/createShortLinks `, 
@@ -3932,7 +3926,7 @@ export const createMergeCampaignShortLinkThunkMiddleware = ({
     } catch (error) {
       // console.log(error);
       toastifyError(error);
-      dispatch(campaignLoadingThunkMiddleware({load: false, type: "shortLink"}));
+      dispatch(campaignLoadingThunkMiddleware({ load: false, type: "shortLink" }));
     } finally {
       dispatch(setLoader({ loader: false }));
     }
@@ -4368,7 +4362,7 @@ export const deleteFolderCampaignThunkMiddleware = ({ folder, id }, callback = f
       }
 
       // Call the callback with a failure status
-      if(callback) callback(null);
+      if (callback) callback(null);
     } finally {
       dispatch(setLoader({ loader: false }));
       dispatch(setProgress({
@@ -4420,7 +4414,7 @@ export const emailCategoriesThunkMiddleware = (payload) => {
 
       // dispatch(setCampaigns({ emailCategories: payload }));
       const response = await axios.post("/campaign/search-category1", payload);
-      if(response.status === 200){
+      if (response.status === 200) {
         toastify({ msg: response.data?.message });
       }
     } catch (error) {
@@ -4438,7 +4432,7 @@ export const campaignCategoriesThunkMiddleware = (payload) => {
       dispatch(setCampaigns({
         campaignCategories: [],
       }));
-    
+
       const response = await axios.post("/docs/campaignCategories", payload);
       console.log(response);
       if (response.status === 200) {
@@ -4498,9 +4492,9 @@ export const fetchReportApiThunkMiddleware = (payload) => {
     // console.log("campaign payload", payload);
     try {
       let response;
-      if(payload?.type === "email"){
+      if (payload?.type === "email") {
         response = await axios.post("/campaign/update-email-statusV2", payload);
-      }else {
+      } else {
         response = await axios.post("/docs/fetchAndSaveSmsData", payload);
       }
       console.log(response);
@@ -4531,7 +4525,7 @@ export const unqiueAccountNoDataThunkMiddleware = (payload) => {
             unqiueAccountNoData: response.data,
           })
         );
-      dispatch(setLoader({ loader: false }));
+        dispatch(setLoader({ loader: false }));
       }
     } catch (error) {
       toastifyError(error);
@@ -4546,7 +4540,7 @@ export const unqiueAccountNoDataThunkMiddleware = (payload) => {
   };
 };
 
-export const excelFileDataThunkMiddleware = (payload, callback = function(){}) => {
+export const excelFileDataThunkMiddleware = (payload, callback = function () { }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
@@ -4566,7 +4560,7 @@ export const excelFileDataThunkMiddleware = (payload, callback = function(){}) =
   };
 };
 
-export const bulkSearchLoanAccNoThunkMiddleware = (payload, callback = function(){}) => {
+export const bulkSearchLoanAccNoThunkMiddleware = (payload, callback = function () { }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
@@ -4601,11 +4595,11 @@ export const getPdfShortLinksProgressThunkMiddleware = (payload) => {
         // Format to 2 decimal places if needed
         const formattedPercentage = parseInt(percentage);
         // dispatch(campaignLoadingThunkMiddleware({ load: false, type: "shortLink" }));
-        dispatch(setProgress({ createShortLinkProgress: formattedPercentage}));
+        dispatch(setProgress({ createShortLinkProgress: formattedPercentage }));
 
-        if(percentage === 100){
+        if (percentage === 100) {
           dispatch(setProgress({ createShortLink: false, createShortLinkProgress: 0, progressTab: "shortLink", progressView: false }));
-        dispatch(getCampaignByNameThunkMiddleware({campaignName: payload?.name}));
+          dispatch(getCampaignByNameThunkMiddleware({ campaignName: payload?.name }));
         }
       }
     } catch (error) {
@@ -4792,7 +4786,7 @@ export const updateBankReportThunkMiddleware = (payload) => {
 
 // user
 
-export const updateAccountNameThunkMiddleware = (payload, callback = function() {}) => {
+export const updateAccountNameThunkMiddleware = (payload, callback = function () { }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
@@ -4808,7 +4802,7 @@ export const updateAccountNameThunkMiddleware = (payload, callback = function() 
     }
   }
 }
-export const moveCampaignThunkMiddleware = (payload, callback = function() {}) => {
+export const moveCampaignThunkMiddleware = (payload, callback = function () { }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
@@ -4825,7 +4819,7 @@ export const moveCampaignThunkMiddleware = (payload, callback = function() {}) =
   }
 }
 
-export const deleteAccountThunkMiddleware = (payload, callback = function() {}) => {
+export const deleteAccountThunkMiddleware = (payload, callback = function () { }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));

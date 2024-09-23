@@ -9,16 +9,19 @@ import {
 } from "../../../../redux/features/campaigns/index.js";
 import axios from "axios";
 import { toastify } from "../../../toast.js";
+import { Select } from "antd";
 
 const CreateWhatsappTemplatePage = () => {
   // const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   // const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(null);
   const [templateName, setTemplateName] = useState("");
+  const [templateId, setTemplateId] = useState("");
   const [textVariableCount, setTextVariableCount] = useState(null);
   const [variableCount, setVariableCount] = useState(null);
   const [addedInputs, setAddedInputs] = useState([]);
   const [addedVariables, setAddedVariables] = useState({})
+  const [type, setType] = useState('whatsappAirtel');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,16 +66,33 @@ const CreateWhatsappTemplatePage = () => {
 
   ];
 
+  const typeOption = [
+    { label: "Whatsapp Airtel", value: "whatsappAirtel" },
+    { label: "Whatsapp Waba", value: "whatsappWaba" },
+  ]
+
   const handleCreateTemplate = async () => {
     // try {
-    if (templateName.length !== null && text !== null
-      && addedInputs.length === textVariableCount && textVariableCount === variableCount 
+    if (templateName.length !== null && templateId.length !== null && type !== "" && text !== null
+      && addedInputs.length === textVariableCount && textVariableCount === variableCount
     ) {
+      // console.log({
+      //   templateName: templateName,
+      //   message: text,
+      //   // type: "whatsapp",
+      //   variables: addedVariables,
+      //   templateId: templateId,
+      //   verified: true,
+      //   type: type,
+      // })
+
       dispatch(createCampaignWhatsappTemplateThunkMiddleware({
         templateName: templateName,
         message: text,
-        type: "whatsapp",
+        // type: "whatsapp",
+        type: type,
         variables: addedVariables,
+        templateId: templateId,
         verified: true,
       },
         // setTimeout(() => {
@@ -149,9 +169,9 @@ const CreateWhatsappTemplatePage = () => {
   // console.log("variables added in the inputs count ", addedVariables)
 
   return (
-    <div className="overflow-y-auto px-6 py-4 md:gap-4 space-y-3">
+    <div className="overflow-y-auto px-2 py-2 md:gap-4 space-y-3">
       {/* Topbar  */}
-      <div className="h-fit px-4 py-2 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white rounded-md">
+      <div className="h-fit px-4 py-2 flex md:flex-row flex-col md:gap-0 gap-y-2 shadow-md w-full justify-between bg-white rounded-md">
         <div className=" flex items-center gap-4">
           <button
             onClick={() => navigate("/campaigns/campaigndetails/whatsapp")}
@@ -172,19 +192,46 @@ const CreateWhatsappTemplatePage = () => {
         </div>
       </div>
 
-      <div className=" bg-white rounded-md h-full p-3">
+      <div className=" bg-white rounded-md shadow-md h-full p-3">
         <h1 className=" font-bold py-2">Create Whatsapp Template</h1>
         <form action="" className=" space-y-3">
-          <div className=" flex flex-col gap-1 rounded flex-1">
-            <label htmlFor="" className="text-sm font-semibold">
-              Template Name :
-            </label>
-            <input
-              type="text"
-              className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
-              onChange={(e) => setTemplateName(e.target.value)}
-              value={templateName}
-            />
+          <div className="flex justify-center items-center w-full gap-x-2">
+            <div className=" flex flex-col gap-1 rounded flex-1">
+              <label htmlFor="" className="text-sm font-semibold">
+                Template Name :
+              </label>
+              <input
+                type="text"
+                className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
+                onChange={(e) => setTemplateName(e.target.value)}
+                value={templateName}
+              />
+            </div>
+
+            <div className=" flex flex-col gap-1 rounded flex-1">
+              <label htmlFor="" className="text-sm font-semibold">
+                Template Id :
+              </label>
+              <input
+                type="text"
+                className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
+                onChange={(e) => setTemplateId(e.target.value)}
+                value={templateId}
+              />
+            </div>
+
+            <div className=" flex flex-col gap-1 rounded flex-1">
+              <label htmlFor="" className="text-sm font-semibold">
+                Type :
+              </label>
+              <Select
+                placeholder="Select an Option"
+                defaultValue={"whatsappAirtel"} 
+                className="rounded flex-1 focus:ring-2 h-[44px] focus:ring-purple-800 outline-none w-full"
+                options={typeOption}
+                onChange={(value) => setType(value)}
+              />
+            </div>
           </div>
 
           {/* <div className=" flex flex-col gap-1 rounded flex-1">
