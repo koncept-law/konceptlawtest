@@ -322,7 +322,7 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
                     {/* ${saveButton ? "bg-green-600" : "bg-green-200 disabled"}  */}
                     < Button type="submit" onClick={handleMappedVariableValuesSend} disabled={addLoader} className={` 
                     ${saveButton ? "bg-green-600" : "bg-green-200 disabled"} ${addLoader ?  "bg-green-400 disabled" : "bg-green-600" }
-                    rounded-md capitalize not-italic leading-normal font-poppins py-2 px-4 w-fit cursor-pointer text-white min-h-fit h-[40px] flex justify-center mx-2 font-semibold shadow-sm`} >
+                    rounded-md capitalize not-italic leading-normal font-poppins py-2 px-4 w-fit cursor-pointer text-white min-h-fit h-[40px] flex justify-center items-center mx-2 font-semibold shadow-sm`} >
                         {addLoader ? <span className="flex"><Spinner/></span> : "Save"}
                     </Button>
                     {/* <button onClick={handleSetLoader} >SetLoader</button> */}

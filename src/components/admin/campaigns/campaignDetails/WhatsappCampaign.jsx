@@ -477,7 +477,7 @@ const WhatsappCampaign = () => {
   ]
 
   return (
-    <div className="overflow-y-auto h-full w-full px-2 py-2 md:gap-4 space-y-3">
+    <div className="overflow-y-auto h-full w-full px-2 py-2 md:gap-4 space-y-1">
       <PhoneTestModal isModalVisible={OpenTestBox} setIsModalVisible={() => setOpenTestBox(false)} />
       {
         ShowDeleteConfirmMessage ? <>
@@ -521,16 +521,17 @@ const WhatsappCampaign = () => {
       }
 
       {/* Topbar  */}
-      <div className="h-fit px-4 py-2 flex md:flex-row flex-col gap-y-2 md:my-0  w-full justify-between bg-white rounded-md">
+      <div className="h-fit px-4 py-1 flex md:flex-row flex-col gap-y-2 md:my-0  w-full justify-between bg-white rounded-md">
         <div className=" flex items-center gap-4">
-          <button
+          {/* <button
             // onClick={() => navigate("/campaigns/campaigndetails")}
             onClick={() => path.back()}
             className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
           >
             <IoMdArrowRoundBack size={26} />
           </button>
-          <h1 className=" text-xl font-semibold">Whatsapp Campaign</h1>
+          <h1 className=" text-xl font-semibold">Whatsapp Campaign</h1> */}
+          <h1 className=" text-xl font-semibold">Send Whatsapp</h1>
         </div>
         <div className="flex items-center gap-2">
           <button

@@ -52,6 +52,7 @@ const LoginPage = () => {
                     .foundUser;
                 dispatch(setUser({ user }));
                 localStorage.setItem("role", user.profile);
+                localStorage.setItem("isAuthenticated", true);
                 dispatch(
                     setAuth({ role: user.profile, isAuthenticated: true, token: token })
                 );

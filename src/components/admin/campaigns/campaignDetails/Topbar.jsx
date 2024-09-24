@@ -24,9 +24,9 @@ const Topbar = memo(({
   };
 
   return (
-    <div className=" flex flex-wrap items-center justify-between gap-4 bg-white px-4 py-2 rounded-md">
+    <div className=" flex flex-wrap items-center justify-between gap-4 bg-white px-4 py-0 rounded-md">
       <div className=" flex items-center flex-wrap gap-4">
-        <button
+        {/* <button
           // onClick={() => navigate("/campaigns")}
           // onClick={()=> navigate(-1)}
           // onClick={()=> navigate(path !== "" ? `${path}`: -1)}
@@ -35,16 +35,16 @@ const Topbar = memo(({
         >
           <IoMdArrowRoundBack size={26} />
         </button>
-        <h1 className=" font-semibold text-xl">{campaignDetails?.name}</h1>
+        <h1 className=" font-semibold text-xl">{campaignDetails?.name}</h1> */}
       </div>
       <div className="flex justify-center items-center gap-x-2">
         { message ? message: "" }
-        <button
+        {/* <button
           onClick={refreshHandler}
           className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
         >
           Refresh
-        </button>
+        </button> */}
       </div>
     </div>
   );

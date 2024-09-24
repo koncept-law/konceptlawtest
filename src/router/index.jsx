@@ -82,59 +82,76 @@ const Tools = lazy(() => import("../components/admin/tools/Tools.jsx"));
 
 const Router = () => {
   const dispatch = useDispatch();
+  const isAuth = localStorage.getItem("isAuthenticated");
   const { isAuthenticated, role, token } = useSelector((state) => state.auth);
+  // console.log("isAuthenticate", isAuth)
+
+  const destination = useMemo(() => {
+    if(isAuth){
+      return "/dashboard";
+    }else if(!isAuth){
+      return "/login";
+    }else {
+      return "/";
+    }
+  }, [isAuth, role, token]);
+  // console.log(destination)
 
   const element = useRoutes([
     {
       path: "/",
       // element: <HomePage />,
-      element: <LoginPage />,
+      // element: <LoginPage />,
+      element: <Navigate to={destination} />,
     },
     {
       path: "/login",
-      element: (
-        <ProtectedRoutes
-        isAuthenticated={!isAuthenticated}
-        redirect={"/dashboard"}
-        >
-          {/* <Login /> */}
-          <LoginPage />
-        </ProtectedRoutes>
-      ),
+      // element: (
+      //   <ProtectedRoutes
+      //   isAuthenticated={!isAuthenticated}
+      //   redirect={"/dashboard"}
+      //   >
+      //     {/* <Login /> */}
+      //     <LoginPage />
+      //   </ProtectedRoutes>
+      // ),
+      element: !isAuth ? <LoginPage />: <Navigate to={"/"} />,
     },
     {
       path: "/register",
-      element: (
-        <ProtectedRoutes
-          isAuthenticated={!isAuthenticated}
-          redirect={"/dashboard"}
-        >
-          {/* <Login /> */}
-          <LoginPage />
-        </ProtectedRoutes>
-      ),
+      // element: (
+      //   <ProtectedRoutes
+      //     isAuthenticated={!isAuthenticated}
+      //     redirect={"/dashboard"}
+      //   >
+      //     {/* <Login /> */}
+      //     <LoginPage />
+      //   </ProtectedRoutes>
+      // ),
+      element: !isAuth ? <LoginPage />: <Navigate to={"/"} />,
     },
-    // changes made by abhyanshu
     {
       path: "/",
-      element: (
-        <ProtectedRoutes isAuthenticated={isAuthenticated} redirect={"/login"}>
-          <Admin />
-        </ProtectedRoutes>
-      ),
+      // element: (
+      //   <ProtectedRoutes isAuthenticated={isAuthenticated} redirect={"/login"}>
+      //     <Admin />
+      //   </ProtectedRoutes>
+      // ),
+      element: isAuth ? <Admin />: <Navigate to={"/login"} />,
       // element : <Admin/>,
       children: [
         {
           path: "/dashboard",
           element: (
-            <AdminProtectedRoutes
-              // isAdmin={role === "superAdmin"}
-              // redirect={"/document"}
-              isAdmin={true}
-            >
-              {/* <Dashboard /> */}
-              <MainDashboard />
-            </AdminProtectedRoutes>
+            // <AdminProtectedRoutes
+            //   // isAdmin={role === "superAdmin"}
+            //   // redirect={"/document"}
+            //   isAdmin={true}
+            // >
+            //   {/* <Dashboard /> */}
+            //   <MainDashboard />
+            // </AdminProtectedRoutes>
+            <MainDashboard />
           ),
           // element : <Dashboard/>,
         },
@@ -153,16 +170,16 @@ const Router = () => {
         // changes made by abhyanshu
         {
           path: "/campaigns",
-          element: (
-            <AdminProtectedRoutes
-              isAdmin={role === "superAdmin"}
-              // redirect={"/document"}
-              redirect={"/dashboard"}
-            >
-              <Campaigns />
-            </AdminProtectedRoutes>
-          ),
-          // element: <Campaigns/>
+          // element: (
+          //   <AdminProtectedRoutes
+          //     isAdmin={role === "superAdmin"}
+          //     // redirect={"/document"}
+          //     redirect={"/dashboard"}
+          //   >
+          //     <Campaigns />
+          //   </AdminProtectedRoutes>
+          // ),
+          element: <Campaigns/>
         },
         {
           path: "/campaigns/documenttemplates",
@@ -266,75 +283,83 @@ const Router = () => {
         {
           path: "/tracking",
           element: (
-            <AdminProtectedRoutes
-              isAdmin={role === "superAdmin"}
-              // redirect={"/document"}
-              redirect={"/dashboard"}
-            >
-              <Tracking />
-            </AdminProtectedRoutes>
+            // <AdminProtectedRoutes
+            //   isAdmin={role === "superAdmin"}
+            //   // redirect={"/document"}
+            //   redirect={"/dashboard"}
+            // >
+            //   <Tracking />
+            // </AdminProtectedRoutes>
+            <Tracking />
           ),
         },
         {
           path: "/my-number",
-          element: (<AdminProtectedRoutes
-            isAdmin={role === "superAdmin"}
-            // redirect={"/document"}
-            redirect={"/dashboard"}
-          >
-            <MyNumber />
-          </AdminProtectedRoutes>)
+          // element: (<AdminProtectedRoutes
+          //   isAdmin={role === "superAdmin"}
+          //   // redirect={"/document"}
+          //   redirect={"/dashboard"}
+          // >
+          //   <MyNumber />
+          // </AdminProtectedRoutes>)
+          element: <MyNumber />,
         },
         {
           path: "/all-accounts",
-          element: (<AdminProtectedRoutes
-            isAdmin={role === "superAdmin"}
-            // redirect={"/document"}
-            redirect={"/dashboard"}
-          >
-            <AllUsers />
-          </AdminProtectedRoutes>)
+          // element: (<AdminProtectedRoutes
+          //   isAdmin={role === "superAdmin"}
+          //   // redirect={"/document"}
+          //   redirect={"/dashboard"}
+          // >
+          //   <AllUsers />
+          // </AdminProtectedRoutes>)
+          element: <AllUsers />
         },
         {
           path: "/tools",
-          element: (<AdminProtectedRoutes
-            isAdmin={role === "superAdmin"}
-            // redirect={"/document"}
-            redirect={"/dashboard"}
-          >
-            <Tools />
-          </AdminProtectedRoutes>)
+          // element: (<AdminProtectedRoutes
+          //   isAdmin={role === "superAdmin"}
+          //   // redirect={"/document"}
+          //   redirect={"/dashboard"}
+          // >
+          //   <Tools />
+          // </AdminProtectedRoutes>)
+          element: <Tools />,
+        },
+        {
+          path: "*",
+          element: <Navigate to={"/"}/>
         },
       ],
     },
   ]);
 
-  useEffect(() => {
-    const checkIsUserAuthenticated = async () => {
-      try {
-        const token = getItemFromStore("konceptLawToken");
-        if (token) {
-          const user = await jwtDecode(token).foundUser;
-          const role = user.profile ? user.profile : null;
+  // useEffect(() => {
+  //   const checkIsUserAuthenticated = async () => {
+  //     try {
+  //       const token = getItemFromStore("konceptLawToken");
+  //       if (token) {
+  //         const user = await jwtDecode(token).foundUser;
+  //         const role = user.profile ? user.profile : null;
 
-          dispatch(
-            setAuth({
-              token,
-              isAuthenticated: true,
-              role,
-            })
-          );
-          dispatch(setUser({ user }));
-        } else {
-          dispatch(logoutThunkMiddleware());
-        }
-      } catch (error) {
-        dispatch(logoutThunkMiddleware());
-      }
-    };
+  //         dispatch(
+  //           setAuth({
+  //             token,
+  //             isAuthenticated: true,
+  //             role,
+  //           })
+  //         );
+  //         dispatch(setUser({ user }));
+  //       } else {
+  //         dispatch(logoutThunkMiddleware());
+  //       }
+  //     } catch (error) {
+  //       dispatch(logoutThunkMiddleware());
+  //     }
+  //   };
 
-    checkIsUserAuthenticated();
-  }, [isAuthenticated, token, role, dispatch]);
+  //   checkIsUserAuthenticated();
+  // }, [isAuthenticated, token, role, dispatch]);
 
   return element;
 };

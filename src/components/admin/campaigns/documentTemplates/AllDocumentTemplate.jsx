@@ -121,7 +121,7 @@ const DocumentTemplates = () => {
       {categoriesModal && <CategoriesModal categoriesModal={categoriesModal} setCategoriesModal={setCategoriesModal} />}
       {/* {templateModal && <TemplateModal templateModal={templateModal} setTemplateModal={setTemplateModal} />} */}
       <CreateTemplateModal open={templateModal} setOpen={setTemplateModal} />
-      <div className="relative h-full w-full px-2 py-2 flex gap-2 md:gap-4 flex-col">
+      <div className="relative h-full w-full px-2 py-2 flex gap-2 md:gap-x-4 flex-col">
         {/* <button className="bg-blue-600 text-white">Refresh</button> */}
         <DocumentTemplateTopBar title="Document Templates" BackEvent={handleBackEvent} folderName={SelectFolder} items={
           <div className="flex justify-center gap-x-2 items-center">

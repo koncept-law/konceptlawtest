@@ -13,7 +13,7 @@ import SwitchUserBox from "../users/SwitchUserBox";
 import AddUser from "../users/AddUser";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoReloadSharp } from "react-icons/io5";
-import { getAllCampaignThunkMiddleware, getCampaignByNameThunkMiddleware } from "../../../redux/features/campaigns";
+import { getAllCampaignReportsThunkMiddleware, getAllCampaignThunkMiddleware, getCampaignByNameThunkMiddleware } from "../../../redux/features/campaigns";
 import AddCampaign from "../campaigns/AddCampaign";
 import { FaFileExport, FaPlus } from "react-icons/fa";
 import ExportModal from "../../../common/modals/ExportModal";
@@ -21,6 +21,8 @@ import ViewDocumentModal from "../../../common/modals/ViewDocumentModal";
 
 import usePath from "../../../hooks/usePath";
 import { FaAnglesLeft } from "react-icons/fa6";
+import MyPath from "../../common/MyPath";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const DashboardNavbar = () => {
     const { singleUser, campaignDetails } = useSelector(state => state.campaigns);
@@ -47,8 +49,14 @@ const DashboardNavbar = () => {
     };
 
     const refresh = () => {
-        dispatch(getAllCampaignThunkMiddleware({ accountId: singleUser?.accountId }));
-        dispatch(getCampaignByNameThunkMiddleware({ campaignName: campaignDetails?.name }));
+        if (path.location.pathname.match("reports")) {
+            dispatch(
+                getAllCampaignReportsThunkMiddleware({ campaignName: campaignDetails.name })
+            );
+        } else {
+            dispatch(getAllCampaignThunkMiddleware({ accountId: singleUser?.accountId }));
+            dispatch(getCampaignByNameThunkMiddleware({ campaignName: campaignDetails?.name }));
+        }
     }
 
     const userMenu = (
@@ -84,9 +92,9 @@ const DashboardNavbar = () => {
             <NotificationModal isVisible={OpenNotification} onClose={() => setOpenNotification(false)} />
             {/* <SwitchUserBox open={open} setOpen={setOpen} /> */}
             <AddUser open={addOpen} setOpen={() => setAddOpen(false)} />
-            <ViewDocumentModal 
-                open={isOpenDocument} 
-                setOpen={() => setIsOpenDocument(false)} 
+            <ViewDocumentModal
+                open={isOpenDocument}
+                setOpen={() => setIsOpenDocument(false)}
                 globalSearch={true}
             />
 
@@ -99,15 +107,17 @@ const DashboardNavbar = () => {
                             ? <>
                                 <Tooltip title="Back" placement="bottom">
                                     <Button
-                                        onClick={() => path.back()}
+                                        onClick={() => !location.pathname?.match("dashboard") ? path.back() : path.navigate("/all-accounts")}
                                         className="w-fit flex items-center gap-1 mx-2 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
                                     >
-                                        <FaAnglesLeft size={16} />
+                                        {/* <FaAnglesLeft size={16} /> */}
+                                        <IoMdArrowRoundBack size={16} />
                                     </Button>
                                 </Tooltip>
-                                <Link to={"/dashboard"}>
+                                {/* <Link to={"/dashboard"}>
                                     <h2 className="hover:text-blue-700 hover:underline hover:underline-offset-4 hover:decoration-[2px]">{singleUser?.firstName + (singleUser?.lastName ? ` ${singleUser?.lastName}` : "")}</h2>
-                                </Link>
+                                </Link> */}
+                                <MyPath singleUser={singleUser} campaignDetails={campaignDetails} />
                             </>
                             : null
                     }

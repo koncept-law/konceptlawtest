@@ -245,18 +245,19 @@ const BulkEmail = () => {
         }
         onConfirm={handleSubmit(testEmailHandler)}
       />
-      <div className="overflow-y-auto h-[90vh] w-full py-2 md:gap-4 space-y-3">
+      <div className="overflow-y-auto h-[90vh] w-full py-2 md:gap-4 space-y-1">
         {/* Topbar  */}
-        <div className="h-fit px-4 py-2 flex sm:flex-row flex-col gap-y-4 sm:gap-y-0 w-full justify-between bg-white rounded-md">
+        <div className="h-fit px-4 py-1 flex sm:flex-row flex-col gap-y-4 sm:gap-y-0 w-full justify-between bg-white rounded-md">
           <div className=" flex items-center gap-4">
-            <button
+            {/* <button
               // onClick={() => navigate("/campaigns/campaigndetails/email/categories")}
               onClick={() => path.back()}
               className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
             >
               <IoMdArrowRoundBack size={26} />
             </button>
-            <h1 className=" text-xl font-semibold">Bulk Email Campaign</h1>
+            <h1 className=" text-xl font-semibold">Bulk Email Campaign</h1> */}
+            <h1 className=" text-xl font-semibold">Send Bulk Email</h1>
           </div>
           <div className="flex flex-wrap sm:items-center items-start gap-2">
             <button
@@ -291,8 +292,8 @@ const BulkEmail = () => {
         </div>
 
         <div className=" bg-white rounded-md p-3">
-          <div className="flex justify-between items-center w-full">
-            <h1 className=" font-bold py-2">Send Bulk Email</h1>
+          <div className="flex justify-end items-center w-full">
+            {/* <h1 className=" font-bold py-2">Send Bulk Email</h1> */}
             <div className="flex justify-center gap-x-2 items-center">
               <Button className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3 ${selectedTemplate !== "" && subject !== "" && !isfillVariables && watch("cc") !== "" ? "" : "cursor-not-allowed bg-slate-500"
                 }`}

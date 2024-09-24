@@ -190,7 +190,7 @@ const AllCampaignsSidebar = ({ data, refreshData, countData }) => {
                         </button>
                     </div>
                     {sortedData.length !== 0 &&
-                        (<div className='h-[70vh] table-container overflow-y-scroll '>
+                        (<div className='h-[80vh] table-container overflow-y-scroll '>
                             {sortedData &&
                                 sortedData?.map((item, index) => (
                                     <CampaignsCard

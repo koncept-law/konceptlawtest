@@ -532,7 +532,7 @@ const MainDashboard = () => {
                             </Button>
                         </Dropdown>
 
-                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-0.5 px-1 rounded-md shadow-sm hover:shadow-sm flex justify-center text-[10px] lg:text-[12px] items-center gap-x-1.5" onClick={() => {
+                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-[3px] px-1 rounded-md shadow-sm hover:shadow-sm flex justify-center text-[10px] lg:text-[12px] items-center gap-x-1.5" onClick={() => {
                             // navigate("/campaigns/campaigndetails/reports");
                             dispatch(getCampaignByNameThunkMiddleware({ campaignName: campaignDetails?.name }));
                             navigate("/campaigns/campaigndetails");
@@ -540,6 +540,15 @@ const MainDashboard = () => {
                             <IoEyeSharp size={"18px"} />
                             <span>Campaign Details</span>
                         </Button>
+
+                        <Button className="font-poppins not-italic leading-normal text-white font-medium bg-slate-800 capitalize py-0.5 px-1 rounded-md shadow-sm hover:shadow-sm flex justify-center text-[10px] lg:text-[14px] items-center gap-x-1.5" onClick={() => {
+                            dispatch(getAllCampaignReportsThunkMiddleware({ campaignName: campaignDetails?.name }));
+                            navigate("/campaigns/campaigndetails/reports");
+                        }}>
+                            <IoEyeSharp size={"18px"} />
+                            <span>View Reports</span>
+                        </Button>
+
                     </div>
                 </div>
 

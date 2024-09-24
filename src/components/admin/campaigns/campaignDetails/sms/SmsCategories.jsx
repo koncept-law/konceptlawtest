@@ -85,7 +85,7 @@ const SmsCategories = () => {
     return (
         <div className="w-full">
             {/* Topbar */}
-            <div className="h-fit px-4 py-2 shadow-md shadow-slate-200 flex md:flex-row flex-col gap-y-2 md:my-0 w-full justify-between bg-white rounded-md">
+            {/* <div className="h-fit px-4 py-2 shadow-md shadow-slate-200 flex md:flex-row flex-col gap-y-2 md:my-0 w-full justify-between bg-white rounded-md">
                 <div className="flex items-center gap-4">
                     <button
                         onClick={BackEvent}
@@ -114,7 +114,7 @@ const SmsCategories = () => {
                         Save & Send
                     </button>
                 </div>
-            </div>
+            </div> */}
 
             <div className="w-full flex flex-col">
                 <div className="flex justify-between w-full items-end my-2">

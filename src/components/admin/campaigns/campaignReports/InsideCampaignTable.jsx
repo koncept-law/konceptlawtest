@@ -386,7 +386,7 @@ const InsideCampaignTable = ({ data }) => {
                         ) : (<>
                             {
                                 filteredData &&
-                                <div className="h-[70vh] overflow-y-scroll" >
+                                <div className="h-[80vh] overflow-y-scroll" >
                                     <ReportSection
                                         dataInCampaign={filteredData ? filteredData[0] : []}
                                     // countData={countData}

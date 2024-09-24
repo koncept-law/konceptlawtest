@@ -224,7 +224,7 @@ const ReportSection = ({ dataInCampaign,
                 <div className="p-2 pl-4 pr-4 text-center w-full text-wrap m-2 font-semibold bg-green-200 rounded-md border-2 border-solid border-green-300 text-[14px]">Start On: {dataInCampaign?.campaignStartTime}</div>
                 <div className="p-2 pl-4 pr-4 text-center w-full text-wrap m-2 font-semibold bg-green-200 rounded-md border-2 border-solid border-green-300 text-[14px]">Complete On: {dataInCampaign?.campaignEndTime}</div>
             </div>
-            <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-2">
+            <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-x-3 px-2 gap-y-2">
                  {/* original  */}
                 {/* {DataArray && DataArray?.map((item, index) => {
                     return (
