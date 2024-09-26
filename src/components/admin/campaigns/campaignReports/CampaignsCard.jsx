@@ -10,9 +10,13 @@ import { FcSms } from "react-icons/fc";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import { RxCross2 } from 'react-icons/rx';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteInsideCampaignThunkMiddleware, getAllCampaignReportsThunkMiddleware } from '../../../../redux/features/campaigns';
 
 const CampaignsCard = ({ value, handleSelectedCard, isActive }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { campaignDetails } = useSelector(state => state.campaigns);
+  const dispatch = useDispatch();
 
   function formatDateToDDMMYY(date) {
     date = new Date(date);
@@ -50,6 +54,10 @@ const CampaignsCard = ({ value, handleSelectedCard, isActive }) => {
   };
 
   const handleOk = () => {
+    // console.log("report", value, campaignDetails?.name);
+    dispatch(deleteInsideCampaignThunkMiddleware({ campaignName: campaignDetails?.name, insideCampaignId: value?.id, type: value?.type }, (call) => {
+      if(call) dispatch(getAllCampaignReportsThunkMiddleware({ campaignName: campaignDetails?.name }))
+    }));
     setIsModalVisible(false);
     // Add delete logic here
   };

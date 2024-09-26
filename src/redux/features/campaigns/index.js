@@ -4837,3 +4837,19 @@ export const deleteAccountThunkMiddleware = (payload, callback = function () { }
 }
 
 // ----------
+export const deleteInsideCampaignThunkMiddleware = (payload, callback = function () { }) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post(`/campaign/deleteInsideCampaign`, payload);
+      if (response.status === 200) {
+        toastify({ msg: response.data?.message });
+        callback(true);
+      }
+    } catch (error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}

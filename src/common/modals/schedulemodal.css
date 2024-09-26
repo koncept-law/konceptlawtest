@@ -1,0 +1,12 @@
+.custom-time-picker {
+    border: 1px solid #000000;
+    border-radius: 2px;
+}
+
+.custom-time-picker .ant-picker-input input::placeholder {
+    color: #000000;
+}
+
+.ant-picker-dropdown .ant-picker-ok button {
+    background-color: #16a34a;
+}

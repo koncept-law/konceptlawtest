@@ -32,6 +32,7 @@ import { toastifyError } from "../../../../constants/errors";
 
 import usePath from "../../../../hooks/usePath";
 import DropdownOption from "../../../../common/fields/DropdownOption";
+import ScheduleModal from "../../../../common/modals/ScheduleModal";
 
 
 const WhatsappCampaign = () => {
@@ -74,7 +75,10 @@ const WhatsappCampaign = () => {
   const [variableCount, setVariableCount] = useState(null);
   const [WabaSelect, setWabaSelect] = useState("whatsappAirtel");
   const [OpenTestBox, setOpenTestBox] = useState(false);
-  // changes made by abhyanshu
+
+  // schedule
+  const [isSchedule, setIsSchedule] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getCampaignWhatsappTemplateThunkMiddleware(WabaSelect));
@@ -246,6 +250,7 @@ const WhatsappCampaign = () => {
       // console.log("longlink:",selectLongLink)
       if (selectLongLink && selectedTemplate && variableCount === textVariableCount) {
         // console.log("select template with long link")
+        setIsLoading(true);
         dispatch(
           saveAndSendCampaignWhatsappTemplateThunkMiddleware({
             templateId: selectedTemplate.templateId,
@@ -261,6 +266,8 @@ const WhatsappCampaign = () => {
             // }, 1500)
             (error) => {
               if (!error) {
+                setIsLoading(false);
+                setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
               }
             }
@@ -269,6 +276,7 @@ const WhatsappCampaign = () => {
       }
       else if (selectedTemplate && variableCount === textVariableCount) {
         // console.log("only select template")
+        setIsLoading(true);
         dispatch(
           saveAndSendCampaignWhatsappTemplateThunkMiddleware({
             templateId: selectedTemplate.templateId,
@@ -283,12 +291,15 @@ const WhatsappCampaign = () => {
             // }, 1500)
             (error) => {
               if (!error) {
+                setIsLoading(false);
+                setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
               }
             }
           )
         );
       } else if (selectLongLink) {
+        setIsLoading(true);
         dispatch(
           saveAndSendCampaignWhatsappTemplateThunkMiddleware({
             // templateId: selectedTemplate?.templateId,
@@ -304,6 +315,8 @@ const WhatsappCampaign = () => {
             // }, 1500)
             (error) => {
               if (!error) {
+                setIsLoading(false);
+                setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
               }
             }
@@ -520,6 +533,13 @@ const WhatsappCampaign = () => {
         </> : null
       }
 
+      <ScheduleModal 
+        isOpen={isSchedule} 
+        setIsOpen={setIsSchedule} 
+        withOutSchedule={saveAndSendWhatsappHandler}
+        isLoading={isLoading}
+      />
+
       {/* Topbar  */}
       <div className="h-fit px-4 py-1 flex md:flex-row flex-col gap-y-2 md:my-0  w-full justify-between bg-white rounded-md">
         <div className=" flex items-center gap-4">
@@ -559,7 +579,8 @@ const WhatsappCampaign = () => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              setShowSaveAndSendConfirmMessage(true);
+              // setShowSaveAndSendConfirmMessage(true);
+              setIsSchedule(true)
             }}
             className=" flex items-center gap-1 bg-gray-600 px-2 py-1 rounded-md text-white font-semibold"
           >
