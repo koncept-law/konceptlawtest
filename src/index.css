@@ -128,3 +128,11 @@
 .ant-select-item-option-active {
   background-color: #cbd5e1 !important;
 }
+
+.my-field > div {
+  border-color: #000000 !important;
+}
+
+.my-field > div > input::placeholder {
+  color: #000000 !important;
+}
