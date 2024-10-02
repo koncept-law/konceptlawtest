@@ -15,10 +15,11 @@ import Charts from "../Charts.jsx";
 import { getCampaignByNameThunkMiddleware, startCampaignTemplateThunkMiddleware } from "../../../../../redux/features/campaigns/index.js";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmMessage from "../../../../common/ConfirmMessage.jsx";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdCancel, MdDeleteOutline } from "react-icons/md";
 import { MdOutlineNotStarted } from "react-icons/md";
 import { MdOutlineCampaign } from "react-icons/md";
 import { number } from "yup";
+import { IoIosCloudDone } from "react-icons/io";
 
 
 // import ApexCharts from 'apexcharts';
@@ -29,15 +30,15 @@ const ReportSection = ({ dataInCampaign,
     // totalSent, totalSms, totalFailed, totalDelivered, totalInvalidNumber, campaignStartTime, campaignEndTime 
 }) => {
 
-    
-    
-    const { campaignDetails , campaignReports } = useSelector((state) => state.campaigns)
-    useEffect(() => { }, [campaignDetails , campaignReports])
-    
-    
-    
+
+
+    const { campaignDetails, campaignReports } = useSelector((state) => state.campaigns)
+    useEffect(() => { }, [campaignDetails, campaignReports])
+
+
+
     // const { dummyCount } = useSelector((state) => state.campaigns);
-    
+
     // console.log("count value in report section component ", dummyCount)
 
     const dispatch = useDispatch();
@@ -58,18 +59,18 @@ const ReportSection = ({ dataInCampaign,
     useEffect(() => {
         // original
         // SetDataArray([ dataInCampaign?.totalSms , dataInCampaign?.totalSent, dataInCampaign?.totalDelivered, dataInCampaign?.totalInvalidNumber, dataInCampaign?.totalFailed,])
-        let totalSms = (dataInCampaign?.totalSms ? (typeof dataInCampaign?.totalSms === "string" ? Number.parseInt(dataInCampaign?.totalSms): dataInCampaign?.totalSms): 0);
+        let totalSms = (dataInCampaign?.totalSms ? (typeof dataInCampaign?.totalSms === "string" ? Number.parseInt(dataInCampaign?.totalSms) : dataInCampaign?.totalSms) : 0);
 
-        let totalSent = (dataInCampaign?.totalSent ? (typeof dataInCampaign?.totalSent === "string" ? Number.parseInt(dataInCampaign?.totalSent): dataInCampaign?.totalSent): 0);
+        let totalSent = (dataInCampaign?.totalSent ? (typeof dataInCampaign?.totalSent === "string" ? Number.parseInt(dataInCampaign?.totalSent) : dataInCampaign?.totalSent) : 0);
 
-        let totalDelivered = (dataInCampaign?.totalDelivered ? (typeof dataInCampaign?.totalDelivered === "string" ? Number.parseInt(dataInCampaign?.totalDelivered): dataInCampaign?.totalDelivered): 0);
+        let totalDelivered = (dataInCampaign?.totalDelivered ? (typeof dataInCampaign?.totalDelivered === "string" ? Number.parseInt(dataInCampaign?.totalDelivered) : dataInCampaign?.totalDelivered) : 0);
 
-        let totalFailed = (dataInCampaign?.totalFailed ? (typeof dataInCampaign?.totalFailed === "string" ? Number.parseInt(dataInCampaign?.totalFailed): dataInCampaign?.totalFailed): 0);
+        let totalFailed = (dataInCampaign?.totalFailed ? (typeof dataInCampaign?.totalFailed === "string" ? Number.parseInt(dataInCampaign?.totalFailed) : dataInCampaign?.totalFailed) : 0);
 
-        let totalInvalidNumber = (dataInCampaign?.totalInvalidNumber ? (typeof dataInCampaign?.totalInvalidNumber === "string" ? Number.parseInt(dataInCampaign?.totalInvalidNumber): dataInCampaign?.totalInvalidNumber): 0);
+        let totalInvalidNumber = (dataInCampaign?.totalInvalidNumber ? (typeof dataInCampaign?.totalInvalidNumber === "string" ? Number.parseInt(dataInCampaign?.totalInvalidNumber) : dataInCampaign?.totalInvalidNumber) : 0);
 
-        if(dataInCampaign?.type?.toLowerCase() === "email"){
-            SetDataArray([ 
+        if (dataInCampaign?.type?.toLowerCase() === "email") {
+            SetDataArray([
                 // {
                 //     number: totalSent,
                 //     title: "Total",
@@ -94,11 +95,11 @@ const ReportSection = ({ dataInCampaign,
                     number: dataInCampaign?.total,
                     title: "Total",
                     color: "blue",
-                }, 
+                },
                 {
-                    number : dataInCampaign?.sent,
+                    number: dataInCampaign?.sent,
                     title: "Delivered",
-                    color: "lightgreen",  
+                    color: "lightgreen",
                 },
                 // {
                 //     number: dataInCampaign?.delivered,
@@ -109,7 +110,7 @@ const ReportSection = ({ dataInCampaign,
                     // number: dataInCampaign?.failed,
                     number: (dataInCampaign?.softBounce + dataInCampaign?.hardBounce + dataInCampaign?.dropped),
                     title: "Failed",
-                    color:  "red",
+                    color: "red",
                 },
                 {
                     number: dataInCampaign?.softBounce,
@@ -127,17 +128,17 @@ const ReportSection = ({ dataInCampaign,
                     color: "purple"
                 }
             ])
-        }else {
-            SetDataArray([ 
+        } else {
+            SetDataArray([
                 {
                     number: totalSms,
                     title: "Total",
                     color: "blue",
-                }, 
+                },
                 {
-                    number : totalSent,
+                    number: totalSent,
                     title: "Sent",
-                    color: "lightgreen", 
+                    color: "lightgreen",
                 },
                 {
                     number: totalDelivered,
@@ -152,12 +153,12 @@ const ReportSection = ({ dataInCampaign,
                 {
                     number: totalFailed,
                     title: "Failed",
-                    color:  "red",
+                    color: "red",
                 },
             ])
             // SetDataArray([ dataInCampaign?.totalSms , dataInCampaign?.totalSent, dataInCampaign?.totalDelivered, dataInCampaign?.totalInvalidNumber, dataInCampaign?.totalFailed,])
         }
-    }, [campaignDetails , campaignReports , dataInCampaign, dataInCampaign?.campaignStatus])
+    }, [campaignDetails, campaignReports, dataInCampaign, dataInCampaign?.campaignStatus])
 
     // changes made by abhyanshu
     const sendStartCampaignHandler = () => {
@@ -174,7 +175,7 @@ const ReportSection = ({ dataInCampaign,
     //     dispatch(settingCount({ count: count }))
     // }
     // console.log("total sms in report section" , typeof DataArray[0])
-    
+
     return (
         <div className="flex flex-col justify-start items-start">
             <div className="flex justify-between items-start w-full">
@@ -212,7 +213,7 @@ const ReportSection = ({ dataInCampaign,
                 <button  className="bg-gray-500 rounded-md text-lg font-semibold p-2 text-black" onClick={() => setCount(count => count - 1)}>-</button>
                 <button className="bg-green-500 rounded-md text-lg font-semibold p-2" onClick={handleSettingValue} >Send Count New Value</button>
                 <input className="bg-gray-100 rounded-md text-lg font-semibold p-2 text-black" type="number" value={countData} disabled={true} /> */}
-                
+
                 {/* <div className="flex justify-end w-full p-3 items-center">
                     <BlackButton onClick={() => navigate(`/campaigns/campaigndetails/reports`)}>
                         <TbReload size={"22px"} />
@@ -220,12 +221,38 @@ const ReportSection = ({ dataInCampaign,
                 </div> */}
             </div>
 
+            {
+                dataInCampaign?.type?.toLowerCase() === "whatsapp" ? <>
+                    <div className="w-full flex justify-between px-4 font-poppins font-medium not-italic leading-normal items-center gap-x-3">
+                        <div className="flex justify-center gap-x-2 items-center">
+                            <h2 className="text-[15px] font-semibold">Scheduled:</h2>
+                            {
+                                dataInCampaign?.scheduled ? <IoIosCloudDone size={26} className="text-green-700" />
+                                    : <MdCancel size={23} className="text-red-700" />
+                            }
+                        </div>
+                        <div className="flex justify-center gap-x-2 items-center">
+                            <h2 className="text-[15px] font-semibold">Scheduled Time:</h2>
+                            <h2 className="text-[15px]">{dataInCampaign?.scheduledTime}</h2>
+                        </div>
+                        <div className="flex justify-center gap-x-2 items-center">
+                            <h2 className="text-[15px] font-semibold">Schedule Started:</h2>
+                            {
+                                dataInCampaign?.scheduleStarted ? <IoIosCloudDone size={26} className="text-green-700" />
+                                    : <MdCancel size={23} className="text-red-700" />
+                            }
+                        </div>
+                        {/* scheduled : Boolean, scheduledTime:String,   scheduleStarted: Boolean */}
+                    </div>
+                </> : null
+            }
+
             <div className="w-full flex sm:flex-row flex-col px-2 sm:px-0 justify-center mt-3 mb-3 items-center">
                 <div className="p-2 pl-4 pr-4 text-center w-full text-wrap m-2 font-semibold bg-green-200 rounded-md border-2 border-solid border-green-300 text-[14px]">Start On: {dataInCampaign?.campaignStartTime}</div>
                 <div className="p-2 pl-4 pr-4 text-center w-full text-wrap m-2 font-semibold bg-green-200 rounded-md border-2 border-solid border-green-300 text-[14px]">Complete On: {dataInCampaign?.campaignEndTime}</div>
             </div>
             <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-x-3 px-2 gap-y-2">
-                 {/* original  */}
+                {/* original  */}
                 {/* {DataArray && DataArray?.map((item, index) => {
                     return (
                         <ReportCard
@@ -247,8 +274,8 @@ const ReportSection = ({ dataInCampaign,
                             color={item?.color}
                             title={item?.title}
                             total={DataArray[0]?.number}
-                            // startTime={item?.campaignStartTime}
-                            // endTime={item?.campaignEndTime}
+                        // startTime={item?.campaignStartTime}
+                        // endTime={item?.campaignEndTime}
                         />
                     );
                 })}
