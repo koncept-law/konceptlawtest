@@ -79,6 +79,7 @@ const AllUsers = lazy(() => import("../components/admin/users/AllUsers.jsx"));
 const SmsApplication = lazy(() => import("../components/admin/campaigns/campaignDetails/sms/SmsApplication.jsx"));
 const SmsCategories = lazy(() => import("../components/admin/campaigns/campaignDetails/sms/SmsCategories.jsx"));
 const Tools = lazy(() => import("../components/admin/tools/Tools.jsx"));
+const TrackingPage = lazy(() => import("../components/admin/tools/pages/TrackingPage.jsx"));
 
 const Router = () => {
   const dispatch = useDispatch();
@@ -325,6 +326,10 @@ const Router = () => {
           //   <Tools />
           // </AdminProtectedRoutes>)
           element: <Tools />,
+        },
+        {
+          path: "/tools/tracking",
+          element: <TrackingPage />,
         },
         {
           path: "*",

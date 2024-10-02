@@ -18,15 +18,20 @@ import { TbMapPinCode } from "react-icons/tb";
 import PinCode from "./PinCode";
 import { TfiTarget } from "react-icons/tfi";
 import Tracking from "./Tracking";
+import usePath from "../../../hooks/usePath";
 
 
 const Tools = () => {
+    // state
     const [openMerge, setOpenMerge] = useState(false);
     const [openConverter, setOpenConverter] = useState(false);
     const [openDynamice, setOpenDynamice] = useState(false);
     const [openAddress, setOpenAddress] = useState(false);
     const [openPinCode, setOpenPinCode] = useState(false);
     const [openTracking, setOpenTracking] = useState(false);
+
+    // hooks
+    const path = usePath();
 
     return <>
         <MergeBook open={openMerge} setOpen={setOpenMerge} />
@@ -76,7 +81,11 @@ const Tools = () => {
                     <span>PIN Code Extracter</span>
                 </Button>
 
-                <Button className="text-white bg-rose-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" onClick={() => setOpenTracking(true)}>
+                <Button 
+                    className="text-white bg-rose-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2" 
+                    // onClick={() => setOpenTracking(true)}
+                    onClick={() => path.navigate("/tools/tracking")}
+                >
                     <TfiTarget size={30} />
                     <span>Tracking</span>
                 </Button>

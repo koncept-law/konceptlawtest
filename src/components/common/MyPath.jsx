@@ -106,6 +106,16 @@ const MyPath = ({
                     </Tooltip>
                 </> : null
             }
+            {
+                path.location.pathname.match("tracking") ? <>
+                    <CgFormatSlash size={20} />
+                    <Tooltip title="Tracking" placement="bottom">
+                        <Link to={"/tools/tracking"}>
+                            <h2 className="hover:text-blue-700 hover:underline cursor-pointer text-[17px] hover:underline-offset-4 hover:decoration-[2px]">Tracking</h2>
+                        </Link>
+                    </Tooltip>
+                </> : null
+            }
         </div>
     </>
 }

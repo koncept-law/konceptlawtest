@@ -194,7 +194,7 @@ const ReportSection = ({ dataInCampaign,
                         </> : null
                     }
                     {
-                        dataInCampaign && dataInCampaign?.campaignStatus === "pending" ? (
+                        dataInCampaign && dataInCampaign?.campaignStatus === "pending" && !dataInCampaign?.scheduled ? (
                             <>
                                 <button onClick={(e) => {
                                     e.preventDefault();
