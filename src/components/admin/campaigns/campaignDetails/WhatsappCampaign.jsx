@@ -213,7 +213,7 @@ const WhatsappCampaign = () => {
 
   console.log("select template", selectedTemplate)
 
-  const saveAndSendWhatsappHandler = () => {
+  const saveAndSendWhatsappHandler = (modalData) => {
     // console.log("save and send start")
     // if (!selectedTemplate || variableCount !== textVariableCount) {
     //   return;
@@ -260,6 +260,7 @@ const WhatsappCampaign = () => {
             campaignName: campaignDetails.name,
             longlink: selectLongLink,
             whatsappVendor: WabaSelect,
+            ...modalData,
           },
             // setTimeout(() => {
             //   navigate("/campaigns/campaigndetails/reports")
@@ -269,6 +270,8 @@ const WhatsappCampaign = () => {
                 setIsLoading(false);
                 setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
+              }else {
+                setIsLoading(false);
               }
             }
           )
@@ -285,6 +288,7 @@ const WhatsappCampaign = () => {
             variables: selectedVariables,
             campaignName: campaignDetails.name,
             whatsappVendor: WabaSelect,
+            ...modalData,
           },
             // setTimeout(() => {
             //   navigate("/campaigns/campaigndetails/reports")
@@ -294,6 +298,8 @@ const WhatsappCampaign = () => {
                 setIsLoading(false);
                 setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
+              }else {
+                setIsLoading(false);
               }
             }
           )
@@ -309,6 +315,7 @@ const WhatsappCampaign = () => {
             campaignName: campaignDetails?.name,
             longlink: selectLongLink,
             whatsappVendor: WabaSelect,
+            ...modalData,
           },
             // setTimeout(() => {
             //   navigate("/campaigns/campaigndetails/reports")
@@ -318,6 +325,8 @@ const WhatsappCampaign = () => {
                 setIsLoading(false);
                 setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
+              }else {
+                setIsLoading(false);
               }
             }
           )

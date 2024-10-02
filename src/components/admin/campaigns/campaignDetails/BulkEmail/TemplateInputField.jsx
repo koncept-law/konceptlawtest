@@ -5,7 +5,7 @@ import "./templateInputField.css";
 
 const { Option } = Select;
 
-const TemplateInputField = ({ name={}, onChange = function(){}, dropdown=[] }) => {
+const TemplateInputField = ({ name=null, onChange = function(){}, dropdown=[] }) => {
     const [selectedOption, setSelectedOption] = useState("");
     const [inputValue, setInputValue] = useState("");
 
@@ -20,7 +20,7 @@ const TemplateInputField = ({ name={}, onChange = function(){}, dropdown=[] }) =
 
     const options = useMemo(()=> {
         if(dropdown){
-            return [{ value: "", label: "Select an Option" }, ...dropdown?.headers?.map((item) => ({ label: item, value: item }))] || []
+            return Array.isArray(dropdown) && dropdown?.length > 0 ? [{ value: "", label: "Select an Option" }, ...dropdown?.headers?.map((item) => ({ label: item, value: item }))] : [{ value: "", label: "Select an Option" }]
         }
     }, [dropdown]);
 

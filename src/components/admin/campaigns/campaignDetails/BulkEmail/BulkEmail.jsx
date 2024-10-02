@@ -114,8 +114,8 @@ const BulkEmail = () => {
     return campaignEmailTemplates?.filter((item) => (item?.templateName === selectedTemplate))[0];
   }, [selectedTemplate]);
 
-  // console.log("Template Data:",templateData);
-  // console.log("select template",selectTemplate)
+  console.log("Template Data:", templateData);
+  console.log("select template",selectTemplate)
 
   const testEmailHandler = (e) => {
     // console.log(e);
@@ -189,7 +189,7 @@ const BulkEmail = () => {
       campaignName: campaignDetails?.name,
       email: event["email"],
       cc: e["cc"],
-      html: data?.sampleMessage, 
+      html: data?.sampleMessage,
     }
 
     console.log(form);
@@ -222,10 +222,11 @@ const BulkEmail = () => {
   const handleSelectedTemplate = (value) => {
     if (value === "select") {
       setSelectedTemplate("")
-    } else
+    } else {
       if (value !== "" || value !== "select") {
         setSelectedTemplate(value)
       }
+    }
   }
 
   // console.log("selected template", selectedTemplate)

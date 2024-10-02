@@ -43,11 +43,10 @@ const ScheduleModal = ({
             }
 
             let dateTime = { date, time };
-            setIsLoading(true);
-            console.log(dateTime);
+            withOutSchedule({ type: "schedule", ...dateTime });
         } else {
             // console.log("Submission without schedule.");
-            withOutSchedule(true);
+            withOutSchedule({ type: "save&send" });
         }
     }
 

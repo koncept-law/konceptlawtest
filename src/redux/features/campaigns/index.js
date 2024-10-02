@@ -1560,6 +1560,7 @@ export const saveAndSendCampaignWhatsappTemplateThunkMiddleware = (
       //   toastify({ msg: error.message, type: "error" });
       // }
       toastifyError(error)
+      if (error) callback(true);
     } finally {
       dispatch(setLoader({ loader: false }));
     }
