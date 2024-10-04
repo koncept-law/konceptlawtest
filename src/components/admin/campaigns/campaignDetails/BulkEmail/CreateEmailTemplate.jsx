@@ -108,7 +108,6 @@ const CreateEmailTemplate = () => {
         };
 
         // console.log(variables); // Display the valid variables
-        console.log(data); // Display the original form data
 
         dispatch(createCampaignSmsTemplateThunkMiddleware(data,
           (error)=>{

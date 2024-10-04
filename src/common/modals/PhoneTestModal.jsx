@@ -53,23 +53,23 @@ const PhoneTestModal = ({ isModalVisible = false, setIsModalVisible = function (
 
                     <div className="bg-white p-3 w-full flex justify-center items-center">
                         <div className="flex justify-center w-full my-1 gap-x-2 items-end">
-                            <div className="w-full flex items-end gap-x-2">
+                            <form onSubmit={handleSubmit(onFormSubmit)} className="w-full flex items-end gap-x-2">
                                 <TextInput
                                     type="number"
                                     name="mobile"
                                     placeholder="Enter Mobile Number"
                                     control={control}
-                                    errors={""}
+                                    errors={errors}
                                     label="Phone Number"
                                     className={`rounded-sm ${errors["mobile"] ? 'border-red-500' : ''}`}
                                     labelClass={`text-sm mb-1 ${errors["mobile"] ? 'text-red-500' : ''}`}
                                     mainClass="w-[65%]"
                                 />
 
-                                <Button type="submit" className="capitalize py-2 text-[14px] w-[35%] rounded-sm text-white bg-slate-700 font-poppins not-italic leading-normal font-medium" onClick={handleSubmit(onFormSubmit)}>
+                                <Button type="submit" className="capitalize py-2 text-[14px] w-[35%] rounded-sm text-white bg-slate-700 font-poppins not-italic leading-normal font-medium">
                                     Send Test Message
                                 </Button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

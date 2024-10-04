@@ -20,7 +20,7 @@ const TemplateInputField = ({ name=null, onChange = function(){}, dropdown=[] })
 
     const options = useMemo(()=> {
         if(dropdown){
-            return Array.isArray(dropdown) && dropdown?.length > 0 ? [{ value: "", label: "Select an Option" }, ...dropdown?.headers?.map((item) => ({ label: item, value: item }))] : [{ value: "", label: "Select an Option" }]
+            return Array.isArray(dropdown) && dropdown?.length > 0 ? [{ value: "", label: "Select an Option" }, ...dropdown?.map((item) => ({ label: item, value: item }))] : [{ value: "", label: "Select an Option" }]
         }
     }, [dropdown]);
 

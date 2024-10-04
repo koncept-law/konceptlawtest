@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Spinner from "../../../common/Spinner";
 import { Button } from "@material-tailwind/react";
 import book1Img from "../../../../assets/rdnumber.png";
@@ -10,21 +10,13 @@ import { GrPowerReset } from "react-icons/gr";
 import { MdCancel, MdHourglassTop } from "react-icons/md";
 import { TbFilterSearch } from "react-icons/tb";
 import { IoIosCloudDone } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import { downloadTrackingFilesThunkMiddleware, filteredOldTrackingFilesThunkMiddleware, getTrackingDetailsThunkMiddleware, stopAndResetTrackingFilesThunkMiddleware } from "../../../../redux/features/tools";
 
 const TrackingPage = () => {
     const [showSpinner, setShowSpinner] = useState(false);
     const axios = createAxiosInstance();
-    const dispatch = useDispatch();
-    const { trackingDetails } = useSelector(state => state.tools);
 
     const book1 = useRef(null);
     const excelNameRef = useRef(null);
-
-    useEffect(() => {
-        // dispatch(getTrackingDetailsThunkMiddleware());
-    }, []);
 
     const startMerge = async () => {
         const file1 = book1.current.files[0];
@@ -72,21 +64,6 @@ const TrackingPage = () => {
         }
     }
 
-    // functions
-    const downloadFiles = () => {
-        dispatch(downloadTrackingFilesThunkMiddleware());
-    }
-
-    const refresh = () => dispatch(getTrackingDetailsThunkMiddleware());
-
-    const filteredOldFiles = () => {
-        dispatch(filteredOldTrackingFilesThunkMiddleware());
-    }
-
-    const stopAndReset = () => {
-        dispatch(stopAndResetTrackingFilesThunkMiddleware());
-    }
-
     return <>
         <div className="bg-white flex flex-col py-5 px-2 gap-y-7 w-full">
             <div className="flex justify-between gap-x-2 items-center">
@@ -109,46 +86,34 @@ const TrackingPage = () => {
             </Button>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-6 w-full">
-                <Button className="text-white bg-blue-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={downloadFiles}>
+                <Button className="text-white bg-blue-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={() => setOpenAddress(true)}>
                     <TbFileDownload size={32} />
                     <span>Download Files</span>
                 </Button>
 
-                <Button className="text-white bg-green-700 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={refresh}>
+                <Button className="text-white bg-green-700 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={() => setOpenAddress(true)}>
                     <GrPowerReset size={30} className="rotate-0" />
                     <span>Refresh</span>
                 </Button>
 
-                <Button className="text-white bg-purple-700 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={filteredOldFiles}>
+                <Button className="text-white bg-purple-700 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={() => setOpenAddress(true)}>
                     <TbFilterSearch size={30} className="rotate-0" />
                     <span>Filtered Old Files</span>
                 </Button>
 
-                <Button className="text-white bg-red-700 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={stopAndReset}>
+                <Button className="text-white bg-red-700 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={() => setOpenAddress(true)}>
                     <MdHourglassTop size={30} className="rotate-0" />
                     <span>Stop and Reset</span>
                 </Button>
             </div>
 
-            <div className="flex justify-start items-center gap-x-3">
-                <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
-                    <span>Number of Rows:</span>
-                    <h2>{trackingDetails?.numberOfRows || 0}</h2>
-                </div>
-
-                <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
-                    <span>Total PDF Generated:</span>
-                    <h2>{trackingDetails?.totalPdfGenerate || 0}</h2>
-                </div>
-            </div>
-
-            {/* <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
+            <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
                 <span>Total PDF Generated:</span>
                 {
                     true ? <IoIosCloudDone size={26} className="text-green-700" />
                         : <MdCancel size={23} className="text-red-700" />
                 }
-            </div> */}
+            </div>
         </div>
     </>
 }

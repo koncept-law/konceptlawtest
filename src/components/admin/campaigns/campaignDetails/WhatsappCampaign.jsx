@@ -9,6 +9,7 @@ import {
   getCampaignWhatsappTemplateThunkMiddleware,
   saveAndSendCampaignWhatsappTemplateThunkMiddleware,
   sendCampaignWhatsappTemplateThunkMiddleware,
+  sendSampleWhatsappThunkMiddleware,
 } from "../../../../redux/features/campaigns";
 import { Dropdown, Select } from "antd";
 
@@ -203,11 +204,11 @@ const WhatsappCampaign = () => {
     // Filter and map over campaignEmailTemplates to create options only for matching accountId
     return campaignWhatsappTemplates
       ? campaignWhatsappTemplates
-          .filter((item) => item?.accountId === singleUser?.accountId) // Filter matching accountId
-          .map((item) => ({
-            label: <DropdownOption title={item?.templateName} value={item} />,
-            value: item?.templateName,
-          }))
+        .filter((item) => item?.accountId === singleUser?.accountId) // Filter matching accountId
+        .map((item) => ({
+          label: <DropdownOption title={item?.templateName} value={item} />,
+          value: item?.templateName,
+        }))
       : [];
   }, [campaignWhatsappTemplates, singleUser?.accountId]);
 
@@ -270,7 +271,7 @@ const WhatsappCampaign = () => {
                 setIsLoading(false);
                 setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
-              }else {
+              } else {
                 setIsLoading(false);
               }
             }
@@ -298,7 +299,7 @@ const WhatsappCampaign = () => {
                 setIsLoading(false);
                 setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
-              }else {
+              } else {
                 setIsLoading(false);
               }
             }
@@ -325,7 +326,7 @@ const WhatsappCampaign = () => {
                 setIsLoading(false);
                 setIsSchedule(false);
                 navigate("/campaigns/campaigndetails/reports")
-              }else {
+              } else {
                 setIsLoading(false);
               }
             }
@@ -498,9 +499,106 @@ const WhatsappCampaign = () => {
     { label: "Waba from Waba", value: "whatsapp" },
   ]
 
+  // conditions
+  const completed = useMemo(() => {
+    if(selectLongLink && selectedTemplate && variableCount === textVariableCount){
+      return true;
+    } else if (selectedTemplate && variableCount === textVariableCount) {
+      return true;
+    } else if (selectLongLink) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [selectLongLink, selectedTemplate, variableCount, textVariableCount]);
+
+  const sendSampleMessage = () => {
+    // console.log("send sample message!")
+    try {
+      // console.log("longlink:",selectLongLink)
+      if (selectLongLink && selectedTemplate && variableCount === textVariableCount) {
+        // console.log("select template with long link")
+        dispatch(
+          sendSampleWhatsappThunkMiddleware({
+            templateId: selectedTemplate.templateId,
+            templateName: selectedTemplate.templateName,
+            message: selectedTemplate.message,
+            variables: selectedVariables,
+            campaignName: campaignDetails.name,
+            longlink: selectLongLink,
+            whatsappVendor: WabaSelect,
+            ...modalData,
+          },
+            (error) => {
+              if (!error) {
+                setOpenTestBox(false);
+              } else {
+                setOpenTestBox(false);
+              }
+            }
+          )
+        );
+      }
+      else if (selectedTemplate && variableCount === textVariableCount) {
+        // console.log("only select template")
+        dispatch(
+          sendSampleWhatsappThunkMiddleware({
+            templateId: selectedTemplate.templateId,
+            templateName: selectedTemplate.templateName,
+            message: selectedTemplate.message,
+            variables: selectedVariables,
+            campaignName: campaignDetails.name,
+            whatsappVendor: WabaSelect,
+            ...modalData,
+          },
+            (error) => {
+              if (!error) {
+                setOpenTestBox(false);
+              } else {
+                setOpenTestBox(false);
+              }
+            }
+          )
+        );
+      } else if (selectLongLink) {
+        dispatch(
+          sendSampleWhatsappThunkMiddleware({
+            // templateId: selectedTemplate?.templateId,
+            // templateName: selectedTemplate?.templateName,
+            // message: selectedTemplate?.message,
+            // variables: selectedVariables,
+            campaignName: campaignDetails?.name,
+            longlink: selectLongLink,
+            whatsappVendor: WabaSelect,
+            ...modalData,
+          },
+            (error) => {
+              if (!error) {
+                setOpenTestBox(false);
+              } else {
+                setOpenTestBox(false);
+              }
+            }
+          )
+        );
+      }
+    } catch (error) {
+      toastifyError(error, (call) => {
+        if (call === "logout") {
+          navigate("/login");
+        }
+      })
+    }
+    // dispatch(sendSampleWhatsappThunkMiddleware());
+  }
+
   return (
     <div className="overflow-y-auto h-full w-full px-2 py-2 md:gap-4 space-y-1">
-      <PhoneTestModal isModalVisible={OpenTestBox} setIsModalVisible={() => setOpenTestBox(false)} />
+      <PhoneTestModal
+        isModalVisible={OpenTestBox}
+        setIsModalVisible={() => setOpenTestBox(false)}
+        onSubmit={sendSampleMessage}
+      />
       {
         ShowDeleteConfirmMessage ? <>
           <ConfirmMessage yes="Yes, I am sure" className="flex-col" deleteBtn={true} no="No, I'm not sure!" value={(e) => {
@@ -542,9 +640,9 @@ const WhatsappCampaign = () => {
         </> : null
       }
 
-      <ScheduleModal 
-        isOpen={isSchedule} 
-        setIsOpen={setIsSchedule} 
+      <ScheduleModal
+        isOpen={isSchedule}
+        setIsOpen={setIsSchedule}
         withOutSchedule={saveAndSendWhatsappHandler}
         isLoading={isLoading}
       />
@@ -572,7 +670,7 @@ const WhatsappCampaign = () => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              setShowSaveConfirmMessage(true);
+              if(selectedTemplate && variableCount === textVariableCount) setShowSaveConfirmMessage(true);
               // if(selectedTemplate){
               //   setShowSaveConfirmMessage(true);
               // }else if(selectLongLink){
@@ -581,7 +679,7 @@ const WhatsappCampaign = () => {
               //   setShowSaveConfirmMessage(true);
               // }
             }}
-            className=" flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
+            className={`flex items-center gap-1 ${(selectedTemplate && variableCount === textVariableCount) ? "bg-green-600": "bg-gray-500 cursor-not-allowed"} px-2 py-1 rounded-md text-white font-semibold`}
           >
             Save
           </button>
@@ -589,9 +687,9 @@ const WhatsappCampaign = () => {
             onClick={(e) => {
               e.preventDefault();
               // setShowSaveAndSendConfirmMessage(true);
-              setIsSchedule(true)
+              if(completed) setIsSchedule(true)
             }}
-            className=" flex items-center gap-1 bg-gray-600 px-2 py-1 rounded-md text-white font-semibold"
+            className={`flex items-center gap-1 ${completed ? "bg-gray-950": "bg-gray-500 cursor-not-allowed"} px-2 py-1 rounded-md text-white font-semibold`}
           >
             Save & Send
           </button>
@@ -617,7 +715,9 @@ const WhatsappCampaign = () => {
                   Create Template
                 </Link>
                 <UploadPdf onClick={setSelectLongLink} />
-                <Button className="flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] bg-slate-700 px-3" onClick={() => setOpenTestBox(true)}>
+                <Button 
+                  className={`flex justify-center items-center gap-x-1 font-poppins capitalize font-medium not-italic leading-normal text-white shadow-sm rounded-sm py-1 text-[15px] ${completed ? "bg-gray-950": "bg-gray-500 cursor-not-allowed"} px-3`} onClick={completed ? () => setOpenTestBox(true): () => {}}
+                >
                   <RiMessage2Line size={"16px"} />
                   <span>Sample Message</span>
                 </Button>
@@ -857,8 +957,8 @@ export const DropDown = ({ title, inputMethods, setSelectedVariable, setActiveMe
       );
     } catch (error) {
       // console.error(error)
-      toastifyError(error, (call)=> {
-        if(call === "logout"){
+      toastifyError(error, (call) => {
+        if (call === "logout") {
           navigate("/login");
         }
       })

@@ -77,26 +77,26 @@ const BulkEmail = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const handleDropdownApi = async () => {
-      try {
-        const response = await axios.post("https://t.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
-        const data = response.data;
-        setDropDownList(data)
-      } catch (error) {
-        // console.error(error)
-        toastifyError(error, (call) => {
-          if (call === "logout") {
-            navigate("/login");
-          }
-        })
-      }
+  const handleDropdownApi = async () => {
+    try {
+      const response = await axios.post("https://t.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
+      const data = response.data?.headers || response.data;
+      // const data = response.data;
+      setDropDownList(data)
+    } catch (error) {
+      // console.error(error)
+      toastifyError(error, (call) => {
+        if (call === "logout") {
+          navigate("/login");
+        }
+      })
     }
+  }
+
+  useEffect(() => {
     handleDropdownApi();
     dispatch(getCampaignEmailTemplateThunkMiddleware());
   }, []);
-
-  console.log("single user", singleUser);
 
   const templateData = useMemo(() => {
     // Filter and map over campaignEmailTemplates to create options only for matching accountId
@@ -113,9 +113,6 @@ const BulkEmail = () => {
   const selectTemplate = useMemo(() => {
     return campaignEmailTemplates?.filter((item) => (item?.templateName === selectedTemplate))[0];
   }, [selectedTemplate]);
-
-  console.log("Template Data:", templateData);
-  console.log("select template",selectTemplate)
 
   const testEmailHandler = (e) => {
     // console.log(e);
@@ -137,7 +134,6 @@ const BulkEmail = () => {
       templateName: selectTemplate?.templateName,
       cc: e["cc"],
     }
-    console.log("save and send", data)
     if (subject && subject !== "") {
       dispatch(
         testEmailSendThunkMiddleware(data)
@@ -151,7 +147,6 @@ const BulkEmail = () => {
   };
 
   const sampleEmailHandler = async (e, event) => {
-    console.log(e);
     const response = await axios.post("/campaign/getValueBySingleHeader", { campaignName: campaignDetails.name, header: campaignDetails?.longLink });
     let getValue = response.data;
 
@@ -184,15 +179,12 @@ const BulkEmail = () => {
       html = html.replace(regex, variablesData[variable]); // Replace the placeholders in the HTML
     });
 
-    console.log("save and send", data)
     let form = {
       campaignName: campaignDetails?.name,
       email: event["email"],
       cc: e["cc"],
       html: data?.sampleMessage,
     }
-
-    console.log(form);
 
     if (subject && subject !== "") {
       const response = await axios.post("/campaign/sample-email", form);

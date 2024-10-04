@@ -1567,6 +1567,22 @@ export const saveAndSendCampaignWhatsappTemplateThunkMiddleware = (
   };
 };
 
+export const sendSampleWhatsappThunkMiddleware = (payload, callback = function(){}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoader({ loader: true }));
+      const response = await axios.post("/campaign/sendSampleWhatsapp", payload);
+      if(response.status === 200){
+        toastify({ msg: response.data?.message });
+        callback(true);
+      }
+    } catch(error) {
+      toastifyError(error);
+    } finally {
+      dispatch(setLoader({ loader: false }));
+    }
+  }
+}
 
 //changes made by abhyanshu
 export const startCampaignTemplateThunkMiddleware = ({
