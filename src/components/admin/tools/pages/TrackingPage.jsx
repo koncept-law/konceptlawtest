@@ -10,9 +10,11 @@ import { GrPowerReset } from "react-icons/gr";
 import { MdCancel, MdHourglassTop } from "react-icons/md";
 import { TbFilterSearch } from "react-icons/tb";
 import { IoIosCloudDone } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const TrackingPage = () => {
     const [showSpinner, setShowSpinner] = useState(false);
+    const { trackingDetails } = useSelector(state => state.tools);
     const axios = createAxiosInstance();
 
     const book1 = useRef(null);
@@ -107,12 +109,20 @@ const TrackingPage = () => {
                 </Button>
             </div>
 
-            <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
-                <span>Total PDF Generated:</span>
-                {
+            <div className="flex justify-start items-center gap-x-4">
+                <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
+                    <span className="font-semibold">Number of Rows :</span>
+                    <h2>{trackingDetails?.numberOfRows || 0}</h2>
+                </div>
+
+                <div className="flex font-poppins not-italic leading-normal font-medium justify-start items-start gap-x-3">
+                    <span className="font-semibold">Total PDF Generated:</span>
+                    <h2>{trackingDetails?.totalPdfGenerated || 0}</h2>
+                    {/* {
                     true ? <IoIosCloudDone size={26} className="text-green-700" />
                         : <MdCancel size={23} className="text-red-700" />
-                }
+                } */}
+                </div>
             </div>
         </div>
     </>

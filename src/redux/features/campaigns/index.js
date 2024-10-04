@@ -4458,7 +4458,8 @@ export const campaignCategoriesThunkMiddleware = (payload) => {
         }));
       }
     } catch (error) {
-      toastifyError(error)
+      // toastifyError(error)
+      // console.error(error)
     } finally {
       dispatch(setLoader({ getLoader: false }));
     }

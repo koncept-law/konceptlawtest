@@ -9,6 +9,7 @@ import {
 } from "../../../../redux/features/campaigns/index.js";
 import { toastify } from "../../../toast.js";
 import { toast } from "react-toastify";
+import { Button } from "@material-tailwind/react";
 
 const CreateSmsTemplatePage = () => {
   // const [subject, setSubject] = useState("");
@@ -151,25 +152,25 @@ const CreateSmsTemplatePage = () => {
   // console.log("does variables and the variables added matched ", textVariableCount === variableCount)
 
   return (
-    <div className="overflow-y-auto px-3 py-2 md:gap-4 space-y-3">
+    <div className="overflow-y-auto px-2 py-2 md:gap-4 space-y-2">
       {/* Topbar  */}
-      <div className="h-fit px-4 py-2 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white rounded-md">
+      <div className="h-fit px-4 py-1 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white rounded-md">
         <div className=" flex items-center gap-4">
-          <button
+          {/* <button
             onClick={() => navigate("/campaigns/campaigndetails/sms")}
             className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
           >
             <IoMdArrowRoundBack size={26} />
-          </button>
+          </button> */}
           <h1 className=" text-xl font-semibold">Create Template</h1>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={() => handleCreateTemplate()}
-            className=" flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
+            className=" flex items-center gap-1 font-poppins not-italic leading-normal capitalize text-[15px] bg-green-600 px-3 py-1.5 rounded-sm text-white font-semibold"
           >
             Create Template
-          </button>
+          </Button>
         </div>
       </div>
 

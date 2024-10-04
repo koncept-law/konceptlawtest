@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { toastify } from "../../../toast.js";
 import { Select } from "antd";
+import { Button } from "@material-tailwind/react";
 
 const CreateWhatsappTemplatePage = () => {
   // const [subject, setSubject] = useState("");
@@ -169,26 +170,26 @@ const CreateWhatsappTemplatePage = () => {
   // console.log("variables added in the inputs count ", addedVariables)
 
   return (
-    <div className="overflow-y-auto px-2 py-2 md:gap-4 space-y-3">
+    <div className="overflow-y-auto px-2 py-2 md:gap-4 space-y-2">
       {/* Topbar  */}
-      <div className="h-fit px-4 py-2 flex md:flex-row flex-col md:gap-0 gap-y-2 shadow-md w-full justify-between bg-white rounded-md">
+      <div className="h-fit px-4 py-1 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white rounded-md">
         <div className=" flex items-center gap-4">
-          <button
+          {/* <button
             onClick={() => navigate("/campaigns/campaigndetails/whatsapp")}
             className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
           >
             <IoMdArrowRoundBack size={26} />
-          </button>
+          </button> */}
           <h1 className=" text-xl font-semibold">Create Template</h1>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             // onClick={() => navigate("uploadtemplate")}
             onClick={() => handleCreateTemplate()}
-            className=" flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
+            className=" flex items-center font-poppins not-italic leading-normal capitalize text-[15px] gap-1 bg-green-600 px-3 py-1.5 rounded-sm text-white font-semibold"
           >
             Create Template
-          </button>
+          </Button>
         </div>
       </div>
 

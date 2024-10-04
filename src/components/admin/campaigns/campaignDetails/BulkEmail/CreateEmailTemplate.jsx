@@ -141,27 +141,27 @@ const CreateEmailTemplate = () => {
         <>
             <h2 ref={convertRef} className="hidden"></h2>
             <div className="w-full h-full overflow-y-scroll px-1 py-2">
-                <div className="h-fit px-4 py-2 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white shadow-md shadow-gray-200 rounded-md">
+                <div className="h-fit px-4 py-1 flex md:flex-row flex-col md:gap-0 gap-y-2 w-full justify-between bg-white rounded-md">
                     <div className="flex items-center gap-4">
-                        <button
+                        {/* <button
                             className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
                             onClick={() => path.back()}
                         >
                             <IoMdArrowRoundBack size={26} />
-                        </button>
+                        </button> */}
                         <h1 className="text-lg font-poppins not-italic leading-normal font-medium">Create Email Template</h1>
                     </div>
                     <div className="flex items-center gap-2">
-                        <button
+                        <Button
                             onClick={handleSubmit(onSubmit)}
-                            className="flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
+                            className="flex items-center gap-1 font-poppins not-italic leading-normal capitalize bg-green-600 px-3 text-[15px] py-1.5 rounded-sm text-white font-medium"
                         >
                             Create Template
-                        </button>
+                        </Button>
                     </div>
                 </div>
 
-                <div className="h-fit px-4 py-2 mt-3 flex flex-col md:gap-0 w-full justify-between bg-white shadow-md shadow-gray-200 rounded-md">
+                <div className="h-fit px-4 py-2 mt-1 flex flex-col md:gap-0 w-full justify-between bg-white shadow-md shadow-gray-200 rounded-md">
                     <div className="w-full flex justify-start flex-col gap-y-2 items-start font-medium">
                         <div className="flex justify-center items-center gap-x-2">
                             <h2 className={"font-poppins not-italic leading-normal font-medium text-[15px]"}>Template Name :</h2>

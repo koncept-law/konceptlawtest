@@ -11,6 +11,7 @@ import miscellaneousReducer from "./features/miscellaneous";
 import authReducer from "./features/auth";
 import progressReducer from "./features/progress";
 import notification from "./features/notification";
+import tools from "./features/tools";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   miscellaneous: miscellaneousReducer,
   progress: progressReducer,
   notification: notification,
+  tools: tools,
 });
 
 const persistConfig = {
