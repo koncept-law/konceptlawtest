@@ -22,7 +22,7 @@
 //     if (!file) return null;
 
 //     return {
-//       uri: `https://t.konceptlaw.in/docs/docsBuffer/${file}`,
+//       uri: `t.kcptl.in/docs/docsBuffer/${file}`,
 //       fileType: "docx",
 //       fileName: selectFile?.name,
 //     }
@@ -80,7 +80,7 @@ const DocumentViewer = ({ fileUrl, data }) => {
     if (!selectFile?.path) return null;
 
     const file = selectFile.path.split("/")[1];
-    const docxUrl = `https://t.konceptlaw.in/docs/docsBuffer/${file}`;
+    const docxUrl = `t.kcptl.in/docs/docsBuffer/${file}`;
     // Create a Google Docs Viewer URL
     return `https://docs.google.com/gview?url=${encodeURIComponent(docxUrl)}&embedded=true`;
   }, [selectFile]);

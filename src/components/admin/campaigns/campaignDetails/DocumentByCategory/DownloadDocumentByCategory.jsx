@@ -365,7 +365,7 @@ const DownloadDocumentByCategory = () => {
     const getTableData = async () => {
         try {
             dispatch(setLoader({ loader: true, categoriesLoader: true }))
-            const response = await axios.post(`https://t.konceptlaw.in/docs/getAllCategoryData`, { campaignName: campaignDetails.name })
+            const response = await axios.post(`t.kcptl.in/docs/getAllCategoryData`, { campaignName: campaignDetails.name })
 
             if (response.status === 200) {
                 // console.log(response.data)

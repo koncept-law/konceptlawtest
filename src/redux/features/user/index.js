@@ -32,7 +32,7 @@ export default userSlice.reducer;
 export const getUserListThunkMiddleware = () => {
   return async ( navigate , dispatch) => {
     try {
-      const response = await axios.get("https://t.konceptlaw.in/api/user", {
+      const response = await axios.get("t.kcptl.in/api/user", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("konceptLawToken")}`,
           "Content-Type": "application/json",

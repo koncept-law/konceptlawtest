@@ -327,7 +327,7 @@ const SmsCampaign = () => {
     }
     const handleDropdownApi = async () => {
       try {
-        const response = await axios.post("https://t.konceptlaw.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
+        const response = await axios.post("t.kcptl.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
         const data = response.data;
         setDropDownList(data)
       } catch (error) {
@@ -782,7 +782,7 @@ export const DropDown = ({ title, inputMethods, setSelectedVariable, setActiveMe
       // for setting values of user display as values under the first row of headers
       if (option !== "select") {
         let displayValue = "";
-        const response = await axios.post("https://t.konceptlaw.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: option });
+        const response = await axios.post("t.kcptl.in/campaign/getValueBySingleHeader", { campaignName: campaignDetail.name, header: option });
         displayValue = response.data.value;
         const variableName = `$var${variableIndex + 1}`;
         setUserDisplayVariables((prevValues) => {

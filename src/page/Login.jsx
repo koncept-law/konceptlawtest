@@ -30,7 +30,7 @@ const Login = () => {
   const submitHandler = async (data) => {
     try {
       dispatch(setLoader({ loginLoader: true }));
-      const response = await axios.post(`https://t.konceptlaw.in/api/login`, data);
+      const response = await axios.post(`t.kcptl.in/api/login`, data);
       const { token } = response.data;
       localStorage.setItem("konceptLawToken", token);
       const user = await jwtDecode(localStorage.getItem("konceptLawToken"))

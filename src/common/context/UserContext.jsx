@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
 
   const getUserListHandler = async () => {
     try {
-      const response = await fetch("https://t.konceptlaw.in/api/user", {
+      const response = await fetch("t.kcptl.in/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("konceptLawToken")}`,

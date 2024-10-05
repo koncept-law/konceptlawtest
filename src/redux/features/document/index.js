@@ -39,10 +39,10 @@ export default documentSlice.reducer;
 //         const folderSplit = folderName?.split("/");
 //         rootFolder = folderSplit[0];
 //         folder = folderSplit[1];
-//         url = "https://t.konceptlaw.in/api/getFolderData";
+//         url = "t.kcptl.in/api/getFolderData";
 //       } else {
 //         folder = folderName;
-//         url = "https://t.konceptlaw.in/api/folder";
+//         url = "t.kcptl.in/api/folder";
 //       }
 
 //       const response = await axios.post(
@@ -102,10 +102,10 @@ export const getFolderDataThunkMiddleware = ({ folderName, user }) => {
         const folderSplit = folderName?.split("/");
         rootFolder = folderSplit[0];
         folder = folderSplit[1];
-        url = "https://t.konceptlaw.in/api/getFolderData";
+        url = "t.kcptl.in/api/getFolderData";
       } else {
         folder = folderName;
-        url = "https://t.konceptlaw.in/api/folder";
+        url = "t.kcptl.in/api/folder";
       }
 
       const response = await axios.post(

@@ -53,7 +53,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
   const getFolderList = async () => {
     try {
       setPending(true);
-      const response = await axios.get(`https://t.konceptlaw.in/api/foldersName`, {
+      const response = await axios.get(`t.kcptl.in/api/foldersName`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("konceptLawToken")}`,
         },
@@ -106,7 +106,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
       formData.append("excel", selectedExcelFile);
 
       const response = await axios.post(
-        "https://t.konceptlaw.in/api/checkfields",
+        "t.kcptl.in/api/checkfields",
         formData,
         {
           headers: {
@@ -166,7 +166,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
       if (selectedDocsFile && selectedExcelFile) {
         if (newFolder) {
           const response = await axios.get(
-            `https://t.konceptlaw.in/api/foldersName`,
+            `t.kcptl.in/api/foldersName`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem(
@@ -186,7 +186,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
           if (!foundFolder) {
 
             await axios.post(
-              `https://t.konceptlaw.in/api/updateMongoFolder`,
+              `t.kcptl.in/api/updateMongoFolder`,
               {
                 newFolder,
                 role: userRole,
@@ -228,7 +228,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
           );
 
           const response = await axios.post(
-            "https://t.konceptlaw.in/api/genatedDocsUpload",
+            "t.kcptl.in/api/genatedDocsUpload",
             formData,
             {
               headers: {
@@ -262,7 +262,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
           const intervalId = setInterval(async () => {
             try {
               const response = await axios.post(
-                "https://t.konceptlaw.in/api/progressBarServer",
+                "t.kcptl.in/api/progressBarServer",
                 {
                   userEmail: user?.email,
                 },
@@ -330,7 +330,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
           );
 
           const response = await axios.post(
-            "https://t.konceptlaw.in/api/genratedDocsUploadFirebase",
+            "t.kcptl.in/api/genratedDocsUploadFirebase",
             formData,
             {
               headers: {
@@ -363,7 +363,7 @@ const UploadFile = ({ progressData, setProgressData }) => {
           const intervalId = setInterval(async () => {
             try {
               const response = await axios.get(
-                "https://t.konceptlaw.in/api/progressBar",
+                "t.kcptl.in/api/progressBar",
                 {
                   headers: {
                     Authorization: `Bearer ${localStorage.getItem(

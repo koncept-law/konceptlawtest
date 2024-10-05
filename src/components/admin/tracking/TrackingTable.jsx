@@ -235,7 +235,7 @@ const CustomTableTitle = ({
 
   const getPriviousDataHandler = async () => {
     try {
-      const response = await axios.get(`https://t.konceptlaw.in/api/previousData`);
+      const response = await axios.get(`t.kcptl.in/api/previousData`);
 
       if (response?.status === 200) {
         const data = await response.data;
@@ -254,7 +254,7 @@ const CustomTableTitle = ({
 
   const hardResetHandler = async () => {
     try {
-      const response = await axios.get(`https://t.konceptlaw.in/api/stop`);
+      const response = await axios.get(`t.kcptl.in/api/stop`);
 
       if (response?.status === 200) {
         const data = await response.data;
