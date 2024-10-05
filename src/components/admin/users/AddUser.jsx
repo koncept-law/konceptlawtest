@@ -35,7 +35,7 @@ const AddUser = ({ open, setOpen }) => {
         // console.log("add new account", data);
         try {
             dispatch(setLoader({ registerLoader: true }));
-            const response = await axios.post(`t.kcptl.in/account/post`, data);
+            const response = await axios.post(`https://t.kcptl.in/account/post`, data);
             dispatch(logoutThunkMiddleware());
             navigate("/login");
             toastify({ msg: response.data.message, type: "success" });

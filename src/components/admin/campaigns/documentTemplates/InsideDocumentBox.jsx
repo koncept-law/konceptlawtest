@@ -94,13 +94,13 @@ export default InsideDocumentBox;
 
 export const DocumentViewer = ({ fileUrl, data }) => {
   // const docs = [{ uri: fileUrl }];
-  // const docs = [{ uri: "t.kcptl.in/campaign/download/dipesh/57220006163109.pdf" }];
-  // const docs = [{ uri: "t.kcptl.in/docs/docsBuffer/doctemplet.docx" }];
+  // const docs = [{ uri: "https://t.kcptl.in/campaign/download/dipesh/57220006163109.pdf" }];
+  // const docs = [{ uri: "https://t.kcptl.in/docs/docsBuffer/doctemplet.docx" }];
 
   if (fileUrl === "") return <div className="h-[80vh] w-full bg-white" >on file path found</div>
   const docs = [
     {
-      uri: `t.kcptl.in/docs/docsBuffer/${fileUrl}`,
+      uri: `https://t.kcptl.in/docs/docsBuffer/${fileUrl}`,
       fileType: "docx",
       fileName: data?.name,
     }

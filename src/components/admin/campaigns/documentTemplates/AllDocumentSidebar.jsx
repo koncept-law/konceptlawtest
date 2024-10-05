@@ -119,7 +119,7 @@ const AllDocumentSidebar = ({ data }) => {
         try {
             dispatch(setLoader({ loader: true }));
             const response = await axios.post(
-                `t.kcptl.in/docs/docsFolders`,
+                `https://t.kcptl.in/docs/docsFolders`,
                 payload
             );
 
@@ -166,7 +166,7 @@ const AllDocumentSidebar = ({ data }) => {
         try {
             dispatch(setLoader({ loader: true }));
             const response = await axios.post(
-                `t.kcptl.in/docs/getDocsByFolders`,
+                `https://t.kcptl.in/docs/getDocsByFolders`,
                 {
                     folderNames: folderArray,
                 }

@@ -65,7 +65,7 @@ const Navbar = () => {
   const changePasswordHandler = async (data) => {
     try {
       const token = localStorage.getItem("konceptLawToken");
-      const response = await axios.post(`t.kcptl.in/api/reset`, data, {
+      const response = await axios.post(`https://t.kcptl.in/api/reset`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

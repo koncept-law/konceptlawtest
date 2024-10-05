@@ -22,7 +22,7 @@
 //     if (!file) return null;
 
 //     return {
-//       uri: `t.kcptl.in/docs/docsBuffer/${file}`,
+//       uri: `https://t.kcptl.in/docs/docsBuffer/${file}`,
 //       fileType: "docx",
 //       fileName: selectFile?.name,
 //     }
@@ -80,7 +80,7 @@ const DocumentViewer = ({ fileUrl, data }) => {
     if (!selectFile?.path) return null;
 
     const file = selectFile.path.split("/")[1];
-    const docxUrl = `t.kcptl.in/docs/docsBuffer/${file}`;
+    const docxUrl = `https://t.kcptl.in/docs/docsBuffer/${file}`;
     // Create a Google Docs Viewer URL
     return `https://docs.google.com/gview?url=${encodeURIComponent(docxUrl)}&embedded=true`;
   }, [selectFile]);

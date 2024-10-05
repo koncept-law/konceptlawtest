@@ -140,7 +140,7 @@ const DocumentTemplateModal = ({ isDocumentTemplateModal, setIsDocumentTemplateM
         // };
         // getDocumentTemplates();
         const getDocumentTemplates = async () => {
-            const response = await axios.get(`t.kcptl.in/docs/get`);
+            const response = await axios.get(`https://t.kcptl.in/docs/get`);
             if (response.status === 200) {
                 // console.log(response.data)
                 setDocumentTemplateFiles(response.data)
@@ -182,7 +182,7 @@ const DocumentTemplateModal = ({ isDocumentTemplateModal, setIsDocumentTemplateM
             dispatch(setLoader({ loader: true }));
             const response = await axios.post(
                 // `http://localhost:3000/docs/docsFolders`,
-                `t.kcptl.in/docs/docsFolders`,
+                `https://t.kcptl.in/docs/docsFolders`,
                 payload
             );
 
@@ -238,7 +238,7 @@ const DocumentTemplateModal = ({ isDocumentTemplateModal, setIsDocumentTemplateM
                 dispatch(setLoader({ loader: true }));
                 const response = await axios.post(
                     // `http://localhost:3000/docs/docsFolders`,
-                    `t.kcptl.in/docs/getDocsByFolders`,
+                    `https://t.kcptl.in/docs/getDocsByFolders`,
                     {
                         folderNames: folder,
                     }

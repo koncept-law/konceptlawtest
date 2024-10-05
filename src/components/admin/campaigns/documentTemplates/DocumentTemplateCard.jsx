@@ -75,7 +75,7 @@ import { setLoader } from '../../../../redux/features/loaders';
 //   )
 // }
 
-// t.kcptl.in/docs/docsBuffer/${fileUrl}
+// https://t.kcptl.in/docs/docsBuffer/${fileUrl}
 const DocumentTemplateCard = ({
     value,
     handleSelectedCard,
@@ -118,8 +118,8 @@ const DocumentTemplateCard = ({
     const downloadDocument = () => {
         // console.log(value);
         let fileUrl = value?.path.split("/")[1];
-        // t.kcptl.in/docs/docsBuffer/${fileUrl}
-        const downloadUrl = `t.kcptl.in/docs/docsBuffer/${fileUrl}`;
+        // https://t.kcptl.in/docs/docsBuffer/${fileUrl}
+        const downloadUrl = `https://t.kcptl.in/docs/docsBuffer/${fileUrl}`;
 
         // Create an anchor element and trigger the download
         const anchor = document.createElement('a');

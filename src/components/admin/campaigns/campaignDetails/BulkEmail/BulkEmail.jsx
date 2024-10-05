@@ -79,7 +79,7 @@ const BulkEmail = () => {
 
   const handleDropdownApi = async () => {
     try {
-      const response = await axios.post("t.kcptl.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
+      const response = await axios.post("https://t.kcptl.in/campaign/readExcelHeaders", { campaignName: campaignDetails.name });
       const data = response.data?.headers || response.data;
       // const data = response.data;
       setDropDownList(data)

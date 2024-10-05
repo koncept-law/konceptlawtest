@@ -73,7 +73,7 @@ const UploadModal = ({
 
         if (newFolder) {
           const response = await axios.get(
-            `t.kcptl.in/api/foldersName`,
+            `https://t.kcptl.in/api/foldersName`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem(
@@ -94,7 +94,7 @@ const UploadModal = ({
             console.log("we  are in not found Folder");
 
             await axios.post(
-              `t.kcptl.in/api/updateMongoFolder`,
+              `https://t.kcptl.in/api/updateMongoFolder`,
               {
                 newFolder,
                 role: userRole,
@@ -134,7 +134,7 @@ const UploadModal = ({
             );
 
             const response = await axios.post(
-              "t.kcptl.in/api/uploadOnServer",
+              "https://t.kcptl.in/api/uploadOnServer",
               formData,
               {
                 headers: {
@@ -208,7 +208,7 @@ const UploadModal = ({
                 updateProgressUI(uploadedFiles, selectedFiles.length);
 
                 await axios.post(
-                  `t.kcptl.in/api/saveData`,
+                  `https://t.kcptl.in/api/saveData`,
                   {
                     name: file.name,
                     link: `${pathName}/${file.name}`,

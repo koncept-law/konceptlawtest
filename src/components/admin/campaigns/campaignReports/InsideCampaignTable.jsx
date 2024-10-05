@@ -227,7 +227,7 @@ const InsideCampaignTable = ({ data }) => {
         allRowIds[0] = JSON.parse(rowData?.data).var3.split("/")[4]; // all short urls
         // setSelectedRowIds(allRowIds); // Set the IDs to state
         // console.log('Selected Row IDs:', allRowIds); // Log the IDs to the console or handle as needed
-        const response = await axios.post("t.kcptl.in/clicks", {
+        const response = await axios.post("https://t.kcptl.in/clicks", {
             shortIds: allRowIds,
         });
 
@@ -257,7 +257,7 @@ const InsideCampaignTable = ({ data }) => {
         const allRowIds = specificCampaignSms?.sms.map(row => JSON.parse(row?.data).var3.split("/")[4]); // all short urls
         setSelectedRowIds(allRowIds); // Set the IDs to state
         // console.log('Selected Row IDs:', allRowIds); // Log the IDs to the console or handle as needed
-        const response = await axios.post("t.kcptl.in/campaign/clicks", {
+        const response = await axios.post("https://t.kcptl.in/campaign/clicks", {
             shortIds: allRowIds,
         });
         setClicksData(response.data);
