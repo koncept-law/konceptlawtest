@@ -88,18 +88,20 @@ const DashBoardSideBar = () => {
                         <span className="font-poppins not-italic leading-normal text-[12px] mt-1 font-medium">Mktg</span>
                     </button> 
                 </Dropdown> */}
-                <Tooltip title="Document Templates" placement="rightBottom">
-                    <Button className="w-full shadow-none bg-transparent p-0 hover:shadow-none" onClick={() => {
-                        navigate("/campaigns/documenttemplates");
-                    }}>
-                        <div className="w-full flex justify-start flex-col gap-x-3 py-1.5 items-center text-white">
-                            <FaFolderOpen size={"18px"} />
-                            <span className="font-poppins capitalize not-italic leading-normal font-light text-[12px]">Docs</span>
-                        </div>
-                    </Button>
-                </Tooltip>
+                {
+                    !location.pathname?.match("all-accounts") ? <>
+                        <Tooltip title="Document Templates" placement="rightBottom">
+                            <Button className="w-full shadow-none bg-transparent p-0 hover:shadow-none" onClick={() => {
+                                navigate("/campaigns/documenttemplates");
+                            }}>
+                                <div className="w-full flex justify-start flex-col gap-x-3 py-1.5 items-center text-white">
+                                    <FaFolderOpen size={"18px"} />
+                                    <span className="font-poppins capitalize not-italic leading-normal font-light text-[12px]">Docs</span>
+                                </div>
+                            </Button>
+                        </Tooltip>
 
-                {/* <Tooltip title="My Number" placement="rightBottom">
+                        {/* <Tooltip title="My Number" placement="rightBottom">
                     <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
                         navigate("/my-number");
                     }}>
@@ -110,19 +112,17 @@ const DashBoardSideBar = () => {
                     </Button>
                 </Tooltip> */}
 
-                <Tooltip title="Tools" placement="rightBottom">
-                    <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
-                        navigate("/tools");
-                    }}>
-                        <div className="w-full flex justify-start flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
-                            <FaTools size={"18px"} />
-                            <span className="font-poppins not-italic leading-normal capitalize font-light text-[12px]">Tools</span>
-                        </div>
-                    </Button>
-                </Tooltip>
+                        <Tooltip title="Tools" placement="rightBottom">
+                            <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
+                                navigate("/tools");
+                            }}>
+                                <div className="w-full flex justify-start flex-col gap-x-3 gap-y-0.5 py-1.5 items-center text-white">
+                                    <FaTools size={"18px"} />
+                                    <span className="font-poppins not-italic leading-normal capitalize font-light text-[12px]">Tools</span>
+                                </div>
+                            </Button>
+                        </Tooltip>
 
-                {
-                    !location.pathname?.match("all-accounts") ? <>
                         <Tooltip title="New Campaign" placement="rightBottom">
                             <Button className="w-full shadow-none bg-transparent p-0 my-2 hover:shadow-none" onClick={() => {
                                 setIsOpenAddCampaign(true);
@@ -149,9 +149,9 @@ const DashBoardSideBar = () => {
             </div>
         </div>
         <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />
-        <ExportModal 
-            visible={isOpenExport} 
-            onCancel={() => setIsOpenExport(false)} 
+        <ExportModal
+            visible={isOpenExport}
+            onCancel={() => setIsOpenExport(false)}
             global={true}
         />
     </>

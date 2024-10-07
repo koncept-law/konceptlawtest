@@ -76,3 +76,18 @@ export const stopAndResetTrackingFilesThunkMiddleware = () => {
         }
     }
 }
+
+export const resetAndrestartServerThunkMiddleware = () => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get("/tools/resetTheServer");
+            if(response.status === 200){
+                toastify({ msg: response.data?.message });
+            }
+        } catch(error) {
+            toastifyError(error);
+        } finally {
+            // ...
+        }
+    }
+}

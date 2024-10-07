@@ -33,7 +33,7 @@ const ResetModal = ({ open = false, setOpen = function(){}, title="", resetEvent
                                 No
                             </Button>
 
-                            <Button className="font-poppins not-italic py-2 px-4 leading-normal rounded-md capitalize bg-red-700 text-[#FFFFFF]" onClick={()=> {
+                            <Button className="font-poppins not-italic font-medium py-2 px-4 leading-normal rounded-md capitalize bg-red-700 text-[#FFFFFF]" onClick={()=> {
                                 resetEvent(true);
                                 handleCancel();
                             }}>
