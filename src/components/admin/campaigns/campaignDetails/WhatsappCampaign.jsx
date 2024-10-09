@@ -248,7 +248,8 @@ const WhatsappCampaign = () => {
     //   }
     // }
     try {
-      // console.log("longlink:",selectLongLink)
+      // console.log(modalData);
+      console.log("longlink:",selectLongLink)
       if (selectLongLink && selectedTemplate && variableCount === textVariableCount) {
         // console.log("select template with long link")
         setIsLoading(true);
