@@ -32,6 +32,7 @@ import { toastify } from "../../toast";
 // import UploadMenu from "../../../common/menu/UploadMenu";
 import { RiFileExcel2Fill } from "react-icons/ri";
 import FilterField from "../../../common/fields/FilterField";
+import ExportDocumentModal from "../../../common/modals/ExportDocumentModal";
 
 const StatsCard = ({ title, value, icon, iconClass = "", textClass = "" }) => {
     return (
@@ -366,7 +367,8 @@ const MainDashboard = () => {
 
     return <>
         {/* modals */}
-        <ExportModal visible={isOpenExport} onCancel={() => setIsOpenExport(false)} />
+        {/* <ExportModal visible={isOpenExport} onCancel={() => setIsOpenExport(false)} /> */}
+        <ExportDocumentModal open={isOpenExport} handleCancel={() => setIsOpenExport(false)} />
         <AddCampaign modal={isOpenAddCampaign} toggle={() => setIsOpenAddCampaign(false)} />
         <ViewDocumentModal open={isOpenDocument} setOpen={() => setIsOpenDocument(false)} />
 

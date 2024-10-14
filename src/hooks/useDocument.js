@@ -71,28 +71,49 @@ const useDocument = () => {
           Export
         </Button>
      */
-    function downloadXLSX(data, filename) {
-        const processedData = data.map(item => {
+    function downloadXLSX(data, filename, loading = function () { }) {
+        // Start the loader at 0%
+        loading(0);
+
+        // Step 1: Process the data
+        const processedData = data.map((item, itemIndex) => {
             let mutableItem = JSON.parse(JSON.stringify(item));
 
-            // Automatically handle fields that are  arrays of objects
+            // Automatically handle fields that are arrays of objects
             Object.keys(mutableItem).forEach(key => {
                 if (Array.isArray(mutableItem[key])) {
                     mutableItem[key].forEach((subItem, index) => {
                         mutableItem[`${key}[${index}]`] = serializeObjectForCell(subItem);
                     });
-                    delete mutableItem[key];  // Remove the original array to simplify the result
+                    delete mutableItem[key]; // Remove the original array to simplify the result
                 }
             });
+
+            // Update progress for data processing (up to 40% completion)
+            const progress = Math.floor((itemIndex / data.length) * 40);
+            loading(progress);
 
             return flattenObject(mutableItem);
         });
 
+        // Step 2: Data processed, update progress to 50%
+        loading(50);
+
+        // Step 3: Create XLSX worksheet and workbook
         const worksheet = XLSX.utils.json_to_sheet(processedData);
         const workbook = XLSX.utils.book_new();
+
+        // Update progress to 70% as sheet is added
+        loading(70);
+
+        // Step 4: Append worksheet to workbook
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
+        // Step 5: Write the workbook to file
         XLSX.writeFile(workbook, `${filename}.xlsx`);
+
+        // Update progress to 100% when writing is done
+        loading(100);
     }
 
     /** 
@@ -342,6 +363,18 @@ const useDocument = () => {
         window.URL.revokeObjectURL(url);
     }
 
+    const downloadToUrl = (url = "", fileName = "") => {
+        // const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.target = "none";
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
     /**
      * @example
      *   const converter = async () => {
@@ -468,6 +501,7 @@ const useDocument = () => {
         docxConvertHtml,
         downloadDocx,
         downloadPdf,
+        downloadToUrl,
     };
 };
 

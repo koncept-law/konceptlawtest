@@ -63,11 +63,12 @@ const BulkEmail = () => {
   // const emailTextRef = useRef(null)
 
   const emailOption = [
-    // { label: "dhimandeepak957@gmail.com", value: "dhimandeepak957@gmail.com" },
     { label: "konceptlegalllp@yahoo.in", value: "konceptlegalllp@yahoo.in" },
-    { label: "bahlkamal@gmail.com", value: "bahlkamal@gmail.com" },
-    { label: "advambikamehra@gmail.com", value: "advambikamehra@gmail.com" },
-    { label: "info@konceptlawassociates.com", value: "info@konceptlawassociates.com" }
+    // { label: "bahlkamal@gmail.com", value: "bahlkamal@gmail.com" },
+    // { label: "advambikamehra@gmail.com", value: "advambikamehra@gmail.com" },
+    // { label: "info@konceptlawassociates.com", value: "info@konceptlawassociates.com" },
+    { label: "konceptkla@gmail.com", value: "konceptkla@gmail.com" },
+    { label: "konceptlawassociates1@gmail.com", value: "konceptlawassociates1@gmail.com" },
   ]
 
   const { campaignEmailTemplates, campaignDetails, emailCategories } = useSelector(
