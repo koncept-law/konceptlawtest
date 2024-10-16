@@ -50,14 +50,23 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
         const abortController = new AbortController();
         const getDocumentVariables = async () => {
             try {
-                dispatch(setLoader({ loader: true }))
-                const response = await axios.post("https://t.kcptl.in/docs/getPlaceholders", { campaignName: campaignDetails.name },
-                    { signal: abortController.signal }
-                );
+                try {
+                    dispatch(setLoader({ loader: true }))
+                    const response = await axios.post("https://t.kcptl.in/docs/getPlaceholders", { campaignName: campaignDetails.name },
+                        { signal: abortController.signal }
+                    );
 
-                if (response.status === 200) {
-                    setDocumentVariables(response?.data.uniqueArray)
-                    setDropDownList(response?.data.headers);
+                    if (response.status === 200) {
+                        setDocumentVariables(response?.data.uniqueArray);
+                        if (Array.isArray(response?.data?.uniqueArray) && response.data?.uniqueArray?.length > 0) {
+                            response.data?.uniqueArray?.map((row) => {
+                                handleDropDownListChange(row?.variableName, row?.variableExcelValue);
+                            })
+                        }
+                        setDropDownList(response?.data.headers);
+                    }
+                } catch (error) {
+                    throw new Error("get place holders error!");
                 }
             }
 
@@ -70,11 +79,11 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
                 // } else {
                 //     console.error('Error fetching data', error);
                 // }
-                toastifyError(error, (call)=> {
-                    if(call === "logout"){
-                      navigate("/login");
+                toastifyError(error, (call) => {
+                    if (call === "logout") {
+                        navigate("/login");
                     }
-                  })
+                })
                 dispatch(setLoader({ loader: false }));
             }
             finally {
@@ -152,6 +161,7 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
 
 
     // console.log("selected option list array of objects type data", selectedOptionList);
+    // console.log("selectedOptionList",selectedOptionList);
 
     const handleMappedVariableValuesSend = async () => {
         let i = 0
@@ -206,11 +216,11 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
         // console.log(selectedOptionList)
     }, [selectedOptionList]);
 
-
     const columns = [
         {
             name: "Variables",
-            selector: (row) => row,
+            // selector: (row) => row,
+            selector: (row) => row?.variableName,
             width: "40vw",
         },
         {
@@ -225,8 +235,9 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
                         <Select
                             showSearch
                             placeholder="Select an Option"
-                            className="w-full"
-                            onChange={(value) => handleDropDownListChange(row, value)}
+                            className="w-full map-custom-border"
+                            defaultValue={row?.variableExcelValue || null}
+                            onChange={(value) => handleDropDownListChange(row?.variableName, value)}
                             // onSearch={handleSearch}
                             options={[
                                 { label: "Select an Option", value: "select" },
@@ -321,9 +332,9 @@ const MapDataModal = ({ isMapDataModal, setIsMapDataModal, campaignType }) => {
                 <div className="flex justify-end flex-wrap py-2 px-4 right-0 bottom-0">
                     {/* ${saveButton ? "bg-green-600" : "bg-green-200 disabled"}  */}
                     < Button type="submit" onClick={handleMappedVariableValuesSend} disabled={addLoader} className={` 
-                    ${saveButton ? "bg-green-600" : "bg-green-200 disabled"} ${addLoader ?  "bg-green-400 disabled" : "bg-green-600" }
+                    ${saveButton ? "bg-green-600" : "bg-green-200 disabled"} ${addLoader ? "bg-green-400 disabled" : "bg-green-600"}
                     rounded-md capitalize not-italic leading-normal font-poppins py-2 px-4 w-fit cursor-pointer text-white min-h-fit h-[40px] flex justify-center items-center mx-2 font-semibold shadow-sm`} >
-                        {addLoader ? <span className="flex"><Spinner/></span> : "Save"}
+                        {addLoader ? <span className="flex"><Spinner /></span> : "Save"}
                     </Button>
                     {/* <button onClick={handleSetLoader} >SetLoader</button> */}
                     <Button onClick={() => handleModalClose()} className="p-2 rounded-md w-fit cursor-pointer

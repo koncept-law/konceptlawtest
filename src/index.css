@@ -84,6 +84,18 @@
   color: var(--custom-black);
 }
 
+.map-custom-border .ant-select-selector {
+  border-color: #000000 !important;
+}
+
+.map-custom-border .ant-select-selector .ant-select-selection-placeholder {
+  color: #000000 !important;
+}
+
+.map-custom-border .ant-select-arrow {
+  color: #000000 !important;
+}
+
 /* theme */
 /* background */
 .koncept-background {

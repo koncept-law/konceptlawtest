@@ -399,6 +399,17 @@ const Prepare = ({ campaignType }) => {
                     isDataMappedCorrectly) && (
                       <>
                         {isDataMappedCorrectly && (
+                          <div className="absolute top-2 left-2 z-20">
+                            <figure
+                              className={`text-green-700 font-bold  -translate-y-10 transition-all duration-300 group-hover:translate-y-0`}
+                              // onClick={deleteFilesHandler}
+                              onClick={() => setIsMapDataModal(true)}
+                            >
+                              <IoReloadCircle size={30} />
+                            </figure>
+                          </div>
+                        )}
+                        {isDataMappedCorrectly && (
                           <div className="absolute top-2 right-2 z-20">
                             <figure
                               className={`text-red-600 font-bold  -translate-y-10 transition-all duration-300 group-hover:translate-y-0`}
