@@ -6,12 +6,12 @@ import { MdDeleteOutline } from "react-icons/md";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import SelectField from "../../../../../common/fields/SelectField";
+import SelectField from "../../../../common/fields/SelectField";
 import { Select } from "antd";
-import { campaignCategoriesThunkMiddleware, emailCategoriesThunkMiddleware, smsCategoriesThunkMiddleware } from "../../../../../redux/features/campaigns";
-import usePath from "../../../../../hooks/usePath";
+import { campaignCategoriesThunkMiddleware, emailCategoriesThunkMiddleware, whatsappCategoriesThunkMiddleware } from "../../../../redux/features/campaigns";
+import usePath from "../../../../hooks/usePath";
 
-const SmsCategories = () => {
+const WhatsappCategories = () => {
     const navigate = useNavigate();
     const { campaignDetails, smsCategories, campaignCategories } = useSelector(
         (state) => state.campaigns
@@ -38,10 +38,16 @@ const SmsCategories = () => {
         }
     });
 
+    // const NextEvent = (e) => {
+    //     // console.log(e);
+    //     // console.log(filterValues);
+    //     dispatch(whatsappCategoriesThunkMiddleware({ category: e, filter: filterValues }));
+    //     navigate("/campaigns/whatsapp/application");
+    // }
     const NextEvent = (data) => {
         // console.log(e);
         // console.log(filterValues);
-        dispatch(smsCategoriesThunkMiddleware({ category: data, filter: filterValues }));
+        // dispatch(emailCategoriesThunkMiddleware({ category: e, filter: filterValues }));
         data = {
             ...data,
             Category: [data?.Category],
@@ -49,7 +55,7 @@ const SmsCategories = () => {
         }
         // console.log(data)
         dispatch(emailCategoriesThunkMiddleware(data));
-        navigate("/campaigns/sms/application");
+        navigate("/campaigns/whatsapp/application");
     }
 
     const BackEvent = () => {
@@ -92,36 +98,6 @@ const SmsCategories = () => {
     return (
         <div className="w-full">
             {/* Topbar */}
-            {/* <div className="h-fit px-4 py-2 shadow-md shadow-slate-200 flex md:flex-row flex-col gap-y-2 md:my-0 w-full justify-between bg-white rounded-md">
-                <div className="flex items-center gap-4">
-                    <button
-                        onClick={BackEvent}
-                        className="w-fit flex items-center gap-1 buttonBackground px-2 py-1 rounded-md text-white font-semibold"
-                    >
-                        <IoMdArrowRoundBack size={26} />
-                    </button>
-                    <h1 className="text-xl font-poppins font-medium text-slate-700 leading-normal">
-                        Sms Categories
-                    </h1>
-                </div>
-                <div className="flex items-center gap-2">
-                    <button className="flex items-center gap-1 bg-yellow-600 px-2 py-1 rounded-md text-white font-semibold">
-                        Logs
-                    </button>
-                    <button
-                        onClick={(e) => e.preventDefault()}
-                        className="flex items-center gap-1 bg-green-600 px-2 py-1 rounded-md text-white font-semibold"
-                    >
-                        Save
-                    </button>
-                    <button
-                        onClick={(e) => e.preventDefault()}
-                        className="flex items-center gap-1 bg-gray-600 px-2 py-1 rounded-md text-white font-semibold"
-                    >
-                        Save & Send
-                    </button>
-                </div>
-            </div> */}
 
             <div className="w-full flex flex-col">
                 <div className="flex justify-between w-full items-end my-2">
@@ -181,48 +157,9 @@ const SmsCategories = () => {
                         </Select>
                     )}
                 />
-
-                {/* {
-                    watch("categories") && watch("categories") !== "all" ? <>
-                        <div className="w-full flex p-4 my-2 flex-col items-end">
-                            <Button
-                                className="bg-slate-800 text-gray-50 gap-x-2 flex items-center capitalize font-poppins leading-normal text-[15px] py-2 px-4"
-                                onClick={addFilter}
-                            >
-                                <FaPlus size={16} />
-                                <span>Filter</span>
-                            </Button>
-
-                            <div className="overflow-y-scroll h-[55vh] w-full flex flex-col justify-start px-3 my-2 items-center">
-                                {filters.map((filter, index) => (
-                                    <div key={index} className="flex justify-center my-1 gap-x-3 items-center w-full">
-                                        <div className="p-3 w-[20%]">
-                                            Category 1
-                                        </div>
-                                        <div className="w-full">
-                                            <Select
-                                                placeholder="Select Filter"
-                                                options={filterOptions}
-                                                className="w-full"
-                                                value={filterValues[filter.id]}
-                                                onChange={(value) => handleFilterChange(value, filter.id)}
-                                            />
-                                        </div>
-                                        <Button
-                                            className="bg-red-700 text-white py-2 px-2 rounded-md w-[50px] flex justify-center items-center"
-                                            onClick={() => removeFilter(filter.id)}
-                                        >
-                                            <MdDeleteOutline size={16} />
-                                        </Button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </> : null
-                } */}
             </div>
         </div>
     );
 };
 
-export default SmsCategories;
+export default WhatsappCategories;

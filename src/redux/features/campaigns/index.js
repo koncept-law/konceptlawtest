@@ -61,6 +61,8 @@ const initialState = {
   totalPdf: null,
   selectFile: null,
   currentShortLink: 0,
+
+  whatsappCategories: null,
 };
 
 const campaignsSlice = createSlice({
@@ -1571,7 +1573,8 @@ export const sendSampleWhatsappThunkMiddleware = (payload, callback = function()
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
-      const response = await axios.post("/campaign/sendSampleWhatsapp", payload);
+      // const response = await axios.post("/campaign/sendSampleWhatsapp", payload);
+      const response = await axios.post("/campaign/sendSingleWhatsappFromAirtelIq", payload);
       if(response.status === 200){
         toastify({ msg: response.data?.message });
         callback(true);
@@ -4416,6 +4419,20 @@ export const smsCategoriesThunkMiddleware = (payload) => {
     try {
 
       dispatch(setCampaigns({ smsCategories: payload }));
+
+    } catch (error) {
+      toastifyError(error)
+    } finally {
+      dispatch(setLoader({ getLoader: false }));
+    }
+  };
+};
+
+export const whatsappCategoriesThunkMiddleware = (payload) => {
+  return async (dispatch) => {
+    try {
+
+      dispatch(setCampaigns({ whatsappCategories: payload }));
 
     } catch (error) {
       toastifyError(error)

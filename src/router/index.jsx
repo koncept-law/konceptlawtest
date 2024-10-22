@@ -30,12 +30,13 @@ const SmsCampaign = lazy(() =>
 const WhatsappCampaign = lazy(() =>
   import("../components/admin/campaigns/campaignDetails/WhatsappCampaign")
 );
+const WhatsappCategories = lazy(() => import("../components/admin/campaigns/campaignDetails/WhatsappCategories.jsx"));
 const Tracking = lazy(() => import("../components/admin/tracking/Tracking"));
 const AdminProtectedRoutes = lazy(() => import("./AdminProtectedRoutes"));
 const BulkEmail = lazy(() =>
   import("../components/admin/campaigns/campaignDetails/BulkEmail/BulkEmail")
 );
-const EmailCategories = lazy(()=> import("../components/admin/campaigns/campaignDetails/BulkEmail/EmailCategoires.jsx"));
+const EmailCategories = lazy(() => import("../components/admin/campaigns/campaignDetails/BulkEmail/EmailCategoires.jsx"));
 const UploadTemplate = lazy(() =>
   import(
     "../components/admin/campaigns/campaignDetails/BulkEmail/UploadTemplate"
@@ -61,13 +62,13 @@ const AllCampaignsData = lazy(() =>
   )
 );
 
-const EmailTemplate = lazy(()=> import("../components/admin/campaigns/campaignDetails/BulkEmail/EmailTemplate.jsx"))
+const EmailTemplate = lazy(() => import("../components/admin/campaigns/campaignDetails/BulkEmail/EmailTemplate.jsx"))
 
 const DocumentTemplates = lazy(() => import("../components/admin/campaigns/documentTemplates/AllDocumentTemplate.jsx"))
 
 const Document = lazy(() => import("../components/admin/document/Document"));
 
-const DownloadDocumentByCategory = lazy(()=> import("../components/admin/campaigns/campaignDetails/DocumentByCategory/DownloadDocumentByCategory.jsx"));
+const DownloadDocumentByCategory = lazy(() => import("../components/admin/campaigns/campaignDetails/DocumentByCategory/DownloadDocumentByCategory.jsx"));
 
 const SelectUser = lazy(() => import("../components/admin/users/SelectUser.jsx"));
 
@@ -88,11 +89,11 @@ const Router = () => {
   // console.log("isAuthenticate", isAuth)
 
   const destination = useMemo(() => {
-    if(isAuth){
+    if (isAuth) {
       return "/dashboard";
-    }else if(!isAuth){
+    } else if (!isAuth) {
       return "/login";
-    }else {
+    } else {
       return "/";
     }
   }, [isAuth, role, token]);
@@ -116,7 +117,7 @@ const Router = () => {
       //     <LoginPage />
       //   </ProtectedRoutes>
       // ),
-      element: !isAuth ? <LoginPage />: <Navigate to={"/"} />,
+      element: !isAuth ? <LoginPage /> : <Navigate to={"/"} />,
     },
     {
       path: "/register",
@@ -129,7 +130,7 @@ const Router = () => {
       //     <LoginPage />
       //   </ProtectedRoutes>
       // ),
-      element: !isAuth ? <LoginPage />: <Navigate to={"/"} />,
+      element: !isAuth ? <LoginPage /> : <Navigate to={"/"} />,
     },
     {
       path: "/",
@@ -138,7 +139,7 @@ const Router = () => {
       //     <Admin />
       //   </ProtectedRoutes>
       // ),
-      element: isAuth ? <Admin />: <Navigate to={"/login"} />,
+      element: isAuth ? <Admin /> : <Navigate to={"/login"} />,
       // element : <Admin/>,
       children: [
         {
@@ -180,7 +181,7 @@ const Router = () => {
           //     <Campaigns />
           //   </AdminProtectedRoutes>
           // ),
-          element: <Campaigns/>
+          element: <Campaigns />
         },
         {
           path: "/campaigns/documenttemplates",
@@ -210,13 +211,32 @@ const Router = () => {
           path: "/campaigns/campaigndetails/sms/logs",
           element: <Logs />,
         },
+        // {
+        //   path: "/campaigns/campaigndetails/whatsapp",
+        //   element: <WhatsappCampaign />,
+        // },
+        // {
+        //   path: "/campaigns/campaigndetails/whatsapp/createtemplate",
+        //   element: <CreateWhatsappTemplatePage />,
+        // },
         {
-          path: "/campaigns/campaigndetails/whatsapp",
-          element: <WhatsappCampaign />,
-        },
-        {
-          path: "/campaigns/campaigndetails/whatsapp/createtemplate",
-          element: <CreateWhatsappTemplatePage />,
+          // path: "/campaigns/campaigndetails/bulkemail",
+          // element: <BulkEmail />,
+          path: "/campaigns/whatsapp",
+          children: [
+            {
+              path: "application",
+              element: <WhatsappCampaign />,
+            },
+            {
+              path: "categories",
+              element: <WhatsappCategories />
+            },
+            {
+              path: "create-template",
+              element: <CreateWhatsappTemplatePage />
+            }
+          ]
         },
         {
           path: "/campaigns/campaigndetails/whatsapp/logs",
@@ -333,7 +353,7 @@ const Router = () => {
         },
         {
           path: "*",
-          element: <Navigate to={"/"}/>
+          element: <Navigate to={"/"} />
         },
       ],
     },

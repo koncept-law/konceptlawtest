@@ -59,7 +59,7 @@ const MyPath = ({
             {
                 path.location.pathname.match("/sms/categories") ? <>
                     <CgFormatSlash size={20} />
-                    <Tooltip title="SMS Email" placement="bottom">
+                    <Tooltip title="SMS Categories" placement="bottom">
                         <Link to={"/campaigns/sms/categories"}>
                             <h2 className="hover:text-blue-700 hover:underline flex text-[17px] justify-start gap-x-0.5 items-center cursor-pointer hover:underline-offset-4 hover:decoration-[2px]">SMS <CgFormatSlash size={20} /> Categories</h2>
                         </Link>
@@ -69,7 +69,7 @@ const MyPath = ({
             {
                 path.location.pathname.match("/sms/application") ? <>
                     <CgFormatSlash size={20} />
-                    <Tooltip title="SMS Email" placement="bottom">
+                    <Tooltip title="SMS Application" placement="bottom">
                         <Link to={"/campaigns/sms/application"}>
                             <h2 className="hover:text-blue-700 hover:underline flex text-[17px] justify-start gap-x-0.5 items-center cursor-pointer hover:underline-offset-4 hover:decoration-[2px]">SMS <CgFormatSlash size={20} /> Application</h2>
                         </Link>
@@ -77,11 +77,31 @@ const MyPath = ({
                 </> : null
             }
             {
-                path.location.pathname.match("whatsapp") ? <>
+                path.location.pathname.match("/whatsapp/categories") ? <>
                     <CgFormatSlash size={20} />
-                    <Tooltip title="Whatsapp" placement="bottom">
-                        <Link to={"/campaigns/campaigndetails/whatsapp"}>
-                            <h2 className="hover:text-blue-700 hover:underline cursor-pointer text-[17px] hover:underline-offset-4 hover:decoration-[2px]">Whatsapp</h2>
+                    <Tooltip title="Whatsapp Categories" placement="bottom">
+                        <Link to={"/campaigns/whatsapp/categories"}>
+                            <h2 className="hover:text-blue-700 hover:underline flex text-[17px] justify-start gap-x-0.5 items-center cursor-pointer hover:underline-offset-4 hover:decoration-[2px]">Whatsapp <CgFormatSlash size={20} /> Categories</h2>
+                        </Link>
+                    </Tooltip>
+                </> : null
+            }
+            {
+                path.location.pathname.match("/whatsapp/create-template") ? <>
+                    <CgFormatSlash size={20} />
+                    <Tooltip title="Whatsapp Create Template" placement="bottom">
+                        <Link to={"/campaigns/whatsapp/categories"}>
+                            <h2 className="hover:text-blue-700 hover:underline flex text-[17px] justify-start gap-x-0.5 items-center cursor-pointer hover:underline-offset-4 hover:decoration-[2px]">Whatsapp <CgFormatSlash size={20} /> Create Template</h2>
+                        </Link>
+                    </Tooltip>
+                </> : null
+            }
+              {
+                path.location.pathname.match("/whatsapp/application") ? <>
+                    <CgFormatSlash size={20} />
+                    <Tooltip title="Whatsapp Application" placement="bottom">
+                        <Link to={"/campaigns/whatsapp/application"}>
+                            <h2 className="hover:text-blue-700 hover:underline flex text-[17px] justify-start gap-x-0.5 items-center cursor-pointer hover:underline-offset-4 hover:decoration-[2px]">Whatsapp <CgFormatSlash size={20} /> Application</h2>
                         </Link>
                     </Tooltip>
                 </> : null

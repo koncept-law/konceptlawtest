@@ -345,7 +345,8 @@ const MainDashboard = () => {
             </Menu.Item>
 
             <Menu.Item className="w-full" onClick={() => {
-                navigate("/campaigns/campaigndetails/whatsapp");
+                // navigate("/campaigns/campaigndetails/whatsapp");
+                navigate("/campaigns/whatsapp/categories");
             }}>
                 <div className="w-full flex justify-start gap-x-3 items-center text-white">
                     <MdWhatsapp size={"18px"} />

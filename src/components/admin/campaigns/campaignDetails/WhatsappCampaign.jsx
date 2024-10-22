@@ -45,7 +45,7 @@ const WhatsappCampaign = () => {
   const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(null);
   const [selectLongLink, setSelectLongLink] = useState(false);
 
-  const { campaignWhatsappTemplates, campaignDetails } = useSelector(
+  const { campaignWhatsappTemplates, campaignDetails, whatsappCategories } = useSelector(
     (state) => state.campaigns
   );
 
@@ -513,12 +513,13 @@ const WhatsappCampaign = () => {
     }
   }, [selectLongLink, selectedTemplate, variableCount, textVariableCount]);
 
-  const sendSampleMessage = () => {
+  const sendSampleMessage = (mobileNumber) => {
     // console.log("send sample message!")
     try {
       // console.log("longlink:",selectLongLink)
       if (selectLongLink && selectedTemplate && variableCount === textVariableCount) {
         // console.log("select template with long link")
+        // {campaignName, mobileNumber, variables, longlink, templateId}
         dispatch(
           sendSampleWhatsappThunkMiddleware({
             templateId: selectedTemplate.templateId,
@@ -528,7 +529,7 @@ const WhatsappCampaign = () => {
             campaignName: campaignDetails.name,
             longlink: selectLongLink,
             whatsappVendor: WabaSelect,
-            ...modalData,
+            mobileNumber,
           },
             (error) => {
               if (!error) {
@@ -550,7 +551,7 @@ const WhatsappCampaign = () => {
             variables: selectedVariables,
             campaignName: campaignDetails.name,
             whatsappVendor: WabaSelect,
-            ...modalData,
+            mobileNumber,
           },
             (error) => {
               if (!error) {
@@ -571,7 +572,7 @@ const WhatsappCampaign = () => {
             campaignName: campaignDetails?.name,
             longlink: selectLongLink,
             whatsappVendor: WabaSelect,
-            ...modalData,
+            mobileNumber,
           },
             (error) => {
               if (!error) {
@@ -709,7 +710,8 @@ const WhatsappCampaign = () => {
               <div className="flex justify-center gap-x-2 items-center">
                 <Link
                   // onClick={sendSmsHandler}
-                  to="/campaigns/campaigndetails/whatsapp/createtemplate"
+                  // to="/campaigns/campaigndetails/whatsapp/createtemplate"
+                  to="/campaigns/whatsapp/create-template"
                   className=" flex items-center text-center justify-center bg-blue-600
                 rounded-sm text-white font-semibold text-[15px] font-poppins not-italic leading-normal px-2 py-1"
                 >

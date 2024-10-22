@@ -195,7 +195,8 @@ const CampaignDetails = () => {
     // }
     dispatch(
       getCampaignWhatsappTemplateThunkMiddleware("whatsapp", () => {
-        navigate("whatsapp");
+        // navigate("whatsapp");
+        navigate("/campaigns/whatsapp/categories");
       })
     );
   };
