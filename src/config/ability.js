@@ -5,6 +5,13 @@ const ABILITY = {
             "dropdown": 'dipesh sharma campagin dropdown value!',
         }
     },
+    'HDFC BANK': {
+        read: ["email-dropdown"],
+        data: {
+            'email-dropdown': "LEGAL NOTICE ON BEHALF OF HDFC BANK LTD.",
+            'email-default': "LEGAL NOTICE ON BEHALF OF HDFC BANK LTD.",
+        }
+    },
     'BAJAJ FINSERV' : {
         read: ["email-dropdown"],
         data: {
