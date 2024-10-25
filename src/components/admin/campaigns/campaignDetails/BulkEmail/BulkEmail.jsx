@@ -31,6 +31,8 @@ import InputWithSelectField from "../../../../../common/fields/InputWithSelectFi
 import { useForm } from "react-hook-form";
 import DropdownOption from "../../../../../common/fields/DropdownOption";
 import FilterOption from "../../../../../functions/FilterOption";
+import useAbility from "../../../../../hooks/useAbility";
+import InputWithSelectFieldOnChange from "../../../../../common/fields/InputWithSelectFieldOnChange";
 
 const BulkEmail = () => {
 
@@ -39,6 +41,8 @@ const BulkEmail = () => {
   const sampleMessageRef = useRef(null);
   const axios = createAxiosInstance();
   const path = usePath();
+  const ability = useAbility();
+  // console.log(ability.can("data", "dropdown"));
   const {
     control,
     formState: {
@@ -48,6 +52,14 @@ const BulkEmail = () => {
     reset,
     watch,
   } = useForm();
+
+  const emailDropdownOptions = useMemo(() => {
+    let item = ability.can("data", "email-dropdown");
+    if(item){
+      return [{ label: item, value: item }];
+    }
+    return null;
+  }, [ability]);
 
   const [subject, setSubject] = useState("");
   // const [text, setText] = useState("");
@@ -320,12 +332,19 @@ const BulkEmail = () => {
               <label htmlFor="" className="text-sm font-semibold">
                 Subject :
               </label>
-              <input
-                type="text"
-                className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
-                onChange={(e) => setSubject(e.target.value)}
-                value={subject}
-              />
+              {/* email-dropdown */}
+              {
+                ability.can("read", "email-dropdown") ? <>
+                  <InputWithSelectFieldOnChange onChange={e => setSubject(e)} defaultOption={ability.can("data", "email-default")} options={emailDropdownOptions || []} />
+                </> : <>
+                  <input
+                    type="text"
+                    className="border-2 rounded p-1 flex-1 focus:ring-2 focus:ring-purple-800 outline-none"
+                    onChange={(e) => setSubject(e.target.value)}
+                    value={subject}
+                  />
+                </>
+              }
             </div>
 
             <div className=" flex flex-col gap-1 rounded flex-1">
