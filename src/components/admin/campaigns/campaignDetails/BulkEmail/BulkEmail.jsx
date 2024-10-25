@@ -234,6 +234,12 @@ const BulkEmail = () => {
     }
   }
 
+  useEffect(() => {
+    if (ability.can("read", "email-dropdown")) {
+      setSubject(ability.can("data", "email-default"));
+    }
+  }, []);
+
   // console.log("selected template", selectedTemplate)
 
   return (
