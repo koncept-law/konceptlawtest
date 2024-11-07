@@ -44,27 +44,13 @@ const TrackingPage = () => {
 
             setShowSpinner(true);
             try {
-                const response = await axios.postForm("/tools/bulkTrackPdfsAndExcel", formData, {
-                    responseType: 'blob'
-                });
+                const response = await axios.postForm("/tools/bulkTrackPdfsAndExcel", formData);
                 // console.log(response);
                 if (response.status === 200) {
                     setShowSpinner(false);
                     toastify({ msg: response.data?.message });
                     book1.current.value = "";
-                    handleOpen();
-                    // const blob = response.data;
-                    // const url = window.URL.createObjectURL(blob);
-                    // const a = document.createElement('a');
-                    // a.style.display = 'none';
-                    // a.href = url;
-                    // a.download = 'trackingBook.xlsx';
-                    // document.body.appendChild(a);
-                    // a.click();
-                    // window.URL.revokeObjectURL(url);
-                    // toastify({ msg: "File merged and downloaded successfully!", type: "success" })
-                    // book1.current.value = "";
-                    // handleOpen();
+                    refresh();
                 }
             } catch (err) {
                 console.log("error:", err)
@@ -174,7 +160,7 @@ const TrackingPage = () => {
                 <img src={book1Img} alt="image" className="w-52 border border-solid border-slate-300 shadow-md shadow-slate-600" />
             </div>
 
-            <Button className="bg-rose-700 py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium" onClick={handleClose}>
+            <Button className={`${parseInt(current) === 0 ? "bg-rose-700 ": "bg-rose-500 cursor-not-allowed"} py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium`} onClick={parseInt(current) === 0 ? handleClose: ()=> {}}>
                 {showSpinner ? <Spinner width={16} /> : null}
                 Start Tracking
             </Button>
