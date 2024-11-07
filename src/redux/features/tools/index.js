@@ -94,17 +94,58 @@ export const resetAndrestartServerThunkMiddleware = () => {
     }
 }
 
-export const getPdfCountsThunkMiddleware = () => {
+export const getPdfCountsThunkMiddleware = (callback = () => {}) => {
     return async (dispatch) => {
         try {
             const response = await axios.get("/tools/getPdfCounts");
             if(response.status === 200){
                 dispatch(setTools({ total: response.data?.total, current: response.data?.current }));
+                callback(true);
             }
         } catch(error) {
             toastifyError(error);
         } finally {
-            // ...
+            callback(true);
+        }
+    }
+}
+
+export const mergeExcelFilesThunkMiddleware = (callback = () => {}) => {
+    return async (dispatch) => {
+        try {
+            try {
+                const response = await axios.get("/tools/mergeExcelFiles", {
+                    responseType: "blob"
+                });
+                if(response.status === 200){
+                    callback(response.data);
+                }
+            } catch(err){
+                throw new Error("File Not Fetch");
+            }
+        } catch(error) {
+            toastifyError(error);
+        } finally {
+            callback(false);
+        }
+    }
+}
+
+export const listAllPdfsThunkMiddleware = (callback = () => {}) => {
+    return async (dispatch) => {
+        try {
+            try {
+                const response = await axios.get("/tools/list-all-pdfs");
+                if(response.status === 200){
+                    callback(response.data?.pdfFiles);
+                }
+            } catch(err){
+                throw new Error("File Not Fetch");
+            }
+        } catch(error) {
+            toastifyError(error);
+        } finally {
+            callback(false);
         }
     }
 }

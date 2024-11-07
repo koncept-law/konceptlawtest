@@ -11,15 +11,18 @@ import { MdCancel, MdHourglassTop } from "react-icons/md";
 import { TbFilterSearch } from "react-icons/tb";
 import { IoIosCloudDone } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "antd";
-import { getPdfCountsThunkMiddleware, resetAndrestartServerThunkMiddleware } from "../../../../redux/features/tools";
+import { Modal, Spin } from "antd";
+import { getPdfCountsThunkMiddleware, listAllPdfsThunkMiddleware, mergeExcelFilesThunkMiddleware, resetAndrestartServerThunkMiddleware } from "../../../../redux/features/tools";
 import ResetModal from "../../../../common/modals/ResetModal";
+import useDocument from "../../../../hooks/useDocument";
 
 const TrackingPage = () => {
     const [showSpinner, setShowSpinner] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const { trackingDetails, total, current } = useSelector(state => state.tools);
     const axios = createAxiosInstance();
+    const [loading, setLoading] = useState(false);
+    const docs = useDocument();
 
     const handleClose = () => setIsOpen(!isOpen);
     const [openReset, setOpenReset] = useState(false);
@@ -77,13 +80,40 @@ const TrackingPage = () => {
         }
     }
 
-    const refresh = () => dispatch(getPdfCountsThunkMiddleware());
+    const refresh = () => {
+        setLoading(true);
+        dispatch(getPdfCountsThunkMiddleware(() => {
+            setLoading(false);
+        }));
+    }
 
-    useEffect(() => { refresh(); }, []);
+    // useEffect(() => { refresh(); }, []);
 
     const resetAndrestartServer = () => {
         // console.log("reset and restart your server!");
         dispatch(resetAndrestartServerThunkMiddleware());
+    }
+
+    const downloadExcel = () => {
+        dispatch(mergeExcelFilesThunkMiddleware((data) => {
+            if (data) {
+                docs.download(data, 'combinedExcelFile.xlsx');
+            }
+        }));
+    }
+
+    const downloadPdfs = () => {
+        dispatch(listAllPdfsThunkMiddleware((data) => {
+            if(data){
+                setLoading(true);
+                let downloads = data?.map((item) => ({name: item?.filename, link: item?.downloadUrl}));
+                docs.downloadPdf('listAllPdfs', downloads, (load) => {
+                    if(load >= 100){
+                        setLoading(false);
+                    }
+                });
+            }
+        }));
     }
 
     return <>
@@ -120,6 +150,15 @@ const TrackingPage = () => {
                 </div>
             </div>
         </Modal>
+
+        {
+            loading ? <>
+                <div className="w-full h-full z-30 bg-white/50 fixed top-0 left-0 flex justify-center items-center">
+                    <Spin />
+                </div>
+            </> : null
+        }
+
         <div className="bg-white flex flex-col py-5 px-2 gap-y-7 w-full">
             <div className="flex justify-between gap-x-2 items-center">
                 <div className="flex justify-start items-start gap-y-3">
@@ -141,12 +180,12 @@ const TrackingPage = () => {
             </Button>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-6 w-full">
-                <Button className="text-white bg-blue-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={() => setOpenAddress(true)}>
+                <Button className="text-white bg-blue-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={downloadExcel}>
                     <TbFileDownload size={32} />
                     <span>Download Excel</span>
                 </Button>
 
-                <Button className="text-white bg-purple-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={() => setOpenAddress(true)}>
+                <Button className="text-white bg-purple-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={downloadPdfs}>
                     <TbFileDownload size={32} />
                     <span>Download Pdfs</span>
                 </Button>
