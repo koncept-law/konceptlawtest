@@ -6,6 +6,8 @@ import { toastifyError } from "../../../constants/errors";
 
 const initialState = {
     trackingDetails: null,
+    total: 0,
+    current: 0,
 };
 
 const axios = createAxiosInstance();
@@ -83,6 +85,21 @@ export const resetAndrestartServerThunkMiddleware = () => {
             const response = await axios.get("/tools/resetTheServer");
             if(response.status === 200){
                 toastify({ msg: response.data?.message });
+            }
+        } catch(error) {
+            toastifyError(error);
+        } finally {
+            // ...
+        }
+    }
+}
+
+export const getPdfCountsThunkMiddleware = () => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get("/tools/getPdfCounts");
+            if(response.status === 200){
+                dispatch(setTools({ total: response.data?.total, current: response.data?.current }));
             }
         } catch(error) {
             toastifyError(error);
