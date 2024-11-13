@@ -111,6 +111,7 @@ const DownloadDocumentByCategory = () => {
                         campaignName: campaignDetails?.name,
                         templateId: row?.templateId,
                         links: row?.links, description: row?.description,
+                        fileName: row?.templateName,
                     }));
                 }
 

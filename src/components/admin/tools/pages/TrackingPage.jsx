@@ -15,6 +15,9 @@ import { Modal, Spin } from "antd";
 import { getPdfCountsThunkMiddleware, listAllPdfsThunkMiddleware, mergeExcelFilesThunkMiddleware, resetAndrestartServerThunkMiddleware } from "../../../../redux/features/tools";
 import ResetModal from "../../../../common/modals/ResetModal";
 import useDocument from "../../../../hooks/useDocument";
+import { IoWalletOutline } from "react-icons/io5";
+import MyButton from "../../../common/Buttons/MyButton";
+import PaymentModal from "../../../../common/modals/PaymentModal";
 
 const TrackingPage = () => {
     const [showSpinner, setShowSpinner] = useState(false);
@@ -26,6 +29,7 @@ const TrackingPage = () => {
 
     const handleClose = () => setIsOpen(!isOpen);
     const [openReset, setOpenReset] = useState(false);
+    const [isPaymentOpen, setIsPaymentOpen] = useState(false);
     const dispatch = useDispatch();
 
     const book1 = useRef(null);
@@ -73,7 +77,7 @@ const TrackingPage = () => {
         }));
     }
 
-    // useEffect(() => { refresh(); }, []);
+    useEffect(() => { refresh(); }, []);
 
     const resetAndrestartServer = () => {
         // console.log("reset and restart your server!");
@@ -90,11 +94,11 @@ const TrackingPage = () => {
 
     const downloadPdfs = () => {
         dispatch(listAllPdfsThunkMiddleware((data) => {
-            if(data){
+            if (data) {
                 setLoading(true);
-                let downloads = data?.map((item) => ({name: item?.filename, link: item?.downloadUrl}));
+                let downloads = data?.map((item) => ({ name: item?.filename, link: item?.downloadUrl }));
                 docs.downloadPdf('listAllPdfs', downloads, (load) => {
-                    if(load >= 100){
+                    if (load >= 100) {
                         setLoading(false);
                     }
                 });
@@ -137,6 +141,11 @@ const TrackingPage = () => {
             </div>
         </Modal>
 
+        <PaymentModal
+            isOpen={isPaymentOpen}
+            setIsOpen={setIsPaymentOpen}
+        />
+
         {
             loading ? <>
                 <div className="w-full h-full z-30 bg-white/50 fixed top-0 left-0 flex justify-center items-center">
@@ -145,7 +154,17 @@ const TrackingPage = () => {
             </> : null
         }
 
-        <div className="bg-white flex flex-col py-5 px-2 gap-y-7 w-full">
+        <div className="w-full flex justify-between items-center gap-x-4 py-4 px-3">
+            <div className="flex justify-end w-full items-center gap-x-2">
+                <IoWalletOutline size={22} className="text-blue-700" />
+                <span><span className="font-semibold">Wallet:</span> 0.00</span>
+            </div>
+            <div>
+                <MyButton className="py-2 px-4 bg-blue-700 text-[14px]" onClick={() => setIsPaymentOpen(true)}>Payment</MyButton>
+            </div>
+        </div>
+
+        <div className="bg-white flex flex-col py-2 px-2 gap-y-7 w-full">
             <div className="flex justify-between gap-x-2 items-center">
                 <div className="flex justify-start items-start gap-y-3">
                     <div className="flex justify-start flex-col gap-y-3 items-start">
@@ -160,7 +179,7 @@ const TrackingPage = () => {
                 <img src={book1Img} alt="image" className="w-52 border border-solid border-slate-300 shadow-md shadow-slate-600" />
             </div>
 
-            <Button className={`${parseInt(current) === 0 ? "bg-rose-700 ": "bg-rose-500 cursor-not-allowed"} py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium`} onClick={parseInt(current) === 0 ? handleClose: ()=> {}}>
+            <Button className={`${parseInt(current) === 0 ? "bg-rose-700 " : "bg-rose-500 cursor-not-allowed"} py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium`} onClick={parseInt(current) === 0 ? handleClose : () => { }}>
                 {showSpinner ? <Spinner width={16} /> : null}
                 Start Tracking
             </Button>

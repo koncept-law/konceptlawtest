@@ -148,3 +148,7 @@
 .my-field > div > input::placeholder {
   color: #000000 !important;
 }
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(75, 75, 75, 0.356); /* Adjust values as needed */
+}

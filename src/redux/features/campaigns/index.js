@@ -4053,7 +4053,7 @@ export const downloadCampaignAllDocumentsByCategoryThunkMiddleware = ({ campaign
 
 
 // download all pdfs by category 
-export const downloadAllPdfsByCategoryThunkMiddleware = ({ linksData }) => {
+export const downloadAllPdfsByCategoryThunkMiddleware = ({ linksData, fileName = null }) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
@@ -4169,7 +4169,9 @@ export const downloadAllPdfsByCategoryThunkMiddleware = ({ linksData }) => {
 export const downloadDocumentCategorySinglePdfThunkMiddleware = ({ campaignName,
   templateId,
   links,
-  description, }) => {
+  description, 
+  fileName = null,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(setLoader({ loader: true }));
@@ -4205,7 +4207,7 @@ export const downloadDocumentCategorySinglePdfThunkMiddleware = ({ campaignName,
         link.href = url;
         link.target = "_blank";
 
-        link.setAttribute("download", `file1.pdf`);
+        link.setAttribute("download", fileName ? `${fileName}.pdf`: `file1.pdf`);
         // link.setAttribute("download", `${campaignName}.docx`);
         // link.setAttribute("download", `${campaignName}.xlsx`);
 

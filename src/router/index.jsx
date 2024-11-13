@@ -82,10 +82,20 @@ const SmsCategories = lazy(() => import("../components/admin/campaigns/campaignD
 const Tools = lazy(() => import("../components/admin/tools/Tools.jsx"));
 const TrackingPage = lazy(() => import("../components/admin/tools/pages/TrackingPage.jsx"));
 
+// validations
+const TrackingLogin = lazy(() => import("../page/validations/TrackingLogin.jsx"));
+const TrackingRegister = lazy(() => import("../page/validations/TrackingRegister.jsx"));
+
+// tracking
+const TrackingView = lazy(() => import("../page/TrackingView.jsx"));
+const TrackingAdmin = lazy(() => import("../page/TrackingAdmin.jsx"));
+const TrackingSubscription = lazy(() => import("../page/TrackingSubscription.jsx"));
+
 const Router = () => {
   const dispatch = useDispatch();
   const isAuth = localStorage.getItem("isAuthenticated");
   const { isAuthenticated, role, token } = useSelector((state) => state.auth);
+  const isTrackingAuth = true;
   // console.log("isAuthenticate", isAuth)
 
   const destination = useMemo(() => {
@@ -131,6 +141,26 @@ const Router = () => {
       //   </ProtectedRoutes>
       // ),
       element: !isAuth ? <LoginPage /> : <Navigate to={"/"} />,
+    },
+    {
+      path: "/tracking-login",
+      element: <TrackingLogin />,
+    },
+    {
+      path: "/tracking-register",
+      element: <TrackingRegister />,
+    },
+    {
+      path: "/tracking-page",
+      element: isTrackingAuth ? <TrackingView />: <Navigate to={"/tracking-login"} />,
+    },
+    {
+      path: "/tracking-subscription",
+      element: isTrackingAuth ? <TrackingSubscription />: <Navigate to={"/tracking-login"} />,
+    },
+    {
+      path: "/tracking-admin",
+      element: isTrackingAuth ? <TrackingAdmin />: <Navigate to={"/tracking-login"} />,
     },
     {
       path: "/",

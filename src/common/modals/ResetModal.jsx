@@ -18,6 +18,11 @@ const ResetModal = ({ open = false, setOpen = function(){}, title="", resetEvent
                 centered
                 footer={[]}
                 closable={false}
+                styles={{
+                    content: {
+                        padding: "2px",
+                    }
+                }}
             >
                 <div className="flex bg-white flex-col w-full">
                     <div className="px-3 py-3 text-[#000000] w-full flex justify-end items-center">
