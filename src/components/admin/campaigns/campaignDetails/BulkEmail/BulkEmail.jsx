@@ -10,7 +10,7 @@ import {
 } from "../../../../../redux/features/campaigns";
 import JoditEditor from 'jodit-react';
 import EmailBox from "./EmailBox";
-import { Select } from "antd";
+import { Select, Switch } from "antd";
 import EmailTestModal from "../../../../../common/modals/EmailTestModal";
 import { RiMessage2Line } from "react-icons/ri";
 import { Button } from "@material-tailwind/react";
@@ -55,7 +55,7 @@ const BulkEmail = () => {
 
   const emailDropdownOptions = useMemo(() => {
     let item = ability.can("data", "email-dropdown");
-    if(item){
+    if (item) {
       return [{ label: item, value: item }];
     }
     return null;
@@ -71,6 +71,7 @@ const BulkEmail = () => {
   const [variablesData, setVariablesData] = useState([]);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [isfillVariables, setIsFillVariables] = useState(false);
+  const [ccPermission, setCCPermission] = useState(false);
   // const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(null);
   // const emailTextRef = useRef(null)
 
@@ -129,7 +130,7 @@ const BulkEmail = () => {
 
   const testEmailHandler = (e) => {
     // console.log(e);
-    if (!e["cc"]) {
+    if (ccPermission && !e["cc"]) {
       toastify({ msg: "'CC' is not defined. Please check your configuration.", type: "error" })
       setOpenConfirm(false);
       return null;
@@ -145,8 +146,15 @@ const BulkEmail = () => {
       sampleMessage: sampleMessageRef.current.innerText,
       templateId: selectTemplate?.templateId,
       templateName: selectTemplate?.templateName,
-      cc: e["cc"],
+      // cc: e["cc"],
     }
+    if (ccPermission) {
+      data = {
+        ...data,
+        cc: e['cc'],
+      }
+    }
+    // console.log(data);
     if (subject && subject !== "") {
       dispatch(
         testEmailSendThunkMiddleware(data)
@@ -179,8 +187,14 @@ const BulkEmail = () => {
       sampleMessage: sampleMessageRef.current.innerText,
       templateId: selectTemplate?.templateId,
       templateName: selectTemplate?.templateName,
-      cc: e["cc"],
+      // cc: e["cc"],
       long_link: getValue?.value,
+    }
+    if (ccPermission) {
+      data = {
+        ...data,
+        cc: e['cc'],
+      }
     }
 
     // console.log(data);
@@ -195,9 +209,16 @@ const BulkEmail = () => {
     let form = {
       campaignName: campaignDetails?.name,
       email: event["email"],
-      cc: e["cc"],
+      // cc: e["cc"],
       html: data?.sampleMessage,
     }
+    if (ccPermission) {
+      form = {
+        ...form,
+        cc: e['cc'],
+      }
+    }
+    // console.log(form);
 
     if (subject && subject !== "") {
       const response = await axios.post("/campaign/sample-email", form);
@@ -353,17 +374,21 @@ const BulkEmail = () => {
               }
             </div>
 
-            <div className=" flex flex-col gap-1 rounded flex-1">
-              <label htmlFor="" className="text-sm font-semibold">
-                CC :
+            <div className=" flex flex-col gap-1 rounded gap-y-3 flex-1">
+              <label htmlFor="" className="text-sm font-semibold flex justify-start gap-x-3 items-center">
+                CC : <Switch className="bg-slate-500" onChange={() => setCCPermission(!ccPermission)} />
               </label>
-              <InputWithSelectField
-                options={emailOption}
-                placeholder="Write Email"
-                selectPlaceholder="Select Email"
-                control={control}
-                name="cc"
-              />
+              {
+                ccPermission ? <>
+                  <InputWithSelectField
+                    options={emailOption}
+                    placeholder="Write Email"
+                    selectPlaceholder="Select Email"
+                    control={control}
+                    name="cc"
+                  />
+                </> : null
+              }
             </div>
             <EmailTemplateEditor
               messageRef={messageRef}
