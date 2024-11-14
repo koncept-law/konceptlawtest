@@ -179,7 +179,12 @@ const TrackingPage = () => {
                 <img src={book1Img} alt="image" className="w-52 border border-solid border-slate-300 shadow-md shadow-slate-600" />
             </div>
 
-            <Button className={`${parseInt(current) === 0 ? "bg-rose-700 " : "bg-rose-500 cursor-not-allowed"} py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium`} onClick={parseInt(current) === 0 ? handleClose : () => { }}>
+            <Button
+                // className={`${parseInt(current) === 0 ? "bg-rose-700 " : "bg-rose-500 cursor-not-allowed"} py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium`}
+                // onClick={parseInt(current) === 0 ? handleClose : () => { }}
+                className={`py-2 text-[16px] rounded-sm flex justify-center items-center w-full capitalize font-poppins not-italic leading-normal gap-x-2 font-medium`}
+                onClick={handleClose}
+            >
                 {showSpinner ? <Spinner width={16} /> : null}
                 Start Tracking
             </Button>
