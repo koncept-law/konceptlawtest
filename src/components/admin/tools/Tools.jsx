@@ -23,6 +23,8 @@ import { FaServer } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { resetAndrestartServerThunkMiddleware } from "../../../redux/features/tools";
 import ResetModal from "../../../common/modals/ResetModal";
+import { BsColumns } from "react-icons/bs";
+import Transpose from "./Transpose";
 
 const Tools = () => {
     // state
@@ -33,6 +35,7 @@ const Tools = () => {
     const [openPinCode, setOpenPinCode] = useState(false);
     const [openTracking, setOpenTracking] = useState(false);
     const [openReset, setOpenReset] = useState(false);
+    const [openTranspose, setOpenTranspose] = useState(false);
 
     // hooks
     const path = usePath();
@@ -56,6 +59,10 @@ const Tools = () => {
             setOpen={setOpenReset} 
             title="Do You Want to Reset and Restart The Server?"
             resetEvent={resetAndrestartServer}
+        />
+        <Transpose
+            open={openTranspose}
+            setOpen={setOpenTranspose}
         />
 
         <div className="flex flex-col w-full justify-center px-4 items-center">
@@ -114,6 +121,14 @@ const Tools = () => {
                 >
                     <FaServer size={30} />
                     <span>Reset the Server</span>
+                </Button>
+
+                <Button
+                    className="text-white bg-cyan-700 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2"
+                    onClick={() => setOpenTranspose(true)}
+                >
+                    <BsColumns size={30} />
+                    <span>Transpose Columns to Row</span>
                 </Button>
             </div>
         </div>
