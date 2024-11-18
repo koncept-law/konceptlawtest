@@ -112,8 +112,8 @@ const PaymentModal = ({
             closable={false}
             centered
             styles={{
-                content: {
-                    padding: "10px 14px"
+                body: {
+                    padding: "15px 14px"
                 }
             }}
         >

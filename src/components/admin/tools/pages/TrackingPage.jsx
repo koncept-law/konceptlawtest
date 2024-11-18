@@ -18,6 +18,7 @@ import useDocument from "../../../../hooks/useDocument";
 import { IoWalletOutline } from "react-icons/io5";
 import MyButton from "../../../common/Buttons/MyButton";
 import PaymentModal from "../../../../common/modals/PaymentModal";
+import { RiFileExcel2Line } from "react-icons/ri";
 
 const TrackingPage = () => {
     const [showSpinner, setShowSpinner] = useState(false);
@@ -154,17 +155,17 @@ const TrackingPage = () => {
             </> : null
         }
 
-        <div className="w-full flex justify-between items-center gap-x-4 py-4 px-3">
-            <div className="flex justify-end w-full items-center gap-x-2">
-                <IoWalletOutline size={22} className="text-blue-700" />
-                <span><span className="font-semibold">Wallet:</span> 0.00</span>
-            </div>
-            <div>
-                <MyButton className="py-2 px-4 bg-blue-700 text-[14px]" onClick={() => setIsPaymentOpen(true)}>Payment</MyButton>
-            </div>
-        </div>
 
         <div className="bg-white flex flex-col py-2 px-2 gap-y-7 w-full">
+            <div className="w-full flex justify-between items-center gap-x-4 py-1 px-3">
+                <div className="flex justify-end w-full items-center gap-x-2">
+                    <IoWalletOutline size={22} className="text-blue-700" />
+                    <span><span className="font-semibold">Wallet:</span> 0.00</span>
+                </div>
+                <div>
+                    <MyButton className="py-2 px-4 bg-blue-700 text-[14px]" onClick={() => setIsPaymentOpen(true)}>Payment</MyButton>
+                </div>
+            </div>
             <div className="flex justify-between gap-x-2 items-center">
                 <div className="flex justify-start items-start gap-y-3">
                     <div className="flex justify-start flex-col gap-y-3 items-start">
@@ -189,7 +190,7 @@ const TrackingPage = () => {
                 Start Tracking
             </Button>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-6 w-full">
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-x-5 gap-y-6 w-full">
                 <Button className="text-white bg-blue-600 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]" onClick={downloadExcel}>
                     <TbFileDownload size={32} />
                     <span>Download Excel</span>
@@ -217,6 +218,13 @@ const TrackingPage = () => {
                 >
                     <MdHourglassTop size={30} className="rotate-0" />
                     <span>Stop and Reset</span>
+                </Button>
+
+                <Button
+                    className="text-white bg-green-800 font-poppins not-italic leading-normal capitalize py-3 px-8 font-medium flex flex-col justify-center items-center gap-y-2 text-[15px]"
+                >
+                    <RiFileExcel2Line size={30} className="rotate-0" />
+                    <span>Download Remaining Excel</span>
                 </Button>
             </div>
 
