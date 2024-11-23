@@ -91,6 +91,9 @@ const TrackingView = lazy(() => import("../page/TrackingView.jsx"));
 const TrackingAdmin = lazy(() => import("../page/TrackingAdmin.jsx"));
 const TrackingSubscription = lazy(() => import("../page/TrackingSubscription.jsx"));
 
+// pdf to excel link
+const PdfToExcelLink = lazy(() => import("../components/admin/tools/pages/PdfToExcelLink.jsx"));
+
 const Router = () => {
   const dispatch = useDispatch();
   const isAuth = localStorage.getItem("isAuthenticated");
@@ -380,6 +383,10 @@ const Router = () => {
         {
           path: "/tools/tracking",
           element: <TrackingPage />,
+        },
+        {
+          path: "/tools/pdf-to-excel-link",
+          element: <PdfToExcelLink />,
         },
         {
           path: "*",

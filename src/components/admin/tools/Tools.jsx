@@ -1,5 +1,5 @@
 import { Button } from "@material-tailwind/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { RiFileExcel2Fill } from "react-icons/ri"; // book
 import { SiConvertio } from "react-icons/si"; // convert
@@ -14,7 +14,7 @@ import DynamicMerge from "./DynamicMerge";
 import UploadFolder from "../../../common/fields/UploadFolder";
 import { FaMapLocationDot } from "react-icons/fa6";
 import AddressMerge from "./AddressMerge";
-import { TbMapPinCode } from "react-icons/tb";
+import { TbFileSymlink, TbMapPinCode } from "react-icons/tb";
 import PinCode from "./PinCode";
 import { TfiTarget } from "react-icons/tfi";
 import Tracking from "./Tracking";
@@ -25,6 +25,9 @@ import { resetAndrestartServerThunkMiddleware } from "../../../redux/features/to
 import ResetModal from "../../../common/modals/ResetModal";
 import { BsColumns } from "react-icons/bs";
 import Transpose from "./Transpose";
+import PdfToExcel from "./PdfToExcel";
+import useUpload from "../../../hooks/useUpload";
+import { Tooltip } from "antd";
 
 const Tools = () => {
     // state
@@ -36,6 +39,12 @@ const Tools = () => {
     const [openTracking, setOpenTracking] = useState(false);
     const [openReset, setOpenReset] = useState(false);
     const [openTranspose, setOpenTranspose] = useState(false);
+    const [openPdfToExcel, setOpenPdfToExcel] = useState(false);
+    const {
+        setShowUpload,
+    } = useUpload();
+
+    // useEffect(() => { setShowUpload(true) }, []);
 
     // hooks
     const path = usePath();
@@ -54,15 +63,19 @@ const Tools = () => {
         <AddressMerge open={openAddress} setOpen={setOpenAddress} />
         <PinCode open={openPinCode} setOpen={setOpenPinCode} />
         <Tracking open={openTracking} setOpen={setOpenTracking} />
-        <ResetModal 
-            open={openReset} 
-            setOpen={setOpenReset} 
+        <ResetModal
+            open={openReset}
+            setOpen={setOpenReset}
             title="Do You Want to Reset and Restart The Server?"
             resetEvent={resetAndrestartServer}
         />
         <Transpose
             open={openTranspose}
             setOpen={setOpenTranspose}
+        />
+        <PdfToExcel
+            open={openPdfToExcel}
+            setOpen={setOpenPdfToExcel}
         />
 
         <div className="flex flex-col w-full justify-center px-4 items-center">
@@ -129,6 +142,18 @@ const Tools = () => {
                 >
                     <BsColumns size={30} />
                     <span>Transpose Columns to Row</span>
+                </Button>
+
+                <Button
+                    className="text-white bg-purple-500 font-poppins not-italic leading-normal capitalize py-4 px-8 font-semibold flex flex-col justify-center items-center gap-y-2 relative"
+                    // onClick={() => setOpenPdfToExcel(true)}
+                    onClick={() => path.push("pdf-to-excel-link")}
+                >
+                    {/* <Tooltip title="Total Pdf convert in Excel Link">
+                        <h2 className="absolute top-2 left-3 text-[16px] text-green-50">0</h2>
+                    </Tooltip> */}
+                    <TbFileSymlink size={30} />
+                    <span>Pdf to Excel Link</span>
                 </Button>
             </div>
         </div>

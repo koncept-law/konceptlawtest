@@ -363,10 +363,10 @@ const LoginPage = () => {
                                             <span>Don`t Have an Account ? </span>
                                             <button className="font-medium hover:underline" onClick={(e) => { e.preventDefault(); setLoginPage(false); setRegisterPage(true); navigate("/register") }}>Register</button>
                                         </div>
-                                        <div className="flex justify-center gap-x-1 text-[#FFFFFF] text-sm font-poppins font-light not-italic leading-normal items-center">
+                                        {/* <div className="flex justify-center gap-x-1 text-[#FFFFFF] text-sm font-poppins font-light not-italic leading-normal items-center">
                                             <span>Tracking Login ? </span>
                                             <button className="font-medium hover:underline" onClick={(e) => { e.preventDefault(); setLoginPage(false); setRegisterPage(true); navigate("/tracking-login") }}>Login</button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 ) :
                                     registerPage === true ?

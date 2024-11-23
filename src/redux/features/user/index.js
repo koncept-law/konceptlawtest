@@ -7,10 +7,11 @@ import { setLoader } from "../loaders";
 import { initialState as loaderIntialState } from "../loaders";
 import { toastify } from "../../../components/toast";
 import { toastifyError } from "../../../constants/errors";
+import handleToken from "../../../constants/handleToken";
 
 
 const initialState = {
-  user: null,
+  user: handleToken(),
   userList: null,
 };
 

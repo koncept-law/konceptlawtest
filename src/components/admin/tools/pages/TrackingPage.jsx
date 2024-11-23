@@ -26,6 +26,8 @@ const TrackingPage = () => {
     const { trackingDetails, total, current } = useSelector(state => state.tools);
     const axios = createAxiosInstance();
     const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [showProgress, setShowProgress] = useState(false);
     const docs = useDocument();
 
     const handleClose = () => setIsOpen(!isOpen);
@@ -97,10 +99,15 @@ const TrackingPage = () => {
         dispatch(listAllPdfsThunkMiddleware((data) => {
             if (data) {
                 setLoading(true);
+                setShowProgress(true);
+                setProgress(0);
                 let downloads = data?.map((item) => ({ name: item?.filename, link: item?.downloadUrl }));
                 docs.downloadPdf('listAllPdfs', downloads, (load) => {
+                    setProgress(load);
                     if (load >= 100) {
                         setLoading(false);
+                        setShowProgress(true);
+                        setProgress(0);
                     }
                 });
             }
@@ -149,8 +156,11 @@ const TrackingPage = () => {
 
         {
             loading ? <>
-                <div className="w-full h-full z-30 bg-white/50 fixed top-0 left-0 flex justify-center items-center">
+                <div className="w-full h-full z-30 bg-white/50 fixed top-0 left-0 flex justify-center items-center gap-x-4 text-[18px] font-poppins not-italic leading-normal">
                     <Spin />
+                    {
+                        showProgress ? <h2>Progress... {progress}%</h2> : null
+                    }
                 </div>
             </> : null
         }
