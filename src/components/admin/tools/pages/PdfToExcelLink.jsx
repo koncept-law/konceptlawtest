@@ -223,7 +223,7 @@ const PdfToExcelLink = () => {
 
 
     return <>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col overflow-y-scroll w-full">
             <div className="flex p-3 justify-between bg-slate-800 text-white w-full items-center">
                 <h2 className="font-poppins not-italic leading-normal font-medium">Pdf To Excel Link</h2>
                 <Tooltip title="Reload" placement="bottom">
